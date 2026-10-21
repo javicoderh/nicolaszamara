@@ -6,6 +6,7 @@ import './SiteHeader.css'
 
 const navigation = [
   { label: 'Inicio', href: '/' },
+  { label: 'Terapias', href: '/terapias' },
   { label: 'Consulta', href: '/consulta' },
   { label: 'Cursos', href: '/cursos' },
   { label: 'Naturaleza', href: '/#naturaleza' },

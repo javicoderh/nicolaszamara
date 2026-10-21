@@ -1,3 +1,14 @@
+export const therapyServices = [
+  { id: 'acupuntura', name: 'Acupuntura', photo: { src: '/therapies/services-top.jpeg', x: 95, y: 148 } },
+  { id: 'moxibustion', name: 'Moxibustión', photo: { src: '/therapies/services-top.jpeg', x: 400, y: 148 } },
+  { id: 'ventosaterapia', name: 'Ventosaterapia', photo: { src: '/therapies/services-top.jpeg', x: 705, y: 148 } },
+  { id: 'tuina', name: 'Tuina', photo: { src: '/therapies/services-top.jpeg', x: 1010, y: 148 } },
+  { id: 'flores-de-bach', name: 'Flores de Bach', photo: { src: '/therapies/services-bottom.jpeg', x: 95, y: 78 } },
+  { id: 'medicina-bioenergetica', name: 'Medicina Bioenergética', photo: { src: '/therapies/services-bottom.jpeg', x: 400, y: 78 } },
+  { id: 'iridologia', name: 'Iridología', photo: { src: '/therapies/services-bottom.jpeg', x: 705, y: 78 } },
+  { id: 'meditacion-y-mindfulness', name: 'Meditación y Mindfulness', photo: { src: '/therapies/services-bottom.jpeg', x: 1010, y: 78 } },
+]
+
 export const siteSettings = {
   brand: 'Nicolás Zamara',
   descriptor: 'Consulta · Formación · Naturaleza',
@@ -11,6 +22,7 @@ export const siteSettings = {
     sessionPrice: '',
   },
   socialLinks: [],
+  therapies: therapyServices,
   courseUrl: 'https://nzamara-mtc.hotmart.host/flores-de-bach-vida-cotidiana',
 }
 
@@ -22,6 +34,10 @@ export const pageMetadata = {
   '/consulta': {
     title: 'Consulta y terapias | Nicolás Zamara',
     description: 'Conoce cómo comienza la atención terapéutica y cómo consultar disponibilidad con Nicolás Zamara.',
+  },
+  '/terapias': {
+    title: 'Terapias y servicios | Nicolás Zamara',
+    description: 'Acupuntura, Moxibustión, Ventosaterapia, Tuina, Flores de Bach, Medicina Bioenergética, Iridología y Meditación y Mindfulness.',
   },
   '/cursos': {
     title: 'Cursos y formación | Nicolás Zamara',

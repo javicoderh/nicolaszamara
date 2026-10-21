@@ -1,0 +1,4 @@
+.therapy-card { min-width: 0; text-align: center; }
+.therapy-card__photo { position: relative; width: min(100%, 248px); aspect-ratio: 1; margin-inline: auto; overflow: hidden; border-radius: 50%; background: var(--color-surface-strong); }
+.therapy-card__photo img { position: absolute; width: calc(1352 / 248 * 100%); max-width: none; height: auto; left: calc(var(--crop-x) / 248 * -100%); top: calc(var(--crop-y) / 248 * -100%); }
+.therapy-card h2 { margin: 22px 0 0; color: var(--color-navy); font-family: var(--font-body); font-size: clamp(.87rem, 1.2vw, 1rem); font-weight: 600; line-height: 1.6; }

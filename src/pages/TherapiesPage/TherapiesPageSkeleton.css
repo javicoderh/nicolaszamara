@@ -1,0 +1,9 @@
+.therapies-page-skeleton { padding-block: 65px; min-height: 80vh; }
+.therapies-page-skeleton__intro { display: grid; justify-items: center; gap: 24px; padding: 0 20px 48px; }
+.therapies-page-skeleton__intro span { display: block; background: var(--color-surface-strong); border-radius: 3px; animation: therapies-page-pulse 1.3s ease-in-out infinite alternate; }
+.therapies-page-skeleton__intro span:first-child { width: 180px; height: 12px; }
+.therapies-page-skeleton__intro span:nth-child(2) { width: min(390px, 80%); height: 95px; }
+.therapies-page-skeleton__intro span:last-child { width: min(620px, 95%); height: 48px; }
+.therapies-page-skeleton__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 34px; padding: 55px max(32px, calc((100% - 1100px) / 2)); background: var(--color-areas); }
+@keyframes therapies-page-pulse { to { opacity: .45; } }
+@media(max-width: 760px) { .therapies-page-skeleton { padding-block: 45px; } .therapies-page-skeleton__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 35px 20px; gap: 36px 24px; } }

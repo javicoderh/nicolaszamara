@@ -30,7 +30,7 @@ Los verdes oscuros de acciones y footer conservan texto blanco legible. Los pár
 
 Cabecera de dos niveles: marca blanca centrada sobre marino y navegación debajo. Menú desplegable en móvil. Footer verde, marca a la izquierda, cuatro grupos de enlaces y dibujos de flores y agujas en los extremos inferiores.
 
-Las tres áreas usan ilustraciones lineales en círculos; los bloques alternan texto e imagen rectangular. Las fotografías de las capturas no se recortaron ni se presentaron como originales de la app. Se conservan los espacios de foto pendientes, ahora con la nueva paleta.
+Las tres áreas de inicio usan ilustraciones lineales en círculos; los bloques alternan texto e imagen rectangular. Se conservan los espacios de foto pendientes en inicio y cursos. La página de terapias reutiliza las ocho fotografías circulares de las capturas facilitadas, documentadas como imágenes de referencia.
 
 Las decoraciones SVG quedan fuera del árbol de accesibilidad. Las agujas se dibujan en código; las flores conservan el grabado de la captura facilitada. Los skeletons conservan su CSS y adaptan color, proporciones y composición. Se eliminó la duplicación de cabecera y footer en el skeleton de inicio.
 
@@ -39,6 +39,8 @@ Las flores del footer reutilizan el dibujo exacto de `WhatsApp Image 2026-10-21 
 El cambio visual mantiene los formularios, la API, los permisos de Supabase y la regla de respuesta más 800 ms. No añade servicios de datos ni modifica el contenido del curso para ofrecer la certificación que aparece en la web histórica.
 
 ## Revisión realizada
+
+La ruta `/terapias`, accesible desde el header de escritorio y móvil, presenta los ocho servicios de los círculos de las capturas: Acupuntura, Moxibustión, Ventosaterapia, Tuina, Flores de Bach, Medicina Bioenergética, Iridología y Meditación y Mindfulness. Se usan esas mismas fotografías con encuadres circulares, cuatro columnas en escritorio y dos en móvil. El catálogo se comparte mediante el contexto y se entrega por props a `TherapyCard`. La página dispone de skeleton y respeta el delay de 800 ms de la aplicación.
 
 Las 47 pruebas unitarias de React y la compilación de producción pasaron. Se revisaron capturas del navegador en escritorio (1440 px), móvil (390 px), menú abierto, footer, cursos, consulta y privacidad a 320 px. Las fuentes locales cargaron correctamente y la última revisión no mostró desbordes horizontales. Las capturas de revisión son artefactos locales excluidos de Git en `.preview`.
 

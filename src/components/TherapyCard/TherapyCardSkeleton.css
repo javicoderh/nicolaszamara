@@ -1,0 +1,5 @@
+.therapy-card-skeleton { min-width: 0; display: grid; justify-items: center; gap: 22px; }
+.therapy-card-skeleton span { display: block; background: var(--color-surface-strong); animation: therapy-card-pulse 1.3s ease-in-out infinite alternate; }
+.therapy-card-skeleton span:first-child { width: min(100%, 248px); aspect-ratio: 1; border-radius: 50%; }
+.therapy-card-skeleton span:last-child { width: 75%; height: 26px; border-radius: 3px; }
+@keyframes therapy-card-pulse { to { opacity: .45; } }

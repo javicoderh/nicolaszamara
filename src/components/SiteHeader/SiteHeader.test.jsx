@@ -12,6 +12,7 @@ describe('SiteHeader', () => {
     fireEvent.click(toggle)
     expect(toggle).toHaveAttribute('aria-expanded', 'true')
     expect(screen.getByRole('link', { name: 'Consulta' })).toHaveAttribute('href', '/consulta')
+    expect(screen.getByRole('link', { name: 'Terapias' })).toHaveAttribute('href', '/terapias')
   })
 
   it('ofrece un skeleton propio', () => {

@@ -36,4 +36,16 @@ describe('App', () => {
     act(() => vi.advanceTimersByTime(800))
     expect(screen.getByRole('heading', { name: /este camino todavía no está en el mapa/i })).toBeInTheDocument()
   })
+
+  it('abre terapias directamente y respeta los 800 ms antes de mostrar los servicios', () => {
+    window.history.replaceState({}, '', '/terapias')
+    render(<App />)
+    expect(screen.getByLabelText('Cargando terapias')).toHaveAttribute('aria-busy', 'true')
+    act(() => vi.advanceTimersByTime(799))
+    expect(screen.queryByRole('heading', { level: 1, name: 'Terapias' })).not.toBeInTheDocument()
+    act(() => vi.advanceTimersByTime(1))
+    expect(screen.getByRole('heading', { level: 1, name: 'Terapias' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Terapias' })).toHaveAttribute('aria-current', 'page')
+    expect(document.title).toBe('Terapias y servicios | Nicolás Zamara')
+  })
 })

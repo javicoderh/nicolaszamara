@@ -8,6 +8,8 @@ import SiteFooter from '../components/SiteFooter/SiteFooter.jsx'
 import SiteFooterSkeleton from '../components/SiteFooter/SiteFooterSkeleton.jsx'
 import HomePage from '../pages/HomePage/HomePage.jsx'
 import HomePageSkeleton from '../pages/HomePage/HomePageSkeleton.jsx'
+import TherapiesPage from '../pages/TherapiesPage/TherapiesPage.jsx'
+import TherapiesPageSkeleton from '../pages/TherapiesPage/TherapiesPageSkeleton.jsx'
 import ConsultationPage from '../pages/ConsultationPage/ConsultationPage.jsx'
 import ConsultationPageSkeleton from '../pages/ConsultationPage/ConsultationPageSkeleton.jsx'
 import CoursesPage from '../pages/CoursesPage/CoursesPage.jsx'
@@ -21,6 +23,7 @@ import './App.css'
 const routes = {
   '/': { Page: HomePage, Skeleton: HomePageSkeleton },
   '/consulta': { Page: ConsultationPage, Skeleton: ConsultationPageSkeleton },
+  '/terapias': { Page: TherapiesPage, Skeleton: TherapiesPageSkeleton },
   '/cursos': { Page: CoursesPage, Skeleton: CoursesPageSkeleton },
   '/privacidad': { Page: PrivacyPage, Skeleton: PrivacyPageSkeleton },
 }
