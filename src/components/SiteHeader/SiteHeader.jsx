@@ -1,9 +1,11 @@
 import { useRef, useState } from 'react'
 import { useSiteContent } from '../../contexts/SiteContentContext/SiteContentContext.jsx'
 import ActionLink from '../ActionLink/ActionLink.jsx'
+import BrandMark from '../BrandMark/BrandMark.jsx'
 import './SiteHeader.css'
 
 const navigation = [
+  { label: 'Inicio', href: '/' },
   { label: 'Consulta', href: '/consulta' },
   { label: 'Cursos', href: '/cursos' },
   { label: 'Naturaleza', href: '/#naturaleza' },
@@ -11,15 +13,14 @@ const navigation = [
 ]
 
 export default function SiteHeader() {
-  const { brand, descriptor } = useSiteContent()
+  const { brand } = useSiteContent()
   const [menuOpen, setMenuOpen] = useState(false)
   const toggleRef = useRef(null)
 
   return (
     <header className="site-header">
       <a className="site-header__brand" href="/" aria-label={`${brand}, inicio`}>
-        <span className="site-header__name">{brand}</span>
-        <span className="site-header__descriptor">{descriptor}</span>
+        <BrandMark name={brand} />
       </a>
       <button
         ref={toggleRef}
@@ -43,7 +44,7 @@ export default function SiteHeader() {
           }
         }}
       >
-        {navigation.map((item) => <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
+        {navigation.map((item) => <a key={item.href} href={item.href} aria-current={!item.href.includes('#') && window.location.pathname === item.href ? 'page' : undefined} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
         <ActionLink className="site-header__cta" href="/consulta" variant="compact">Consultar una hora</ActionLink>
       </nav>
     </header>

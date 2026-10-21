@@ -1,4 +1,6 @@
-.area-grid-skeleton { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.area-grid-skeleton span { height: 160px; background: #e6e8e1; animation: area-pulse 1.3s ease-in-out infinite alternate; }
+.area-grid-skeleton { min-height: 340px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); justify-items: center; gap: clamp(28px, 5vw, 70px); }
+.area-grid-skeleton span { display: block; width: min(220px, 100%); aspect-ratio: 1; height: auto; border-radius: 50%; background: #9bae9e; animation: area-pulse 1.3s ease-in-out infinite alternate; }
+.area-grid-skeleton span:nth-child(2) { background: #c0b7a6; }
+.area-grid-skeleton span:nth-child(3) { background: #9cafa9; }
 @keyframes area-pulse { to { opacity: .45; } }
-@media(max-width:580px) { .area-grid-skeleton { grid-template-columns: 1fr; } .area-grid-skeleton span { height: 80px; } }
+@media(max-width:640px) { .area-grid-skeleton { grid-template-columns: 1fr; gap: 150px; padding-bottom: 130px; } .area-grid-skeleton span { width: 190px; } }

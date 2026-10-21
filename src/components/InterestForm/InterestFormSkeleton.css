@@ -1,5 +1,5 @@
-.interest-form-skeleton { min-height: 330px; padding: 26px; display: grid; align-content: start; gap: 16px; border: 1px solid #d4dbd1; background: #f7f5f0; }
-.interest-form-skeleton span { height: 40px; background: #e6e8e1; animation: interest-pulse 1.3s ease-in-out infinite alternate; }
+.interest-form-skeleton { min-height: 330px; padding: 26px; display: grid; align-content: start; gap: 16px; border: 1px solid var(--color-line); background: var(--color-surface); }
+.interest-form-skeleton span { height: 40px; background: var(--color-surface-strong); animation: interest-pulse 1.3s ease-in-out infinite alternate; }
 .interest-form-skeleton span:first-child { width: 70%; height: 26px; }
 .interest-form-skeleton span:nth-child(2) { width: 95%; height: 15px; }
 .interest-form-skeleton span:last-child { width: 46%; height: 46px; margin-top: 10px; }

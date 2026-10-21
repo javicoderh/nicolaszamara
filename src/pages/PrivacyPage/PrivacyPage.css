@@ -1,11 +1,11 @@
-.privacy-page { width: min(820px, calc(100% - 48px)); min-height: 65vh; padding-block: 76px 100px; }
-.privacy-page .eyebrow { margin: 0 0 16px; color: var(--color-sage-dark); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
-.privacy-page h1, .privacy-page h2 { color: var(--color-navy); font-family: var(--font-display); font-weight: 400; }
-.privacy-page h1 { margin: 0; font-size: clamp(3rem, 6vw, 5rem); }
-.privacy-page h2 { margin: 0 0 9px; font-size: 1.75rem; }
-.privacy-page__lead { margin: 20px 0 25px; color: #4e5a55; font-size: 1rem; line-height: 1.8; }
-.privacy-page__draft { padding: 13px 16px; border-left: 3px solid #a36d38; background: #f0ece3; color: #66533e; font-size: .82rem; line-height: 1.6; }
-.privacy-page__sections { margin-top: 38px; }
-.privacy-page__sections section { padding-block: 22px; border-bottom: 1px solid #d7dbd3; }
-.privacy-page__sections p, .privacy-page__contact { margin: 0; color: #4e5a55; line-height: 1.7; }
-.privacy-page__contact { margin-top: 30px; }
+.privacy-page { max-width: 840px; min-height: 65vh; padding-block: 70px 90px; }
+.privacy-page h1, .privacy-page h2 { color: var(--color-navy); font-weight: 400; line-height: 1.1; }
+.privacy-page h1 { margin: 0; font-size: clamp(3rem, 6vw, 5rem); text-transform: uppercase; }
+.privacy-page h2 { margin: 0 0 16px; font-size: 2.1rem; }
+.privacy-page__lead { margin: 26px 0; color: var(--color-muted); font-size: .92rem; line-height: 1.95; }
+.privacy-page__draft { padding: 17px 20px; border-left: 3px solid var(--color-sage-dark); background: var(--color-surface); color: var(--color-muted); font-size: .8rem; line-height: 1.9; }
+.privacy-page__sections { margin-top: 36px; }
+.privacy-page__sections section { padding-block: 28px; border-bottom: 1px solid var(--color-line); }
+.privacy-page__sections p, .privacy-page__contact { margin: 0; color: var(--color-muted); font-size: .87rem; line-height: 1.95; }
+.privacy-page__contact { margin-top: 32px; }
+@media(max-width:640px) { .privacy-page { padding-block: 48px 60px; } }

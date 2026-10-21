@@ -1,2 +1,2 @@
-.action-link-skeleton { display: inline-block; width: 170px; height: 50px; background: #e6e8e1; animation: action-link-pulse 1.3s ease-in-out infinite alternate; }
+.action-link-skeleton { display: inline-block; width: 170px; height: 50px; background: var(--color-surface-strong); animation: action-link-pulse 1.3s ease-in-out infinite alternate; }
 @keyframes action-link-pulse { to { opacity: .45; } }

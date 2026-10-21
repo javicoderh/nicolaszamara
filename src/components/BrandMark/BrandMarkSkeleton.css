@@ -1,0 +1,2 @@
+.brand-mark-skeleton { display: inline-block; width: min(300px, 70vw); height: 82px; border-radius: 40%; background: currentColor; opacity: .14; animation: brand-pulse 1.3s ease-in-out infinite alternate; }
+@keyframes brand-pulse { to { opacity: .07; } }

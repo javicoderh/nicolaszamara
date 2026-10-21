@@ -43,10 +43,10 @@ El alcance se amplió por autorización del usuario para conectar los formulario
 
 ## 4. Preparar fundamentos visuales y maquetas
 
-- [ ] Definir variables de color: marino `#05234B`, salvia `#698C6D`, fondo `#F7F5F0` y texto `#232B2B`.
-- [ ] Definir espaciado, anchos de lectura, tamaños tipográficos, bordes y estados de foco.
-- [ ] Elegir como máximo dos familias: serif legible para títulos y sans serif para cuerpo; comprobar licencias.
-- [ ] Verificar contraste de texto, botones y estados interactivos.
+- [x] Definir la paleta de acuerdo con las capturas de `fotos estilo web`: marino, salvia y grises; tokens documentados en `docs/LINEA_GRAFICA.md`.
+- [x] Definir espaciado, anchos de lectura, tamaños tipográficos, bordes y estados de foco.
+- [x] Elegir dos familias de texto, Italiana y Poppins, con licencias locales; composición manuscrita independiente para la marca provisional.
+- [x] Verificar contraste de texto, botones y estados interactivos.
 - [ ] Diseñar maquetas revisables de inicio, consulta y cursos en móvil y escritorio.
 - [ ] Incluir navegación, privacidad y estados de formularios en la revisión de diseño.
 - [ ] Mantener márgenes amplios, párrafos breves y detalles botánicos discretos; evitar títulos demasiado finos y texto justificado.
@@ -155,7 +155,7 @@ Cada componente de esta fase debe entregarse con CSS, skeleton y pruebas unitari
 
 - [x] Ejecutar y aprobar la suite de pruebas unitarias Vitest + React Testing Library; no incorporar pruebas automatizadas de integración ni E2E.
 - [x] Generar correctamente la compilación de producción.
-- [ ] Revisar manualmente móvil y escritorio: desbordes, texto, contraste y acciones visibles.
+- [x] Revisar móvil y escritorio en navegador: desbordes, texto, contraste y acciones visibles, con capturas a 1440, 390 y 320 px.
 - [ ] Revisar manualmente menú, teclado, foco, anclas y enlaces.
 - [ ] Verificar acceso directo, recarga y página no encontrada en el entorno disponible; dejar constancia de lo pendiente en alojamiento.
 - [ ] Comprobar skeletons, delays y estabilidad del espacio reservado.

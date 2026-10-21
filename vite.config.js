@@ -1,5 +1,8 @@
 import { defineConfig } from 'vite'
 
 export default defineConfig({
-  server: { proxy: { '/api': 'http://127.0.0.1:3001' } },
+  server: {
+    proxy: { '/api': 'http://127.0.0.1:3001' },
+    watch: { ignored: ['**/.preview/**'] },
+  },
 })

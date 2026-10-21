@@ -1,4 +1,5 @@
-.site-footer-skeleton { min-height: 130px; padding: 36px 24px; background: #e6e8e1; display: flex; align-items: center; justify-content: space-between; }
-.site-footer-skeleton span { width: 180px; height: 20px; border-radius: 3px; background: #f0f1ec; animation: footer-pulse 1.3s ease-in-out infinite alternate; }
-.site-footer-skeleton span:last-child { width: 32%; }
+.site-footer-skeleton { min-height: 460px; padding: 64px 40px; background: var(--color-footer); display: flex; align-items: flex-start; justify-content: space-around; gap: 40px; }
+.site-footer-skeleton span { width: 210px; height: 75px; border-radius: 4px; background: #ffffff24; animation: footer-pulse 1.3s ease-in-out infinite alternate; }
+.site-footer-skeleton span:last-child { width: 65%; height: 145px; }
 @keyframes footer-pulse { to { opacity: .5; } }
+@media(max-width:760px) { .site-footer-skeleton { min-height: 650px; padding: 45px 24px; flex-direction: column; align-items: center; justify-content: flex-start; gap: 36px; } .site-footer-skeleton span:last-child { width: 100%; height: 300px; } }

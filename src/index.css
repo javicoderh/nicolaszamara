@@ -1,34 +1,48 @@
+@font-face { font-family: 'Italiana'; src: url('/fonts/Italiana-Regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('/fonts/Poppins-Regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Poppins'; src: url('/fonts/Poppins-SemiBold.ttf') format('truetype'); font-style: normal; font-weight: 600 800; font-display: swap; }
+@font-face { font-family: 'Mrs Saint Delafield'; src: url('/fonts/MrsSaintDelafield-Regular.ttf') format('truetype'); font-style: normal; font-weight: 400; font-display: swap; }
 :root {
-  font-family: Arial, Helvetica, sans-serif;
-  color: #232b2b;
-  background: #f7f5f0;
+  --color-navy: #05234b;
+  --color-sage: #698c6d;
+  --color-sage-dark: #4d7052;
+  --color-sage-ink: #36513b;
+  --color-footer: #527456;
+  --color-paper: #dedbd9;
+  --color-surface: #e9e7e4;
+  --color-surface-strong: #c2cbc5;
+  --color-areas: #c4cdca;
+  --color-ink: #27322f;
+  --color-muted: #4c5651;
+  --color-line: #b1b9b1;
+  --font-body: 'Poppins', 'Segoe UI', sans-serif;
+  --font-display: 'Italiana', 'Bodoni MT', 'Times New Roman', serif;
+  --font-brand: 'Mrs Saint Delafield', 'Segoe Script', cursive;
+  font-family: var(--font-body);
+  color: var(--color-ink);
+  background: var(--color-paper);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --color-navy: #05234b;
-  --color-sage: #698c6d;
-  --color-sage-dark: #496b4e;
-  --color-paper: #f7f5f0;
-  --color-ink: #232b2b;
-  --color-muted: #66716a;
-  --font-display: Georgia, 'Times New Roman', serif;
 }
-
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { min-width: 320px; margin: 0; }
-body, button, a { font-family: Arial, Helvetica, sans-serif; }
-a { color: inherit; }
+body { min-width: 320px; margin: 0; font-size: .94rem; line-height: 1.85; }
+button, input, textarea, select { font: inherit; }
+a { color: inherit; text-underline-offset: 4px; }
 button, a { -webkit-tap-highlight-color: transparent; }
-:focus-visible { outline: 3px solid #a36d38; outline-offset: 4px; }
-::selection { background: #dce7d9; color: var(--color-navy); }
-
+button { cursor: pointer; }
+img, svg { max-width: 100%; }
+h1, h2, h3, p { overflow-wrap: break-word; }
+h1, h2 { font-family: var(--font-display); font-weight: 400; }
+:focus-visible { outline: 3px solid var(--color-navy); outline-offset: 5px; }
+::selection { background: var(--color-navy); color: white; }
+.page-wrap { width: min(1100px, calc(100% - 64px)); margin-inline: auto; }
+.eyebrow { margin: 0 0 20px; color: var(--color-sage-ink); font-size: .7rem; line-height: 1.6; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; }
+.review-note { padding: 12px 16px; border-left: 2px solid var(--color-sage-dark); background: var(--color-surface); color: var(--color-muted); font-size: .76rem; line-height: 1.8; }
+[id] { scroll-margin-top: 24px; }
+@media(max-width: 640px) { .page-wrap { width: calc(100% - 40px); } body { font-size: .88rem; } }
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    scroll-behavior: auto !important;
-    animation-duration: .01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: .01ms !important;
-  }
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }

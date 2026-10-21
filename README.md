@@ -12,6 +12,8 @@ Aplicación de la consulta terapéutica Nicolas Zamara: React + Vite, API Python
 
 Los textos, metadatos, enlaces, ofertas y datos de contacto editables se centralizan en `src/content/siteContent.js`. Las fotos se reemplazan al recibir originales autorizados. Revisa `CONTENT_STATUS.md` antes de editar o preparar un lanzamiento.
 
+La línea visual sigue las capturas facilitadas en `fotos estilo web`: cabecera marino, firma manuscrita provisional, títulos Italiana, cuerpo Poppins, acciones verdes y footer con ilustraciones botánicas. Las fuentes están alojadas en el proyecto con sus licencias. Guía de edición: [docs/LINEA_GRAFICA.md](docs/LINEA_GRAFICA.md).
+
 ## Desarrollo
 
 ```sh

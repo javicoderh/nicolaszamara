@@ -24,12 +24,14 @@ export default function HomePage() {
         <PhotoPlaceholder orientation="portrait" label="Fotografía original de Nicolás en consulta pendiente de entrega" />
       </section>
 
-      <section className="home-areas page-wrap" aria-labelledby="areas-title">
+      <section className="home-areas" aria-labelledby="areas-title">
+        <div className="page-wrap">
         <div className="home-section-heading">
           <p className="eyebrow">Tres caminos, una misma escucha</p>
           <h2 id="areas-title">¿Por dónde te gustaría comenzar?</h2>
         </div>
         <AreaGrid areas={homeContent.areas} />
+        </div>
       </section>
 
       <section className="home-consult-band">
