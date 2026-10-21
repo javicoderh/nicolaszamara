@@ -6,7 +6,7 @@ export default function SiteFooter() {
   const { brand, descriptor, contact, socialLinks } = useSiteContent()
   return (
     <footer className="site-footer">
-      <img className="site-footer__flowers" src="/brand/poppy-line.svg" alt="" aria-hidden="true" width="300" height="340" />
+      <img className="site-footer__flowers" src="/brand/poppy-line.svg" alt="" aria-hidden="true" width="240" height="255" />
       <img className="site-footer__needles" src="/brand/acupuncture-line.svg" alt="" aria-hidden="true" width="210" height="240" />
       <div className="site-footer__inner">
         <a className="site-footer__brand" href="/" aria-label={`${brand}, inicio`}><BrandMark name={brand} descriptor={descriptor} /></a>

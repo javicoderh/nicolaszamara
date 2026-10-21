@@ -32,9 +32,9 @@ Cabecera de dos niveles: marca blanca centrada sobre marino y navegación debajo
 
 Las tres áreas usan ilustraciones lineales en círculos; los bloques alternan texto e imagen rectangular. Las fotografías de las capturas no se recortaron ni se presentaron como originales de la app. Se conservan los espacios de foto pendientes, ahora con la nueva paleta.
 
-Los dibujos SVG son decoración creada en código y quedan fuera del árbol de accesibilidad. Los skeletons conservan su CSS y adaptan color, proporciones y composición. Se eliminó la duplicación de cabecera y footer en el skeleton de inicio.
+Las decoraciones SVG quedan fuera del árbol de accesibilidad. Las agujas se dibujan en código; las flores conservan el grabado de la captura facilitada. Los skeletons conservan su CSS y adaptan color, proporciones y composición. Se eliminó la duplicación de cabecera y footer en el skeleton de inicio.
 
-Las ilustraciones del footer se refinaron como grabados blancos sobre fondo transparente: amapolas con pétalos superpuestos, nervaduras, estambres, hojas divididas y un capullo inclinado; tres agujas de acupuntura con anilla, mango de alambre enrollado, cuello y cuerpo largo terminado en punta. En móvil, una franja inferior reserva espacio para los dibujos sin superponerlos al copyright.
+Las flores del footer reutilizan el dibujo exacto de `WhatsApp Image 2026-10-21 at 13.52.21 (2).jpeg`: la imagen original está embebida en `poppy-line.svg`, con un viewport que muestra solo el grabado y un filtro SVG que convierte el verde en transparencia y conserva los rellenos blancos. No se redibujan ni se regeneran sus pétalos. La resolución queda limitada por la captura; un archivo original permitiría mayor nitidez. Las tres agujas mantienen anilla, mango de alambre enrollado, cuello y cuerpo largo terminado en punta. En móvil, una franja inferior reserva espacio para los dibujos sin superponerlos al copyright.
 
 El cambio visual mantiene los formularios, la API, los permisos de Supabase y la regla de respuesta más 800 ms. No añade servicios de datos ni modifica el contenido del curso para ofrecer la certificación que aparece en la web histórica.
 
