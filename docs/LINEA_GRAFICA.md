@@ -34,6 +34,8 @@ Las tres áreas usan ilustraciones lineales en círculos; los bloques alternan t
 
 Los dibujos SVG son decoración creada en código y quedan fuera del árbol de accesibilidad. Los skeletons conservan su CSS y adaptan color, proporciones y composición. Se eliminó la duplicación de cabecera y footer en el skeleton de inicio.
 
+Las ilustraciones del footer se refinaron como grabados blancos sobre fondo transparente: amapolas con pétalos superpuestos, nervaduras, estambres, hojas divididas y un capullo inclinado; tres agujas de acupuntura con anilla, mango de alambre enrollado, cuello y cuerpo largo terminado en punta. En móvil, una franja inferior reserva espacio para los dibujos sin superponerlos al copyright.
+
 El cambio visual mantiene los formularios, la API, los permisos de Supabase y la regla de respuesta más 800 ms. No añade servicios de datos ni modifica el contenido del curso para ofrecer la certificación que aparece en la web histórica.
 
 ## Revisión realizada

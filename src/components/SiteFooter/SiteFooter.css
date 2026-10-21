@@ -5,15 +5,15 @@
 .site-footer__brand .brand-mark__descriptor { max-width: 25ch; font-size: .65rem; color: #f4f8ef; }
 .site-footer__links { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 30px; }
 .site-footer__links > div { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
-.site-footer__links h2 { margin: 0 0 10px; color: white; font-family: var(--font-body); font-size: .98rem; font-weight: 600; line-height: 1.5; }
+.site-footer__links h2 { margin: 0 0 10px; color: var(--color-navy); font-family: var(--font-body); font-size: .98rem; font-weight: 600; line-height: 1.5; }
 .site-footer__links a { color: white; font-size: .82rem; line-height: 1.9; text-decoration: none; }
 .site-footer__links a:hover { text-decoration: underline; }
 .site-footer__bottom { grid-column: 1 / -1; padding: 90px 180px 28px; text-align: center; }
 .site-footer__bottom small { color: #f6f8f2; font-size: .75rem; }
 .site-footer__bottom small span { padding-inline: 5px; }
 .site-footer__flowers, .site-footer__needles { position: absolute; bottom: -12px; pointer-events: none; opacity: .86; }
-.site-footer__flowers { left: 0; width: 190px; height: auto; }
-.site-footer__needles { right: 10px; width: 160px; height: auto; }
+.site-footer__flowers { left: 0; width: 210px; height: auto; }
+.site-footer__needles { right: 10px; width: 175px; height: auto; }
 .site-footer :focus-visible { outline-color: white; }
 @media(max-width: 1000px) {
   .site-footer__inner { grid-template-columns: minmax(0, 180px) minmax(0, 1fr); gap: 26px; }
@@ -28,8 +28,8 @@
   .site-footer__brand .brand-mark__name { font-size: clamp(2.8rem, 12vw, 3.8rem); }
   .site-footer__links { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 26px; }
   .site-footer__links a { font-size: .8rem; }
-  .site-footer__bottom { padding: 66px 30px 45px; }
+  .site-footer__bottom { padding: 36px 0 130px; }
   .site-footer__bottom small { display: inline-block; max-width: 290px; font-size: .65rem; }
-  .site-footer__flowers { width: 110px; opacity: .55; }
-  .site-footer__needles { width: 95px; right: 0; opacity: .55; }
+  .site-footer__flowers { width: 120px; opacity: .7; }
+  .site-footer__needles { width: 105px; right: 0; opacity: .8; }
 }

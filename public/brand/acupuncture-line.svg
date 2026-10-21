@@ -1,4 +1,16 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="210" height="240" viewBox="0 0 210 240" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M38 239L18 76M18 76L12 35Q11 27 17 26Q24 25 25 33L31 74Q32 81 25 82Q19 83 18 76ZM92 238L94 115M94 115L94 67Q94 59 101 59Q108 59 108 67L107 115Q107 122 100 122Q94 122 94 115ZM141 239L155 69M155 69L160 22Q161 14 168 15Q175 16 174 24L169 71Q168 78 161 77Q154 76 155 69Z"/>
-  <path d="M15 236C52 210 99 211 140 230M137 236C154 216 173 218 192 230M164 227L187 125M187 125L192 103Q194 96 200 98Q206 99 204 106L199 127"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="210" height="240" viewBox="0 0 210 240" fill="none" stroke="#fff" stroke-linecap="round" stroke-linejoin="round">
+  <defs>
+    <!-- Coiled wire handle, loop, collar and a long tapered steel shaft. -->
+    <g id="needle">
+      <path d="M-2.2 12V5.5C-2.2-.5 2.2-.5 2.2 5.5V12" stroke-width="1.2"/>
+      <path d="M-3.4 13Q0 10.5 3.4 13V65Q0 68-3.4 65Z" stroke-width="1.1"/>
+      <path d="M-3.1 16L3.1 13.8M-3.1 19.3L3.1 17.1M-3.1 22.6L3.1 20.4M-3.1 25.9L3.1 23.7M-3.1 29.2L3.1 27M-3.1 32.5L3.1 30.3M-3.1 35.8L3.1 33.6M-3.1 39.1L3.1 36.9M-3.1 42.4L3.1 40.2M-3.1 45.7L3.1 43.5M-3.1 49L3.1 46.8M-3.1 52.3L3.1 50.1M-3.1 55.6L3.1 53.4M-3.1 58.9L3.1 56.7M-3.1 62.2L3.1 60M-3.1 65L3.1 63.3" stroke-width=".85"/>
+      <path d="M-1.6 67V71H1.6V67" stroke-width=".85"/>
+      <path d="M-.75 71H.75L.45 191L0 211L-.45 191Z" fill="#fff" stroke="none"/>
+      <path d="M-.8 15V64" stroke-width=".55" opacity=".65"/>
+    </g>
+  </defs>
+  <use href="#needle" transform="translate(27 23) rotate(-18)"/>
+  <use href="#needle" transform="translate(106 4) rotate(2)"/>
+  <use href="#needle" transform="translate(184 25) rotate(19)"/>
 </svg>
