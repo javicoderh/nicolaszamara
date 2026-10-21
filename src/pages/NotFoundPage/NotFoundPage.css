@@ -1,0 +1,4 @@
+.not-found-page { width: min(760px, calc(100% - 48px)); min-height: 65vh; margin: auto; padding-block: 14vh; }
+.not-found-page .eyebrow { margin: 0 0 17px; color: var(--color-sage-dark); font-size: .72rem; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; }
+.not-found-page h1 { margin: 0; color: var(--color-navy); font-family: var(--font-display); font-size: clamp(3rem, 6vw, 5rem); font-weight: 400; line-height: 1; }
+.not-found-page > p:not(.eyebrow) { max-width: 540px; margin: 24px 0; color: #4e5a55; line-height: 1.8; }

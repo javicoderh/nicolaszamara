@@ -1,0 +1,8 @@
+.consult-skeleton { width: min(900px, calc(100% - 48px)); min-height: 75vh; margin: auto; padding-block: 15vh; display: grid; align-content: start; gap: 22px; }
+.consult-skeleton > span, .consult-skeleton i { display: block; background: #e6e8e1; border-radius: 3px; animation: consult-pulse 1.3s ease-in-out infinite alternate; }
+.consult-skeleton > span:first-child { width: 180px; height: 12px; }
+.consult-skeleton > span:nth-child(2) { width: min(700px, 100%); height: 70px; }
+.consult-skeleton > span:nth-child(3) { width: min(600px, 90%); height: 18px; }
+.consult-skeleton div { margin-top: 70px; display: grid; gap: 13px; }
+.consult-skeleton i { height: 58px; }
+@keyframes consult-pulse { to { opacity: .45; } }

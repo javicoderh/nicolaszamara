@@ -1,0 +1,6 @@
+.not-found-skeleton { width: min(760px, calc(100% - 48px)); min-height: 65vh; margin: auto; padding-block: 14vh; display: grid; align-content: start; gap: 20px; }
+.not-found-skeleton span { display: block; background: #e6e8e1; animation: not-found-pulse 1.3s ease-in-out infinite alternate; }
+.not-found-skeleton span:first-child { width: 210px; height: 12px; }
+.not-found-skeleton span:nth-child(2) { width: 90%; height: 72px; }
+.not-found-skeleton span:last-child { width: 55%; height: 18px; }
+@keyframes not-found-pulse { to { opacity: .45; } }

@@ -1,0 +1,11 @@
+.home-page-skeleton { min-height: 100vh; }
+.home-page-skeleton__main { width: min(1120px, calc(100% - 64px)); margin: auto; padding-block: 15vh 10vh; display: grid; gap: 22px; }
+.home-page-skeleton__main > span, .home-page-skeleton__cards span { display: block; background: #e6e8e1; border-radius: 3px; animation: home-pulse 1.3s ease-in-out infinite alternate; }
+.home-page-skeleton__eyebrow { width: 230px; height: 12px; }
+.home-page-skeleton__title { width: min(620px, 100%); height: 84px; }
+.home-page-skeleton__copy { width: min(500px, 90%); height: 18px; }
+.home-page-skeleton__action { width: 170px; height: 50px; margin-top: 6px; }
+.home-page-skeleton__cards { margin-top: 7vh; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.home-page-skeleton__cards span { height: 145px; }
+@keyframes home-pulse { to { opacity: .45; } }
+@media(max-width: 580px) { .home-page-skeleton__main { width: calc(100% - 40px); padding-block: 12vh 6vh; } .home-page-skeleton__title { height: 70px; } .home-page-skeleton__cards { grid-template-columns: 1fr; } .home-page-skeleton__cards span { height: 75px; } }

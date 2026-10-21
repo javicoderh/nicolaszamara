@@ -1,0 +1,9 @@
+.courses-skeleton { width: min(1120px, calc(100% - 64px)); min-height: 75vh; margin: auto; padding-block: 15vh; display: grid; align-content: start; gap: 22px; }
+.courses-skeleton > span, .courses-skeleton i { display: block; background: #e6e8e1; border-radius: 3px; animation: courses-pulse 1.3s ease-in-out infinite alternate; }
+.courses-skeleton > span:first-child { width: 180px; height: 12px; }
+.courses-skeleton > span:nth-child(2) { width: min(700px, 100%); height: 70px; }
+.courses-skeleton > span:nth-child(3) { width: min(600px, 90%); height: 18px; }
+.courses-skeleton div { margin-top: 8vh; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.courses-skeleton i { height: 180px; }
+@keyframes courses-pulse { to { opacity: .45; } }
+@media(max-width: 580px) { .courses-skeleton { width: calc(100% - 40px); } .courses-skeleton div { grid-template-columns: 1fr; } .courses-skeleton i { height: 100px; } }

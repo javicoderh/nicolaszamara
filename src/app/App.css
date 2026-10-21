@@ -1,0 +1,4 @@
+.site-app { min-height: 100vh; }
+.skip-link { position: fixed; top: 8px; left: 8px; z-index: 10; padding: 12px 16px; transform: translateY(-150%); background: var(--color-navy); color: white; }
+.skip-link:focus { transform: translateY(0); }
+.site-app main { scroll-margin-top: 16px; }

@@ -1,0 +1,4 @@
+.area-grid-skeleton { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.area-grid-skeleton span { height: 160px; background: #e6e8e1; animation: area-pulse 1.3s ease-in-out infinite alternate; }
+@keyframes area-pulse { to { opacity: .45; } }
+@media(max-width:580px) { .area-grid-skeleton { grid-template-columns: 1fr; } .area-grid-skeleton span { height: 80px; } }

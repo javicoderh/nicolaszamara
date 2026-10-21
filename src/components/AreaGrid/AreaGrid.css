@@ -1,0 +1,22 @@
+.area-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid #d7dbd3; }
+.area-card { min-height: 250px; padding: 28px 30px 32px 0; display: flex; align-items: flex-start; flex-direction: column; }
+.area-card + .area-card { padding-left: 30px; border-left: 1px solid #d7dbd3; }
+.area-card__number { margin-bottom: 24px; color: var(--color-sage-dark); font-size: .72rem; letter-spacing: .12em; }
+.area-card h3 { margin: 0 0 12px; color: var(--color-navy); font-family: var(--font-display); font-size: 1.75rem; font-weight: 400; }
+.area-card p { margin: 0 0 22px; color: var(--color-muted); font-size: .9rem; line-height: 1.7; }
+.area-card__link { margin-top: auto; font-size: .8rem; }
+@media(max-width: 580px) { .area-grid { grid-template-columns: 1fr; } .area-card, .area-card + .area-card { min-height: 0; padding: 24px 0; border-left: 0; } .area-card + .area-card { border-top: 1px solid #d7dbd3; } .area-card__number { margin-bottom: 12px; } .area-card p { margin-bottom: 18px; } }
+.area-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-block: 1px solid #d7dbd3; }
+.area-card { min-height: 250px; padding: 28px 30px 32px 0; display: flex; align-items: flex-start; flex-direction: column; }
+.area-card + .area-card { padding-left: 30px; border-left: 1px solid #d7dbd3; }
+.area-card__number { margin-bottom: 24px; color: var(--color-sage-dark); font-size: .72rem; letter-spacing: .12em; }
+.area-card h3 { margin: 0 0 12px; color: var(--color-navy); font-family: var(--font-display); font-size: 1.75rem; font-weight: 400; }
+.area-card p { margin: 0 0 22px; color: var(--color-muted); font-size: .9rem; line-height: 1.7; }
+.area-card .area-card__link { margin-top: auto; font-size: .8rem; }
+@media(max-width: 580px) {
+  .area-grid { grid-template-columns: 1fr; }
+  .area-card, .area-card + .area-card { min-height: 0; padding: 24px 0; border-left: 0; }
+  .area-card + .area-card { border-top: 1px solid #d7dbd3; }
+  .area-card__number { margin-bottom: 12px; }
+  .area-card p { margin-bottom: 18px; }
+}

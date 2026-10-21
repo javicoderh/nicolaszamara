@@ -1,0 +1,4 @@
+.site-footer-skeleton { min-height: 130px; padding: 36px 24px; background: #e6e8e1; display: flex; align-items: center; justify-content: space-between; }
+.site-footer-skeleton span { width: 180px; height: 20px; border-radius: 3px; background: #f0f1ec; animation: footer-pulse 1.3s ease-in-out infinite alternate; }
+.site-footer-skeleton span:last-child { width: 32%; }
+@keyframes footer-pulse { to { opacity: .5; } }

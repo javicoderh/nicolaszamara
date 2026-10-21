@@ -1,0 +1,5 @@
+.photo-skeleton { min-height: 220px; display: grid; place-items: center; background: #eceee8; }
+.photo-skeleton--portrait { min-height: 430px; }
+.photo-skeleton--landscape { min-height: 300px; }
+.photo-skeleton span { width: 38px; height: 38px; border-radius: 50%; background: #dfe3dc; animation: photo-pulse 1.3s ease-in-out infinite alternate; }
+@keyframes photo-pulse { to { opacity: .45; } }
