@@ -6,10 +6,10 @@ Referencia: las seis capturas JPEG de la carpeta `fotos estilo web`, facilitadas
 
 - Italiana, serif de alto contraste, para títulos; portadas en mayúsculas.
 - Poppins para párrafos, navegación, botones y formularios.
-- Composición manuscrita provisional con Mrs Saint Delafield para el nombre. Reemplazar por la firma original cuando se entregue.
+- Firma original del archivo `logo.jpeg` entregado por el usuario, aplicada en cabecera y footer mediante `public/brand/nicolas-zamara-logo.svg`. Se conservan las letras exactas, con un viewport que aísla el nombre y un filtro SVG que elimina el fondo azul y mantiene las letras blancas sobre cualquier fondo. El lema de la imagen queda fuera del recorte solicitado.
 - Archivos locales en `public/fonts`, con licencias originales. No se solicita una fuente a servicios externos al visitar la web.
 
-Las familias se eligieron por semejanza visual; las capturas no identifican sus nombres exactos.
+Italiana y Poppins se eligieron por semejanza visual; las capturas no identifican sus nombres exactos. La firma no depende de una fuente aproximada: reproduce el logo facilitado. Se retiró la carga de Mrs Saint Delafield.
 
 ## Paleta
 

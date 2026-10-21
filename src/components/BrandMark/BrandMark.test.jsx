@@ -6,7 +6,8 @@ import BrandMarkSkeleton from './BrandMarkSkeleton.jsx'
 describe('BrandMark', () => {
   it('respeta el nombre y el descriptor recibidos', () => {
     render(<BrandMark name="Nicolás Zamara" descriptor="Consulta y naturaleza" />)
-    expect(screen.getByText('Nicolás Zamara')).toBeInTheDocument()
+    expect(screen.getByRole('img', { name: 'Nicolás Zamara' })).toHaveAttribute('src', '/brand/nicolas-zamara-logo.svg')
+    expect(screen.queryByText('Nicolás Zamara')).not.toBeInTheDocument()
     expect(screen.getByText('Consulta y naturaleza')).toBeInTheDocument()
   })
 

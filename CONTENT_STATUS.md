@@ -13,7 +13,7 @@ Esta lista acompaña la versión frontend de revisión. Los valores vacíos en `
 
 ## Identidad y biografía
 
-- [ ] Archivo original de la firma manuscrita Nicolás Zamara.
+- [x] Firma manuscrita Nicolás Zamara recibida en `logo.jpeg` e incorporada en cabecera y footer con letras blancas y fondo transparente.
 - La identidad visual ya está adaptada a las seis capturas de referencia. La marca utiliza una composición manuscrita provisional y las imágenes pendientes mantienen sus etiquetas; las fotografías de las capturas no se reutilizaron como originales.
 - [ ] Retrato autorizado en consulta y fotografías originales del espacio.
 - [ ] Retrato y credenciales exactas que se pueden publicar.
