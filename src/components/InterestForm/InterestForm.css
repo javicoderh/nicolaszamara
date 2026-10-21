@@ -3,6 +3,9 @@
 .interest-form > p { margin: 0 0 18px; color: #4e5a55; font-size: .84rem; line-height: 1.65; }
 .interest-form > p a { color: var(--color-navy); }
 .interest-form form { display: grid; gap: 14px; }
+.interest-form fieldset { display: grid; gap: 14px; padding: 0; margin: 0; border: 0; min-width: 0; }
+.interest-form__legend { padding: 0 0 12px; color: var(--color-navy); font-size: .85rem; }
+.interest-form__trap { display: none; }
 .interest-form__field { display: grid; gap: 6px; color: var(--color-ink); font-size: .78rem; font-weight: 600; }
 .interest-form__field input { width: 100%; min-height: 44px; padding: 9px 11px; border: 1px solid #9ba99a; border-radius: 1px; background: #fffefa; color: var(--color-ink); font: inherit; font-weight: 400; }
 .interest-form__consent { display: flex; align-items: flex-start; gap: 10px; color: #4e5a55; font-size: .75rem; line-height: 1.55; }

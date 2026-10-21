@@ -51,11 +51,11 @@ export const homeContent = {
 }
 
 export const privacyCopy = {
-  status: 'Borrador para revisión. Completar y aprobar antes de conectar formularios o publicar.',
+  status: 'Versión de pruebas: utiliza datos ficticios. Completar y aprobar los datos del responsable y el canal de solicitudes antes de abrir los registros al público.',
   sections: [
     { title: 'Responsable del tratamiento', body: 'Nombre legal y datos de contacto pendientes de confirmación.' },
     { title: 'Finalidad de los registros', body: 'Los datos de cada formulario se usarán únicamente para responder al interés indicado y, si la persona lo autoriza por separado, enviar novedades relacionadas.' },
     { title: 'Conservación y solicitudes', body: 'Plazos de conservación, mecanismo para retirar el consentimiento y canal de solicitudes pendientes de definición.' },
-    { title: 'Servicios utilizados', body: 'El servicio receptor y sus condiciones se definirán antes de activar los formularios.' },
+    { title: 'Servicios utilizados', body: 'Los formularios se reciben mediante una API en Python alojada en Vercel y se guardan en el proyecto nicolaszamara de Supabase, en São Paulo. Los visitantes no pueden consultar ni modificar registros. Se conserva el interés seleccionado, los datos del formulario y las autorizaciones, con fecha de registro. No se solicita información clínica.' },
   ],
 }

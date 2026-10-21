@@ -5,16 +5,16 @@ Normativa de desarrollo: `AGENTS.md`.
 
 ## Estado de esta entrega
 
-La implementación base del frontend está construida. La suite vigente ejecutó **35 pruebas unitarias en 16 archivos: 35 aprobadas**; `npm run build` también finalizó correctamente. Se completaron las rutas, componentes, formularios en modo no disponible, metadatos de cliente, configuración visual y documentación de datos faltantes.
+La implementación incluye frontend, API Python y la tabla de intereses en Supabase. Los formularios guardan ambos tipos de interés, con autorización de finalidad obligatoria y novedades opcionales. La configuración de Vercel separa `/api` de las rutas SPA. La guía `docs/PRUEBAS_FORMULARIOS.md` describe las comprobaciones manuales y la medición pendiente de 30 escenarios.
 
-Las casillas que siguen vacías identifican contenido o verificaciones que todavía no se han completado, especialmente revisión manual en dispositivos, confirmaciones del titular y todo lo reservado para la etapa de servicios y lanzamiento. La suite valida unidades con JSDOM; no sustituye esa revisión visual manual. La API, Supabase y la publicación siguen fuera de esta etapa.
+Las casillas vacías identifican contenido o verificaciones pendientes, especialmente revisión manual en dispositivos, confirmaciones del titular y mediciones reales. Las pruebas de React usan JSDOM y las de Python unittest, con servicios simulados; no sustituyen la revisión manual del despliegue.
 
-El alcance actual es el frontend con React + Vite. Este plan no autoriza publicación. La API Python, Supabase y las integraciones reales se abordarán posteriormente. Las casillas representan trabajo pendiente; se marcarán únicamente después de verificar cada entrega.
+El alcance se amplió por autorización del usuario para conectar los formularios, actualizar GitHub y permitir pruebas manuales en Vercel. La apertura definitiva al público conserva pendientes de contenido y privacidad.
 
 ## 1. Preparar y verificar el proyecto
 
 - [x] Revisar el estado actual del proyecto y conservar los archivos de requisitos.
-- [x] Sincronizar dependencias de Vitest y React Testing Library y actualizar el lockfile (pendiente de acceso al registro npm).
+- [x] Sincronizar dependencias de Vitest y React Testing Library y actualizar el lockfile.
 - [x] Verificar que el comando de compilación de producción funciona (`npm run build`).
 - [x] Verificar la configuración de Vitest, JSDOM y React Testing Library cuando sea posible instalar las dependencias.
 - [x] Añadir comandos para ejecutar pruebas unitarias una vez y en modo observación.
@@ -153,8 +153,8 @@ Cada componente de esta fase debe entregarse con CSS, skeleton y pruebas unitari
 
 ## 13. Verificar el frontend y entregar revisión
 
-- [ ] Ejecutar y aprobar la suite de pruebas unitarias Vitest + React Testing Library; no incorporar pruebas automatizadas de integración ni E2E.
-- [ ] Generar correctamente la compilación de producción.
+- [x] Ejecutar y aprobar la suite de pruebas unitarias Vitest + React Testing Library; no incorporar pruebas automatizadas de integración ni E2E.
+- [x] Generar correctamente la compilación de producción.
 - [ ] Revisar manualmente móvil y escritorio: desbordes, texto, contraste y acciones visibles.
 - [ ] Revisar manualmente menú, teclado, foco, anclas y enlaces.
 - [ ] Verificar acceso directo, recarga y página no encontrada en el entorno disponible; dejar constancia de lo pendiente en alojamiento.
@@ -168,11 +168,11 @@ Cada componente de esta fase debe entregarse con CSS, skeleton y pruebas unitari
 
 ## 14. Etapa posterior: servicios y mediciones reales
 
-Esta fase queda fuera del frontend actual. No debe bloquear la revisión visual, pero sí los formularios operativos y cualquier confirmación de guardado real.
+Esta fase está habilitada para revisión funcional. Las tablas, la API y el adaptador de formularios están implementados. La autorización de apertura definitiva al público y la medición de tiempos siguen pendientes.
 
 - [ ] Definir el servicio receptor de registros y su responsable operativo.
-- [ ] Implementar API Python y conexión segura con Supabase según el alcance posterior.
-- [ ] Mantener secretos exclusivamente en el servidor e integrar los adaptadores del frontend.
+- [x] Implementar API Python y conexión segura con Supabase según el alcance posterior.
+- [x] Mantener secretos exclusivamente en el servidor e integrar los adaptadores del frontend. Esta implementación usa únicamente una clave publicable, restringida a inserción por RLS; no necesita claves privilegiadas.
 - [ ] Resolver protección contra spam y mecanismo de baja según el servicio elegido.
 - [ ] Medir al menos **30 escenarios por consumo externo**, registrando condiciones y resultados reales.
 - [ ] Calcular tamaño de muestra, media, mediana, mínimo, máximo, desviación estándar, p90 y p95.

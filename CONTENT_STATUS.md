@@ -37,7 +37,8 @@ Esta lista acompaña la versión frontend de revisión. Los valores vacíos en `
 ## Estado funcional del frontend
 
 - Los formularios de interés validan datos en el navegador, distinguen el interés y dejan sin marcar la autorización para novedades.
-- La recepción real de formularios no está conectada. El frontend muestra un aviso de indisponibilidad y no simula un registro exitoso.
+- La API Python recibe ambos formularios y guarda en Supabase. La interfaz confirma éxito solo después de HTTP 201 y de los 800 ms adicionales; ante un error conserva los campos para reintentar.
+- La versión de revisión indica usar datos ficticios mientras se confirman el responsable, la conservación y el canal de solicitudes de privacidad. No envía correos ni suscribe automáticamente a listas.
 - No se solicita información clínica.
 - El evento de analítica está limitado a nombres de eventos permitidos y no incluye datos personales; aún no hay proveedor de analítica configurado.
 - La portada, `/consulta`, `/cursos`, `/privacidad` y la vista 404 tienen contenido de revisión; la página de privacidad es un borrador.

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 
-export const BASE_DELAY_MS = 800
+import { BASE_DELAY_MS } from '../../config/loading.js'
+export { BASE_DELAY_MS }
 
 export function usePageDelay(key, delay = BASE_DELAY_MS) {
   const [ready, setReady] = useState(false)

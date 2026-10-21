@@ -1,13 +1,13 @@
 # Nicolas Zamara front
 
-Frontend de la consulta terapéutica Nicolas Zamara, creado con React y Vite (JavaScript).
+Aplicación de la consulta terapéutica Nicolas Zamara: React + Vite, API Python y persistencia en Supabase.
 
 ## Páginas disponibles
 
 - `/`: inicio, áreas de trabajo, curso, presentación y registro de interés en naturaleza.
 - `/consulta`: primera atención, evaluación individual, datos prácticos y consulta de disponibilidad.
 - `/cursos`: curso Flores de Bach y formulario de interés para una futura edición online.
-- `/privacidad`: borrador pendiente de revisión antes de conectar registros.
+- `/privacidad`: información de la versión de pruebas, con datos del responsable y canal de solicitudes pendientes de revisión.
 - Las rutas desconocidas muestran una página 404. `vercel.json` permite cargar directamente las rutas en Vercel.
 
 Los textos, metadatos, enlaces, ofertas y datos de contacto editables se centralizan en `src/content/siteContent.js`. Las fotos se reemplazan al recibir originales autorizados. Revisa `CONTENT_STATUS.md` antes de editar o preparar un lanzamiento.
@@ -18,6 +18,14 @@ Los textos, metadatos, enlaces, ofertas y datos de contacto editables se central
 npm install
 npm run dev
 ```
+
+Para guardar formularios durante el desarrollo local, ejecuta en otra terminal (Python 3.12 o superior):
+
+```sh
+python -m backend.dev_server
+```
+
+Vite envía `/api` al servidor local en el puerto 3001. En Vercel, `api/interests.py` se publica como función Python y las rutas del frontend conservan su recarga directa. No hay dependencias Python externas.
 
 ## Pruebas unitarias con Vitest y React Testing Library
 
@@ -36,7 +44,11 @@ npm test
 npm run test:watch
 ```
 
-La configuraci?n de Vitest y las pruebas unitarias de p?ginas, componentes, skeletons, formularios, contexto, servicios y temporizadores est?n incluidas. La ?ltima ejecuci?n local aprob? 35 pruebas en 16 archivos.
+Las pruebas unitarias cubren páginas, componentes, skeletons, formularios, contexto, servicios y temporizadores. El backend incluye validación, persistencia y manejo HTTP con servicios simulados:
+
+```sh
+python -m unittest discover -s tests -v
+```
 
 ## Metadatos y prerenderizado
 
@@ -49,6 +61,8 @@ npm run build
 npm run preview
 ```
 
-Esta etapa contiene únicamente el frontend. La API Python y la conexión con Supabase se incorporarán más adelante.
+Los dos formularios guardan en `public.interest_registrations` del proyecto Supabase `vsbolndzzkrhadprdlto`. La API usa una clave publicable con permisos exclusivos de inserción, RLS y límites de frecuencia en la base. No utiliza claves privilegiadas. La URL y clave publicable están en `backend/supabase_config.py`; pueden sustituirse mediante `SUPABASE_URL` y `SUPABASE_PUBLISHABLE_KEY` en el servidor.
+
+Guía de comprobación manual: [docs/PRUEBAS_FORMULARIOS.md](docs/PRUEBAS_FORMULARIOS.md). Esquema y acceso: [database/README.md](database/README.md).
 
 Repositorio: https://github.com/javicoderh/nicolaszamara
