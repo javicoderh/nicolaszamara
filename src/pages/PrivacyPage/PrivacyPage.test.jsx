@@ -4,10 +4,10 @@ import PrivacyPage from './PrivacyPage.jsx'
 import PrivacyPageSkeleton from './PrivacyPageSkeleton.jsx'
 
 describe('PrivacyPage', () => {
-  it('identifica que el texto es un borrador pendiente de aprobación', () => {
+  it('conserva el aviso de pruebas sin instrucciones internas', () => {
     render(<PrivacyPage />)
-    expect(screen.getByRole('status')).toHaveTextContent(/completar y aprobar/i)
-    expect(screen.getByRole('heading', { name: 'Responsable del tratamiento' })).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveTextContent(/versión de pruebas: utiliza datos ficticios/i)
+    expect(screen.queryByText(/pendiente|completar y aprobar/i)).not.toBeInTheDocument()
   })
 
   it('ofrece un skeleton propio', () => {

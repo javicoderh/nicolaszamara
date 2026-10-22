@@ -21,14 +21,11 @@ export default function CoursesPage() {
           <p className="eyebrow">Curso disponible</p>
           <h2 id="bach-title">{homeContent.course.title}</h2>
           <p>{homeContent.course.description}</p>
-          <ul>
-            <li>Su propósito es acercar las esencias florales a situaciones de la vida cotidiana.</li>
-            <li>Compartir conocimientos con personas cercanas requiere escuchar y respetar sus decisiones.</li>
-            <li>La información sobre fechas, precio, formato e inclusiones se mantiene en la página de inscripción.</li>
-          </ul>
-          <ActionLink href={courseUrl} target="_blank" rel="noreferrer" onClick={() => trackEvent('hotmart_click')}>Ver curso e inscripción <span aria-hidden="true">↗</span></ActionLink>
+          <p>{homeContent.course.additional}</p>
+          <ActionLink href={courseUrl} target="_blank" rel="noreferrer" onClick={() => trackEvent('hotmart_click')}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
+          <ActionLink href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
         </div>
-        <PhotoPlaceholder orientation="landscape" label="Fotografía original del curso Flores de Bach o sus materiales pendiente de entrega" />
+        <PhotoPlaceholder orientation="landscape" label="Curso Flores de Bach y sus materiales" />
       </section>
 
       <section className="courses-page__online" id="interes-online">
@@ -36,7 +33,7 @@ export default function CoursesPage() {
           <div>
             <p className="eyebrow">Próximamente</p>
             <h2>Una futura modalidad online, para público hispanohablante.</h2>
-            <p>Estamos reuniendo interés para orientar el desarrollo de una nueva edición. Aún no hay fechas ni matrícula abierta.</p>
+            <p>Si te gustaría participar desde tu ciudad o país, déjame tus datos para recibir información cuando se abra una edición online.</p>
           </div>
           <InterestForm kind="online" />
         </div>

@@ -7,8 +7,8 @@ import ConsultationPageSkeleton from './ConsultationPageSkeleton.jsx'
 describe('ConsultationPage', () => {
   it('explica evaluación individual y no promete una reserva', () => {
     render(<SiteContentProvider><ConsultationPage /></SiteContentProvider>)
-    expect(screen.getByText(/Las alternativas se revisan de forma individual/i)).toBeInTheDocument()
-    expect(screen.getByRole('status')).toHaveTextContent('número de WhatsApp está pendiente')
+    expect(screen.getByText(/La acupuntura y las técnicas complementarias se eligen según cada caso/i)).toBeInTheDocument()
+    expect(screen.getByRole('status')).toHaveTextContent('WhatsApp no está disponible')
     expect(screen.queryByRole('link', { name: /whatsapp/i })).not.toBeInTheDocument()
   })
 

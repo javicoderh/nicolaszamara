@@ -7,8 +7,8 @@ import HomePageSkeleton from './HomePageSkeleton.jsx'
 describe('HomePage', () => {
   it('presenta las tres áreas y los accesos a consulta y formación', () => {
     render(<SiteContentProvider><HomePage /></SiteContentProvider>)
-    expect(screen.getByRole('heading', { name: /acompañar los procesos de la vida/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /consultar una hora/i })).toHaveAttribute('href', '/consulta')
+    expect(screen.getByRole('heading', { name: /cuidar tu salud también es atender cómo te sientes/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /conoce la consulta/i })).toHaveAttribute('href', '/consulta')
     expect(screen.getByRole('heading', { name: 'Consulta y terapias' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Cursos y formación' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Naturaleza y bienestar' })).toBeInTheDocument()

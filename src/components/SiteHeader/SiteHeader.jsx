@@ -46,7 +46,7 @@ export default function SiteHeader() {
         }}
       >
         {navigation.map((item) => <a key={item.href} href={item.href} aria-current={!item.href.includes('#') && window.location.pathname === item.href ? 'page' : undefined} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
-        <ActionLink className="site-header__cta" href="/consulta" variant="compact">Consultar una hora</ActionLink>
+        <ActionLink className="site-header__cta" href="/consulta" variant="compact">Conoce la consulta</ActionLink>
       </nav>
     </header>
   )

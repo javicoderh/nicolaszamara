@@ -16,7 +16,6 @@ export default function PrivacyPage() {
           </section>
         ))}
       </div>
-      <p className="privacy-page__contact">Correo para consultas: pendiente de confirmación.</p>
     </main>
   )
 }

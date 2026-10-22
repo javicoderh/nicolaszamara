@@ -1,12 +1,13 @@
 import { useSiteContent } from '../../contexts/SiteContentContext/SiteContentContext.jsx'
 import ActionLink from '../../components/ActionLink/ActionLink.jsx'
 import { trackEvent } from '../../services/analyticsService.js'
+import { homeContent } from '../../content/siteContent.js'
 import './ConsultationPage.css'
 
 const questions = [
   { question: '¿Tengo que escoger una técnica antes de consultar?', answer: 'No. El primer paso es conversar y conocer tu necesidad. Las alternativas se revisan a partir de una evaluación individual.' },
   { question: '¿El mensaje por WhatsApp confirma una hora?', answer: 'No. El mensaje inicia una conversación para coordinar disponibilidad; la hora queda confirmada únicamente después de acordarla directamente.' },
-  { question: '¿Cuánto dura una sesión y cuánto cuesta?', answer: 'La duración y los valores vigentes están pendientes de confirmación. Se publicarán aquí una vez revisados.' },
+  { question: '¿Cuánto dura una sesión y cuánto cuesta?', answer: 'Puedes consultar la duración y el valor de la sesión al coordinar tu atención.' },
 ]
 
 export default function ConsultationPage() {
@@ -19,31 +20,27 @@ export default function ConsultationPage() {
     <main id="main-content" className="consult-page page-wrap">
       <header className="consult-page__intro">
         <p className="eyebrow">Consulta y terapias</p>
-        <h1>Un espacio para comenzar por lo que necesitas hoy.</h1>
-        <p>La atención parte con una conversación. El primer encuentro permite escuchar tu motivo de consulta y comprender, junto contigo, qué tipo de acompañamiento puede ser adecuado.</p>
+        <h1>{homeContent.consultation.title}</h1>
       </header>
 
       <section className="consult-page__steps" aria-labelledby="consult-steps-title">
         <h2 id="consult-steps-title">Cómo comienza</h2>
-        <ol>
-          <li><strong>Nos ponemos en contacto.</strong> Puedes consultar disponibilidad sin elegir una técnica por adelantado.</li>
-          <li><strong>Conversamos.</strong> El primer encuentro considera tu motivo de consulta, tus preguntas y el contexto que quieras compartir.</li>
-          <li><strong>Evaluamos juntos.</strong> Las alternativas se revisan de forma individual y se explican antes de acordar cómo continuar.</li>
-        </ol>
+        <p>{homeContent.consultation.description}</p>
+        <p>{homeContent.consultation.additional}</p>
       </section>
 
       <section className="consult-page__details" aria-labelledby="consult-details-title">
         <div>
           <p className="eyebrow">Información práctica</p>
           <h2 id="consult-details-title">Cada consulta, con claridad desde el inicio.</h2>
-          <p>La ubicación, accesibilidad, horarios, duración y valores vigentes se añadirán cuando Nicolás los confirme.</p>
+          <p>Puedes consultar la ubicación, accesibilidad, horarios, duración y valores al coordinar tu atención.</p>
         </div>
         <dl>
-          <div><dt>Ubicación</dt><dd>{contact.address || 'Pendiente de confirmación'}</dd></div>
-          <div><dt>Accesibilidad</dt><dd>{contact.accessibility || 'Información pendiente de confirmación'}</dd></div>
-          <div><dt>Horarios</dt><dd>{contact.hours || 'Pendientes de confirmación'}</dd></div>
-          <div><dt>Duración</dt><dd>{contact.sessionDuration || 'Pendiente de confirmación'}</dd></div>
-          <div><dt>Valor</dt><dd>{contact.sessionPrice || 'Pendiente de confirmación'}</dd></div>
+          <div><dt>Ubicación</dt><dd>{contact.address || 'Consulta al coordinar tu atención'}</dd></div>
+          <div><dt>Accesibilidad</dt><dd>{contact.accessibility || 'Consulta al coordinar tu atención'}</dd></div>
+          <div><dt>Horarios</dt><dd>{contact.hours || 'Consulta al coordinar tu atención'}</dd></div>
+          <div><dt>Duración</dt><dd>{contact.sessionDuration || 'Consulta al coordinar tu atención'}</dd></div>
+          <div><dt>Valor</dt><dd>{contact.sessionPrice || 'Consulta al coordinar tu atención'}</dd></div>
         </dl>
       </section>
 
@@ -66,7 +63,7 @@ export default function ConsultationPage() {
         </div>
         {whatsappHref
           ? <ActionLink href={whatsappHref} target="_blank" rel="noreferrer" onClick={() => trackEvent('whatsapp_click')}>Consultar disponibilidad por WhatsApp <span aria-hidden="true">↗</span></ActionLink>
-          : <p className="review-note" role="status">El número de WhatsApp está pendiente de confirmación. No hay un enlace de contacto activo.</p>}
+          : <p className="review-note" role="status">El contacto por WhatsApp no está disponible en esta versión de pruebas.</p>}
       </section>
     </main>
   )

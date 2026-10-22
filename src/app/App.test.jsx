@@ -13,9 +13,9 @@ describe('App', () => {
     window.history.replaceState({}, '', '/')
     render(<App />)
     expect(screen.getByLabelText('Cargando inicio')).toHaveAttribute('aria-busy', 'true')
-    expect(screen.queryByRole('heading', { name: /acompañar los procesos de la vida/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: /cuidar tu salud también es atender cómo te sientes/i })).not.toBeInTheDocument()
     act(() => vi.advanceTimersByTime(800))
-    expect(screen.getByRole('heading', { name: /acompañar los procesos de la vida/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /cuidar tu salud también es atender cómo te sientes/i })).toBeInTheDocument()
   })
 
   it('quita la barra final en rutas interiores', () => {
@@ -27,7 +27,7 @@ describe('App', () => {
     window.history.replaceState({}, '', '/consulta')
     render(<App />)
     act(() => vi.advanceTimersByTime(800))
-    expect(screen.getByRole('heading', { name: /un espacio para comenzar/i })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /una atención que considera tu motivo/i })).toBeInTheDocument()
   })
 
   it('muestra la página no encontrada para rutas desconocidas', () => {

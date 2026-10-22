@@ -14,20 +14,20 @@ export default function HomePage() {
       <section className="home-hero page-wrap" aria-labelledby="home-title">
         <div className="home-hero__copy">
           <p className="eyebrow">{homeContent.hero.eyebrow}</p>
-          <h1 id="home-title">Acompañar los procesos de <em>la vida.</em></h1>
+          <h1 id="home-title">{homeContent.hero.title}</h1>
           <p className="home-hero__intro">{homeContent.hero.description}</p>
+          <p className="home-hero__intro">{homeContent.hero.additional}</p>
           <div className="home-hero__actions">
-            <ActionLink href="/consulta">Consultar una hora <span aria-hidden="true">↗</span></ActionLink>
-            <ActionLink href="/cursos" variant="text">Explorar cursos <span aria-hidden="true">→</span></ActionLink>
+            <ActionLink href="/consulta">Conoce la consulta <span aria-hidden="true">↗</span></ActionLink>
+            <ActionLink href="/cursos" variant="text">Explora los cursos <span aria-hidden="true">→</span></ActionLink>
           </div>
         </div>
-        <PhotoPlaceholder orientation="portrait" label="Fotografía original de Nicolás en consulta pendiente de entrega" />
+        <PhotoPlaceholder orientation="portrait" label="Nicolás en consulta" />
       </section>
 
       <section className="home-areas" aria-labelledby="areas-title">
         <div className="page-wrap">
         <div className="home-section-heading">
-          <p className="eyebrow">Tres caminos, una misma escucha</p>
           <h2 id="areas-title">¿Por dónde te gustaría comenzar?</h2>
         </div>
         <AreaGrid areas={homeContent.areas} />
@@ -36,10 +36,11 @@ export default function HomePage() {
 
       <section className="home-consult-band">
         <div className="page-wrap home-consult-band__inner">
-          <p className="eyebrow">Consulta terapéutica</p>
-          <h2>Un primer encuentro comienza con una conversación.</h2>
-          <p>Cada proceso es distinto. La evaluación individual nos ayuda a comprender qué necesitas y cómo acompañarte.</p>
-          <ActionLink href="/consulta" variant="light">Conocer la consulta <span aria-hidden="true">↗</span></ActionLink>
+          <p className="eyebrow">Consulta y terapias</p>
+          <h2>{homeContent.consultation.title}</h2>
+          <p>{homeContent.consultation.description}</p>
+          <p>{homeContent.consultation.additional}</p>
+          <ActionLink href="/consulta" variant="light">Cómo es la primera consulta <span aria-hidden="true">↗</span></ActionLink>
         </div>
       </section>
 
@@ -48,29 +49,32 @@ export default function HomePage() {
           <p className="eyebrow">Curso disponible</p>
           <h2 id="home-course-title">{homeContent.course.title}</h2>
           <p>{homeContent.course.description}</p>
-          <ActionLink href={courseUrl} target="_blank" rel="noreferrer" onClick={() => trackEvent('hotmart_click')}>Ver curso e inscripción <span aria-hidden="true">↗</span></ActionLink>
-          <ActionLink className="home-course__secondary" href="/cursos#interes-online" variant="text">Recibir información sobre una futura edición online</ActionLink>
+          <p>{homeContent.course.additional}</p>
+          <ActionLink href={courseUrl} target="_blank" rel="noreferrer" onClick={() => trackEvent('hotmart_click')}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
+          <ActionLink className="home-course__secondary" href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
         </div>
-        <PhotoPlaceholder orientation="landscape" label="Fotografía original del curso o sus materiales pendiente de entrega" />
+        <PhotoPlaceholder orientation="landscape" label="Curso Flores de Bach y sus materiales" />
       </section>
 
       <section className="home-about page-wrap" id="sobre-mi" aria-labelledby="about-title">
         <div className="home-about__label"><p className="eyebrow">Sobre mí</p><span /></div>
         <div className="home-about__copy">
-          <h2 id="about-title">La escucha también se aprende habitando el mundo.</h2>
-          <p>Mi camino reúne el trabajo en Medicina China Integrativa y Flores de Bach con una vida de exploración en la naturaleza. Acompaño desde la curiosidad, el respeto por cada proceso y la atención a lo que cada persona necesita.</p>
-          <p className="review-note">Credenciales y antecedentes específicos pendientes de revisión y confirmación.</p>
+          <h2 id="about-title">Hola, soy Nicolás.</h2>
+          <p>Mi trabajo reúne la Medicina China Integrativa, las Flores de Bach y la enseñanza. Me interesa comprender tu motivo de consulta y conocerte: qué te preocupa, cómo te sientes y qué está pasando en tu vida.</p>
+          <p>Desde ahí, integro distintas herramientas y explico cada paso de la atención, para orientarte de manera integral y acompañarte en el cuidado de tu salud.</p>
+          <p>Fuera de la consulta, una parte importante de mi vida transcurre entre bosques, montañas y ríos. Ese vínculo también está presente en mi forma de entender y compartir el bienestar.</p>
         </div>
       </section>
 
       <section className="home-nature" id="naturaleza" aria-labelledby="nature-title">
-        <PhotoPlaceholder orientation="landscape" label="Fotografía propia de bosques, montañas o ríos pendiente de entrega" />
+        <PhotoPlaceholder orientation="landscape" label="Bosques, montañas y ríos" />
         <div className="home-nature__copy">
           <p className="eyebrow">Naturaleza y bienestar</p>
-          <h2 id="nature-title">Hacer una pausa. Mirar. Sentir el lugar.</h2>
-          <p>Desde niño he pasado tiempo en parques como Conguillío y Huerquehue. El montañismo, la alta montaña y la escalada me han llevado a habitar la naturaleza durante semanas. Soy guía de rafting y kayakista. Desde esa experiencia quiero compartir una invitación a estar presentes y abrir los sentidos, sin sentir que debemos saberlo todo sobre el entorno.</p>
-          <p className="review-note">Los baños de bosque están en desarrollo. Aún no hay fechas ni actividad disponible.</p>
-          <ActionLink href="#interes-naturaleza">Quiero recibir información</ActionLink>
+          <h2 id="nature-title">Darte tiempo para estar en la naturaleza.</h2>
+          <p>Desde niño pasaba tiempo en parques nacionales como Conguillío, Huerquehue y muchos otros lugares. Después vinieron la alta montaña, la escalada en roca y el aprendizaje de navegar por ríos tranquilos y de aguas bravas. Todo eso me llevó a permanecer semanas inmerso en entornos naturales. Además de mi trabajo como terapeuta, soy guía de rafting y kayakista, y ese vínculo sigue siendo parte importante de mi vida.</p>
+          <p>De ahí nace lo que quiero compartir a través de los baños de bosque: detenernos, escuchar, observar y dejar espacio a lo que percibimos. No necesitas conocer el nombre de cada especie para encontrarte con el lugar.</p>
+          <p>Si te gustaría participar, puedes dejarme tu contacto para recibir información cuando se confirme el próximo encuentro.</p>
+          <ActionLink href="#interes-naturaleza">Me interesan los baños de bosque</ActionLink>
         </div>
       </section>
 

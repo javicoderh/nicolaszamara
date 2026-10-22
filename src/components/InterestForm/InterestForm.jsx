@@ -18,8 +18,8 @@ const fieldMap = {
 }
 
 const formCopy = {
-  online: { title: 'Interés en formación online', purpose: 'Usaremos estos datos para responder a tu interés en una futura edición online. La fecha aún no está definida.' },
-  nature: { title: 'Interés en baños de bosque', purpose: 'Usaremos estos datos para compartir información si se define una actividad. Todavía no hay fechas ni convocatoria.' },
+  online: { title: 'Flores de Bach en modalidad online', purpose: 'Si te gustaría participar desde tu ciudad o país, déjame tus datos para recibir información cuando se abra una edición online.', success: 'Gracias por tu interés. Te avisaré cuando se abra una edición online.' },
+  nature: { title: 'Me interesan los baños de bosque', purpose: 'Déjame tus datos para recibir información cuando se confirme un encuentro.', success: 'Gracias por tu interés. Te avisaré cuando se confirme un encuentro.' },
 }
 
 export default function InterestForm({ kind, submitInterest = defaultSubmitInterest }) {
@@ -74,7 +74,7 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
         </fieldset>
       </form>
       {status === 'submitting' && <p className="interest-form__message" role="status">Estamos guardando tu interés…</p>}
-      {status === 'saved' && <p className="interest-form__message" role="status">Tu interés quedó registrado. Gracias.</p>}
+      {status === 'saved' && <p className="interest-form__message" role="status">{copy.success}</p>}
       {status === 'saved' && <button className="interest-form__submit" type="button" onClick={() => { formRef.current?.reset(); reset() }}>Registrar otro interés</button>}
       {status === 'unavailable' && <p className="interest-form__message interest-form__message--error" role="alert">No pudimos confirmar el registro. Inténtalo nuevamente más tarde.</p>}
       {status === 'rate_limited' && <p className="interest-form__message interest-form__message--error" role="alert">Recibimos varios intentos. Espera un minuto antes de reintentar.</p>}
