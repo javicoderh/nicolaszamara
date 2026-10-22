@@ -8,7 +8,6 @@ export default function TherapiesPage() {
   return (
     <main id="main-content" className="therapies-page">
       <header className="therapies-page__intro page-wrap">
-        <p className="eyebrow">Consulta y acompañamiento</p>
         <h1>Terapias</h1>
         <p>Conoce los servicios de la consulta. Podemos conversar sobre lo que necesitas y revisar las alternativas de forma individual.</p>
       </header>
@@ -19,7 +18,6 @@ export default function TherapiesPage() {
       </section>
       <section className="therapies-page__contact page-wrap" aria-labelledby="therapies-contact-title">
         <div>
-          <p className="eyebrow">El primer paso</p>
           <h2 id="therapies-contact-title">Comencemos por una conversación.</h2>
           <p>Conoce cómo es la atención y cómo consultar disponibilidad.</p>
         </div>

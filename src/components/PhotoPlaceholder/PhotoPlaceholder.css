@@ -2,5 +2,4 @@
 .photo-placeholder--portrait { aspect-ratio: 4 / 5; min-height: 380px; }
 .photo-placeholder--landscape { aspect-ratio: 4 / 3; min-height: 280px; }
 .photo-placeholder__symbol { width: 57%; height: 70%; background: url('/brand/poppy-line.svg') center / contain no-repeat; opacity: .72; }
-.photo-placeholder figcaption { position: absolute; bottom: 0; left: 0; right: 0; padding: 15px 18px; background: #e9e7e4eb; color: var(--color-muted); font-size: .68rem; line-height: 1.8; }
 @media(max-width: 640px) { .photo-placeholder--portrait { min-height: 0; max-height: 450px; } .photo-placeholder--landscape { min-height: 260px; } }

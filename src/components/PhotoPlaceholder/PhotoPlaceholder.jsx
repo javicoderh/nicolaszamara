@@ -1,10 +1,9 @@
 import './PhotoPlaceholder.css'
 
-export default function PhotoPlaceholder({ label, orientation = 'landscape' }) {
+export default function PhotoPlaceholder({ orientation = 'landscape' }) {
   return (
-    <figure className={`photo-placeholder photo-placeholder--${orientation}`} role="img" aria-label={label}>
+    <div className={`photo-placeholder photo-placeholder--${orientation}`} aria-hidden="true">
       <span className="photo-placeholder__symbol" aria-hidden="true" />
-      <figcaption>{label}</figcaption>
-    </figure>
+    </div>
   )
 }

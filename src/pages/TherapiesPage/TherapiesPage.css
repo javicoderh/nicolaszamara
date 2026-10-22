@@ -5,7 +5,7 @@
 .therapies-page__grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 48px 34px; }
 .therapies-page__contact { display: flex; align-items: center; justify-content: space-between; gap: 35px; padding-block: 65px 75px; }
 .therapies-page__contact h2 { max-width: 620px; margin: 0; color: var(--color-navy); font-size: clamp(2.3rem, 4vw, 3.6rem); line-height: 1.15; }
-.therapies-page__contact p:not(.eyebrow) { margin-bottom: 0; color: var(--color-muted); }
+.therapies-page__contact p { margin-bottom: 0; color: var(--color-muted); }
 .therapies-page__contact .action-link { flex-shrink: 0; }
 @media(max-width: 760px) { .therapies-page__intro { padding-block: 45px 35px; } .therapies-page__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 24px; } .therapies-page__services { padding-block: 35px 45px; } .therapies-page__contact { flex-direction: column; align-items: flex-start; padding-block: 45px 55px; } }
 @media(max-width: 360px) { .therapies-page__grid { gap: 30px 16px; } }

@@ -23,6 +23,16 @@ describe('App', () => {
     expect(normalizePath('/')).toBe('/')
   })
 
+  it.each(['/', '/consulta', '/terapias', '/cursos', '/privacidad', '/ruta-inexistente'])('presenta %s sin rótulos de sección ni textos de prueba', (path) => {
+    window.history.replaceState({}, '', path)
+    const { container } = render(<App />)
+    act(() => vi.advanceTimersByTime(800))
+    expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
+    expect(container.querySelector('.eyebrow')).toBeNull()
+    expect(container).not.toHaveTextContent(/versión de pruebas|datos ficticios|durante la revisión|pendiente de entrega|un espacio para escuchar, aprender y estar/i)
+    expect(container.querySelector('.photo-placeholder figcaption')).toBeNull()
+  })
+
   it('sirve una ruta interior al acceder directamente', () => {
     window.history.replaceState({}, '', '/consulta')
     render(<App />)

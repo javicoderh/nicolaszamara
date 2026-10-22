@@ -48,7 +48,6 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
   return (
     <section className="interest-form" aria-labelledby={`${kind}-form-title`}>
       <h3 id={`${kind}-form-title`}>{copy.title}</h3>
-      <p className="interest-form__testing">Versión de pruebas: utiliza datos ficticios. Los registros se guardan en la base de datos.</p>
       <p>{copy.purpose} Revisa también la <a href="/privacidad">información de privacidad</a>.</p>
       <form ref={formRef} onSubmit={handleSubmit} aria-busy={status === 'submitting'}>
         <fieldset disabled={status === 'submitting' || status === 'saved'}>

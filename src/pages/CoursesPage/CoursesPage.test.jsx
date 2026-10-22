@@ -16,4 +16,15 @@ describe('CoursesPage', () => {
     render(<CoursesPageSkeleton />)
     expect(screen.getByLabelText('Cargando cursos')).toHaveAttribute('aria-busy', 'true')
   })
+
+  it('muestra la presentación botánica junto al texto del curso', () => {
+    render(<SiteContentProvider><CoursesPage /></SiteContentProvider>)
+    const photo = screen.getByRole('img', { name: 'Presentación de botánica con una flor amarilla proyectada en pantalla' })
+    expect(photo).toHaveAttribute('src', '/photos/presentacion-botanica-1280.jpg')
+    expect(photo).toHaveAttribute('srcset', '/photos/presentacion-botanica-640.jpg 640w, /photos/presentacion-botanica-1280.jpg 1280w')
+    expect(photo.closest('section')).toHaveAttribute('aria-labelledby', 'bach-title')
+    expect(photo.parentElement).toHaveClass('courses-page__photo-frame')
+    expect(photo.parentElement.previousElementSibling).toContainElement(screen.getByRole('heading', { name: 'Flores de Bach para la vida cotidiana' }))
+    expect(photo.parentElement.previousElementSibling).toContainElement(screen.getByRole('link', { name: /ver el curso e inscribirme/i }))
+  })
 })

@@ -2,7 +2,6 @@
 .interest-form h3 { margin: 0 0 17px; color: var(--color-navy); font-family: var(--font-display); font-size: clamp(2rem, 3vw, 2.6rem); font-weight: 400; line-height: 1.15; }
 .interest-form > p { margin: 0 0 21px; color: var(--color-muted); font-size: .8rem; line-height: 1.9; }
 .interest-form > p a { color: var(--color-navy); font-weight: 600; }
-.interest-form .interest-form__testing { padding: 10px 13px; border-left: 2px solid var(--color-sage-dark); background: #d8e0d4; color: #354b39; font-size: .73rem; }
 .interest-form form, .interest-form fieldset { display: grid; gap: 18px; }
 .interest-form fieldset { padding: 0; margin: 0; border: 0; min-width: 0; }
 .interest-form__legend { padding: 0 0 15px; color: var(--color-navy); font-size: .82rem; font-weight: 600; }

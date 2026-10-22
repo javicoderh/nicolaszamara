@@ -4,10 +4,12 @@ import PrivacyPage from './PrivacyPage.jsx'
 import PrivacyPageSkeleton from './PrivacyPageSkeleton.jsx'
 
 describe('PrivacyPage', () => {
-  it('conserva el aviso de pruebas sin instrucciones internas', () => {
+  it('explica el uso de datos sin avisos de prueba ni instrucciones internas', () => {
     render(<PrivacyPage />)
-    expect(screen.getByRole('status')).toHaveTextContent(/versión de pruebas: utiliza datos ficticios/i)
-    expect(screen.queryByText(/pendiente|completar y aprobar/i)).not.toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'Privacidad' })).toBeInTheDocument()
+    expect(screen.getByText(/se guardan tu nombre, correo electrónico/i)).toBeInTheDocument()
+    expect(screen.queryByText(/pruebas|ficticios|revisión del sitio|pendiente|completar y aprobar/i)).not.toBeInTheDocument()
+    expect(screen.queryByRole('status')).not.toBeInTheDocument()
   })
 
   it('ofrece un skeleton propio', () => {

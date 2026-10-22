@@ -13,7 +13,6 @@ export default function HomePage() {
     <main id="main-content" className="home-page">
       <section className="home-hero page-wrap" aria-labelledby="home-title">
         <div className="home-hero__copy">
-          <p className="eyebrow">{homeContent.hero.eyebrow}</p>
           <h1 id="home-title">{homeContent.hero.title}</h1>
           <p className="home-hero__intro">{homeContent.hero.description}</p>
           <p className="home-hero__intro">{homeContent.hero.additional}</p>
@@ -22,7 +21,16 @@ export default function HomePage() {
             <ActionLink href="/cursos" variant="text">Explora los cursos <span aria-hidden="true">→</span></ActionLink>
           </div>
         </div>
-        <PhotoPlaceholder orientation="portrait" label="Nicolás en consulta" />
+        <img
+          className="home-hero__photo"
+          src="/photos/terapias-integrales-960.jpg"
+          srcSet="/photos/terapias-integrales-480.jpg 480w, /photos/terapias-integrales-960.jpg 960w"
+          sizes="(max-width: 640px) min(360px, calc(100vw - 40px)), 365px"
+          alt="Nicolás Zamara conversando en su consulta"
+          width="960"
+          height="1439"
+          fetchPriority="high"
+        />
       </section>
 
       <section className="home-areas" aria-labelledby="areas-title">
@@ -36,7 +44,6 @@ export default function HomePage() {
 
       <section className="home-consult-band">
         <div className="page-wrap home-consult-band__inner">
-          <p className="eyebrow">Consulta y terapias</p>
           <h2>{homeContent.consultation.title}</h2>
           <p>{homeContent.consultation.description}</p>
           <p>{homeContent.consultation.additional}</p>
@@ -46,18 +53,16 @@ export default function HomePage() {
 
       <section className="home-course page-wrap" aria-labelledby="home-course-title">
         <div className="home-course__copy">
-          <p className="eyebrow">Curso disponible</p>
           <h2 id="home-course-title">{homeContent.course.title}</h2>
           <p>{homeContent.course.description}</p>
           <p>{homeContent.course.additional}</p>
           <ActionLink href={courseUrl} target="_blank" rel="noreferrer" onClick={() => trackEvent('hotmart_click')}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
           <ActionLink className="home-course__secondary" href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
         </div>
-        <PhotoPlaceholder orientation="landscape" label="Curso Flores de Bach y sus materiales" />
+        <PhotoPlaceholder orientation="landscape" />
       </section>
 
       <section className="home-about page-wrap" id="sobre-mi" aria-labelledby="about-title">
-        <div className="home-about__label"><p className="eyebrow">Sobre mí</p><span /></div>
         <div className="home-about__copy">
           <h2 id="about-title">Hola, soy Nicolás.</h2>
           <p>Mi trabajo reúne la Medicina China Integrativa, las Flores de Bach y la enseñanza. Me interesa comprender tu motivo de consulta y conocerte: qué te preocupa, cómo te sientes y qué está pasando en tu vida.</p>
@@ -67,9 +72,20 @@ export default function HomePage() {
       </section>
 
       <section className="home-nature" id="naturaleza" aria-labelledby="nature-title">
-        <PhotoPlaceholder orientation="landscape" label="Bosques, montañas y ríos" />
+        <div className="home-nature__photo-frame">
+          <img
+            className="home-nature__photo"
+            src="/photos/contemplando-1200.jpg"
+            srcSet="/photos/contemplando-600.jpg 600w, /photos/contemplando-1200.jpg 1200w"
+            sizes="(max-width: 640px) 100vw, 50vw"
+            alt="Una persona contemplando un lago turquesa rodeado de montañas nevadas"
+            width="1200"
+            height="800"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
         <div className="home-nature__copy">
-          <p className="eyebrow">Naturaleza y bienestar</p>
           <h2 id="nature-title">Darte tiempo para estar en la naturaleza.</h2>
           <p>Desde niño pasaba tiempo en parques nacionales como Conguillío, Huerquehue y muchos otros lugares. Después vinieron la alta montaña, la escalada en roca y el aprendizaje de navegar por ríos tranquilos y de aguas bravas. Todo eso me llevó a permanecer semanas inmerso en entornos naturales. Además de mi trabajo como terapeuta, soy guía de rafting y kayakista, y ese vínculo sigue siendo parte importante de mi vida.</p>
           <p>De ahí nace lo que quiero compartir a través de los baños de bosque: detenernos, escuchar, observar y dejar espacio a lo que percibimos. No necesitas conocer el nombre de cada especie para encontrarte con el lugar.</p>

@@ -51,7 +51,6 @@ export const pageMetadata = {
 
 export const homeContent = {
   hero: {
-    eyebrow: 'Un espacio para escuchar, aprender y estar',
     title: 'Cuidar tu salud también es atender cómo te sientes.',
     description: 'Soy Nicolás Zamara, terapeuta en Medicina China Integrativa y profesor de Flores de Bach. En mi consulta integro acupuntura y otras herramientas naturales y complementarias, considerando lo que te ocurre, cómo lo estás viviendo y qué necesitas.',
     additional: 'También comparto este camino a través de la formación y el encuentro con la naturaleza.',
@@ -74,9 +73,9 @@ export const homeContent = {
 }
 
 export const privacyCopy = {
-  status: 'Versión de pruebas: utiliza datos ficticios.',
   sections: [
     { title: 'Finalidad de los registros', body: 'Los datos de cada formulario se usarán únicamente para responder al interés indicado y, si la persona lo autoriza por separado, enviar novedades relacionadas.' },
-    { title: 'Servicios utilizados', body: 'Los formularios se reciben mediante una API en Python alojada en Vercel y se guardan en el proyecto nicolaszamara de Supabase, en São Paulo. Los visitantes no pueden consultar ni modificar registros. Se conserva el interés seleccionado, los datos del formulario y las autorizaciones, con fecha de registro. No se solicita información clínica.' },
+    { title: 'Datos que se guardan', body: 'Se guardan tu nombre, correo electrónico, el interés que indicas y tus autorizaciones, junto con la fecha de registro. Según el formulario, también se recogen tu ciudad o país y, si decides compartirla, tu experiencia previa. No se solicita información clínica.' },
+    { title: 'Almacenamiento', body: 'Los registros se almacenan en Supabase, en São Paulo, y se reciben a través de Vercel. Los visitantes del sitio no pueden consultar ni modificar los registros guardados.' },
   ],
 }

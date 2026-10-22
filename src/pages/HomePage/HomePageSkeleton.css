@@ -1,7 +1,6 @@
 .home-page-skeleton__hero { min-height: 650px; padding-block: 85px 90px; display: grid; grid-template-columns: 1.2fr .8fr; align-items: center; gap: clamp(45px, 8vw, 120px); }
 .home-page-skeleton__copy { display: grid; gap: 24px; }
 .home-page-skeleton__copy span, .home-page-skeleton__section span, .home-page-skeleton__about span, .home-page-skeleton__form span, .home-page-skeleton__nature span { display: block; background: var(--color-surface-strong); animation: home-pulse 1.3s ease-in-out infinite alternate; }
-.home-page-skeleton__eyebrow { width: 210px; max-width: 100%; height: 13px; }
 .home-page-skeleton__title { width: 100%; height: 250px; }
 .home-page-skeleton__text { width: 95%; height: 65px; }
 .home-page-skeleton__action { width: 180px; height: 48px; border-radius: 7px; }
@@ -9,7 +8,7 @@
 .home-page-skeleton__band { min-height: 400px; background: var(--color-navy); opacity: .9; }
 .home-page-skeleton__section { min-height: 650px; padding-block: 90px; display: grid; grid-template-columns: 1.2fr .8fr; gap: 100px; }
 .home-page-skeleton__about { min-height: 380px; padding-block: 65px; }
-.home-page-skeleton__about span { width: 65%; height: 240px; margin-left: auto; }
+.home-page-skeleton__about span { width: min(720px, 100%); height: 240px; margin-inline: auto; }
 .home-page-skeleton__nature { min-height: 650px; padding: 50px; display: grid; grid-template-columns: 1fr 1fr; gap: 50px; background: var(--color-areas); }
 .home-page-skeleton__form { min-height: 700px; max-width: 850px; padding-block: 90px; }
 .home-page-skeleton__form span { height: 520px; }
