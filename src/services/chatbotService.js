@@ -20,7 +20,15 @@ async function chatRequest(payload, { signal } = {}) {
 
 export function sendChatMessage(payload, options) { return chatRequest({ ...payload, operation: 'send' }, options) }
 export const chatbotApi = {
-  session: (options) => chatRequest(null, options),
+  session: async ({ fresh = false, signal } = {}) => {
+    const session = await chatRequest(null, { signal })
+    if (!fresh) return session
+    const refreshed = await chatRequest({ operation: 'refresh', conversation_id: session.state.conversation_id }, { signal })
+    if (refreshed.status === 'conversation_changed') {
+      return chatRequest({ operation: 'refresh', conversation_id: refreshed.state.conversation_id }, { signal })
+    }
+    return refreshed
+  },
   send: sendChatMessage,
   command: (operation, conversationId, options) => chatRequest({ operation, conversation_id: conversationId }, options),
 }

@@ -43,7 +43,7 @@ export function useChatbot(api = chatbotApi) {
     const responseId = result?.request_id || requestId || `restored:${value.state.completed_rounds}:${result?.reply}`
     if (result?.reply && !delivered.current.has(responseId)) {
       setMessages((previous) => [...(changed ? [welcome] : previous), { role: 'assistant', content: result.reply,
-        requestId: result.request_id || requestId, conversationId: value.state.conversation_id }])
+        requestId: result.request_id || requestId, conversationId: value.state.conversation_id, action: result.action }])
       if (restore) setRecovered(true)
       delivered.current.add(responseId)
       if (retry.current?.payload.request_id === result.request_id) { retry.current = null; setDraft('') }
@@ -63,8 +63,8 @@ export function useChatbot(api = chatbotApi) {
     else if (outcome.value.status === 'failed') retry.current = { ...retry.current, fresh: true }
   }
 
-  function loadSession({ restoreMessages = true } = {}) {
-    return remote.run((signal) => api.session({ signal }), (outcome) => {
+  function loadSession({ restoreMessages = true, fresh = false } = {}) {
+    return remote.run((signal) => api.session({ signal, fresh }), (outcome) => {
       setError('')
       settle(outcome, { restore: restoreMessages })
     })

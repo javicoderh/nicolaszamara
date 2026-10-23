@@ -139,8 +139,12 @@ def render_decision(decision, state):
     fixed = decision['response_key'] in ('medical_boundary', 'urgent_attention', 'payment_unverified', 'privacy_info', 'goodbye', 'out_of_scope')
     reply = RESPONSES[decision['response_key']] if fixed else decision.get('reply', RESPONSES[decision['response_key']]).strip()
     action = decision["action"]
+    # Online course inquiries must keep a direct registration path, including
+    # decisions produced with the older interest-form action.
+    if decision['response_key'] == 'online_info':
+        action = 'show_hotmart'
     round_number = state.get("completed_rounds", 0) + 1
-    if round_number >= POLICY["conversion_from_response"] and decision["response_key"] not in (
+    if action != 'show_hotmart' and round_number >= POLICY["conversion_from_response"] and decision["response_key"] not in (
             "medical_boundary", "urgent_attention", "privacy_info", "goodbye", "payment_unverified", "out_of_scope"):
         if topic == "course" and action not in ('show_hotmart', 'start_contact_capture'):
             reply += " " + COPY["local_closure_copy"]["hotmart"]
@@ -181,7 +185,7 @@ def process_chat(payload, visitor=None, store=None, selector=None):
         if not isinstance(payload, dict):
             raise InvalidChatRequest()
         operation = payload.get("operation", "send")
-        if operation not in ("session", "send", "restart", "start_capture", "cancel_capture"):
+        if operation not in ("session", "send", "restart", "refresh", "start_capture", "cancel_capture"):
             raise InvalidChatRequest()
         if operation != "send":
             conversation = uuid_value(payload.get("conversation_id")) if operation != "session" else None

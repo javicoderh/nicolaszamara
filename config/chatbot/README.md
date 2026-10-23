@@ -1,8 +1,8 @@
-# Setter conversacional y cat?logo revisado
+# Setter conversacional y catálogo revisado
 
-Actualizaci?n 23-10-2026: el contrato vigente a?ade `reply` al JSON de decisi?n. La respuesta se redacta usando hechos verificados e historial; el servidor conserva acciones, enlaces, cuotas, consentimiento y textos de l?mites. `/chatbot` permite proponer correcciones, que solo se incorporan tras revisi?n. Ver [flujo de revisi?n](../../docs/APRENDIZAJE_CHATBOT.md).
+Actualización 23-10-2026: el contrato vigente añade `reply` al JSON de decisión. La respuesta se redacta usando hechos verificados e historial; el servidor conserva acciones, enlaces, cuotas, consentimiento y textos de límites. La inscripción al curso presencial u online utiliza `show_hotmart` y muestra un enlace clickeable dentro de la respuesta, desde `siteSettings.courseUrl`. La opción pública de proponer correcciones está retirada; el [flujo de revisión](../../docs/APRENDIZAJE_CHATBOT.md) se conserva como referencia histórica.
 
-El documento que sigue conserva el dise?o inicial del selector de cuatro campos como referencia hist?rica; no describe el renderer conversacional actual.
+El documento que sigue conserva el diseño inicial del selector de cuatro campos como referencia histórica; no describe el renderer conversacional actual.
 
 ---
 

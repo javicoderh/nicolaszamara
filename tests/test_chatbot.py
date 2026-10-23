@@ -82,6 +82,14 @@ class ValidationTests(unittest.TestCase):
 
 @patch.dict(os.environ, ENV)
 class CoordinatorTests(unittest.TestCase):
+    def test_refresh_is_a_server_transition_and_never_invokes_the_provider(self):
+        store, selector = MagicMock(), MagicMock()
+        store.transition.return_value = {'status': 'ready', 'state': state()}
+        code, result = process_chat({'operation': 'refresh', 'conversation_id': CONVERSATION}, VISITOR, store, selector)
+        self.assertEqual(code, 200)
+        store.transition.assert_called_once_with(VISITOR, 'refresh', conversation=CONVERSATION)
+        selector.assert_not_called()
+
     def test_authorizes_before_provider_and_commits_approved_result(self):
         store, selector = MagicMock(), MagicMock(return_value=(DECISION, {'input_tokens': 10}))
         store.transition.side_effect = [{'status': 'new', 'state': state()}, {'status': 'reserved', 'state': state(provider_attempts=1)},

@@ -44,7 +44,7 @@ it('allows a draft during session recovery and waits for recovery plus 800 ms be
   expect(screen.getByRole('link', { name: /ver el curso e inscribirme/i })).toHaveAttribute('target', '_blank')
 })
 
-it('opens with a clean welcome while preserving the existing server conversation', async () => {
+it('requests a fresh conversation and opens without the previous response', async () => {
   const previousReply = 'Para aprender más sobre Flores de Bach, Nicolás ofrece un curso.'
   const api = mockChatApi(sessionResult({ completed_rounds: 2, last_result: { reply: previousReply, request_id: 'previous-request' } }))
   render(<ChatbotPage api={api} />)
@@ -52,6 +52,7 @@ it('opens with a clean welcome while preserving the existing server conversation
   expect(screen.queryByText(previousReply)).not.toBeInTheDocument()
   expect(screen.getByRole('log', { name: 'Conversación' })).toBeEmptyDOMElement()
   expect(screen.getByLabelText('Escribe tu consulta')).toBeEnabled()
+  expect(api.session).toHaveBeenCalledWith(expect.objectContaining({ fresh: true }))
   expect(api.command).not.toHaveBeenCalled()
   expect(api.send).not.toHaveBeenCalled()
 })

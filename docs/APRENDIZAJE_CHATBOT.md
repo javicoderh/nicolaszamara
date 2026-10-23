@@ -1,4 +1,6 @@
-# Correcciones y ejemplos revisados
+# Correcciones y ejemplos revisados (archivo histórico)
+
+**Estado actual:** la opción «Sugerir una mejor respuesta» fue retirada de la interfaz y su endpoint devuelve HTTP 410 sin guardar nuevas propuestas. Los registros y ejemplos históricos se conservan privados. El procedimiento siguiente documenta la implementación anterior.
 
 La página `/chatbot` ofrece **Sugerir una mejor respuesta** debajo de cada respuesta real (no de la bienvenida). Permite completar:
 

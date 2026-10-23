@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen, within } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App, { normalizePath } from './App.jsx'
 import { chatbotApi } from '../services/chatbotService.js'
@@ -15,13 +15,14 @@ describe('App', () => {
     await act(async () => vi.advanceTimersByTimeAsync(1))
     expect(screen.getByRole('heading', { name: '¿En qué podemos ayudarte?' })).toBeInTheDocument()
     expect(screen.getAllByRole('region', { name: 'Asistente de servicios' })).toHaveLength(1)
-    expect(screen.queryByRole('button', { name: /te ayudamos a elegir/i })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /abrir asistente/i })).not.toBeInTheDocument()
     expect(document.title).toBe('Conversemos | Nicolás Zamara')
     session.mockRestore()
   })
-  beforeEach(() => vi.useFakeTimers())
+  beforeEach(() => { vi.useFakeTimers(); vi.spyOn(window, 'scrollTo').mockImplementation(() => {}) })
   afterEach(() => {
     vi.useRealTimers()
+    vi.restoreAllMocks()
     window.history.replaceState({}, '', '/')
   })
 
@@ -37,6 +38,35 @@ describe('App', () => {
   it('quita la barra final en rutas interiores', () => {
     expect(normalizePath('/consulta/')).toBe('/consulta')
     expect(normalizePath('/')).toBe('/')
+  })
+
+  it('preserves the draft across internal routes, the wide view and browser history without refreshing the session', async () => {
+    const session = vi.spyOn(chatbotApi, 'session').mockResolvedValue(sessionResult())
+    render(<App />)
+    expect(document.querySelector('.chatbot-skeleton')).toBeInTheDocument()
+    await act(async () => vi.advanceTimersByTimeAsync(800))
+    fireEvent.click(screen.getByRole('button', { name: /abrir asistente/i }))
+    await act(async () => vi.advanceTimersByTimeAsync(800))
+    fireEvent.change(screen.getByLabelText('Escribe tu consulta'), { target: { value: 'Mi consulta sigue aquí' } })
+    fireEvent.click(within(screen.getByRole('navigation', { name: 'Explorar servicios' })).getByRole('link', { name: 'Terapias' }))
+    expect(window.location.pathname).toBe('/terapias')
+    expect(screen.getByRole('dialog').parentElement).toHaveClass('chatbot--closing')
+    expect(document.querySelector('.chatbot-skeleton')).not.toBeInTheDocument()
+    await act(async () => vi.advanceTimersByTimeAsync(800))
+    expect(document.querySelector('.site-app').closest('[inert]')).toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: /abrir asistente/i }))
+    expect(screen.getByLabelText('Escribe tu consulta')).toHaveValue('Mi consulta sigue aquí')
+    fireEvent.click(screen.getByRole('link', { name: 'Ampliar conversación' }))
+    await act(async () => vi.advanceTimersByTimeAsync(800))
+    expect(window.location.pathname).toBe('/chatbot')
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+    expect(screen.getAllByLabelText('Escribe tu consulta')).toHaveLength(1)
+    expect(screen.getByLabelText('Escribe tu consulta')).toHaveValue('Mi consulta sigue aquí')
+    act(() => { window.history.replaceState({}, '', '/terapias'); window.dispatchEvent(new PopStateEvent('popstate')) })
+    await act(async () => vi.advanceTimersByTimeAsync(800))
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+    expect(screen.getByLabelText('Escribe tu consulta')).toHaveValue('Mi consulta sigue aquí')
+    expect(session).toHaveBeenCalledTimes(1)
   })
 
   it.each(['/', '/consulta', '/terapias', '/cursos', '/privacidad', '/ruta-inexistente'])('presenta %s sin rótulos de sección ni textos de prueba', (path) => {

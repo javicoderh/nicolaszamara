@@ -31,25 +31,12 @@ class LearningTests(unittest.TestCase):
         request.reply = MagicMock()
         return request
 
-    @patch('api.chat_feedback.save_feedback')
-    def test_cross_origin_and_oversized_feedback_never_reaches_storage(self, save):
-        request = self.request()
-        request.headers.replace_header('Origin', 'https://elsewhere.invalid')
-        request.do_POST()
-        self.assertEqual(request.reply.call_args.args[0], 403)
-        request = self.request()
-        request.headers.replace_header('Content-Length', '9000')
-        request.do_POST()
-        self.assertEqual(request.reply.call_args.args[0], 413)
-        save.assert_not_called()
-
-    @patch('api.chat_feedback.visitor_from_cookie', return_value='signed-visitor')
-    @patch('api.chat_feedback.save_feedback', return_value=(201, {'status': 'saved'}))
-    def test_feedback_endpoint_uses_signed_identity_and_confirms_actual_save(self, save, identity):
+    @patch('backend.setter_learning.rpc')
+    def test_retired_feedback_endpoint_does_not_accept_or_store_suggestions(self, rpc):
         request = self.request()
         request.do_POST()
-        save.assert_called_once_with({}, 'signed-visitor')
-        request.reply.assert_called_once_with(201, {'status': 'saved'})
+        request.reply.assert_called_once_with(410, {'status': 'retired'})
+        rpc.assert_not_called()
 
     @patch('backend.setter_learning.rpc', return_value={'status': 'saved'})
     def test_only_explicit_case_is_submitted_and_no_model_is_invoked(self, rpc):
@@ -91,6 +78,24 @@ class LearningTests(unittest.TestCase):
         decision = {'topic': 'therapies', 'response_key': 'medical_boundary', 'action': 'none',
                     'contact_signal': 'none', 'reply': 'Esta frase no debe publicarse.'}
         self.assertEqual(render_decision(decision, {})['reply'], RESPONSES['medical_boundary'])
+
+    def test_both_course_modalities_keep_direct_enrollment_without_contact_gating(self):
+        for topic in ('course', 'online'):
+            for completed in (0, 7, 9):
+                decision = {'topic': topic, 'response_key': 'hotmart_link', 'action': 'show_hotmart',
+                            'contact_signal': 'declined', 'reply': 'Te dejamos el enlace para inscribirte directamente en Hotmart.'}
+                context = trusted_context({'contact_declined': True})
+                result = render_decision(validate_decision(decision, context, require_reply=True),
+                                         {'completed_rounds': completed, 'contact_declined': True})
+                self.assertEqual(result['action'], 'show_hotmart')
+                self.assertNotIn('solicitar que te contactemos', result['reply'])
+
+    def test_legacy_online_interest_decision_is_redirected_to_registration(self):
+        decision = {'topic': 'online', 'response_key': 'online_info', 'action': 'show_online_interest',
+                    'contact_signal': 'none', 'reply': 'Te dejamos el enlace de inscripción de nuestro curso online.'}
+        result = render_decision(validate_decision(decision, trusted_context({}), require_reply=True), {'completed_rounds': 9})
+        self.assertEqual(result['action'], 'show_hotmart')
+        self.assertNotIn('contactemos', result['reply'])
 
     def test_educational_flower_associations_are_available_to_the_provider(self):
         facts = {fact['id']: fact for fact in trusted_context({})['approved_facts']}

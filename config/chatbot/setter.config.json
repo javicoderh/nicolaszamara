@@ -1,5 +1,5 @@
 {
-  "version": "setter-v2-conversational-2026-10-23",
+  "version": "setter-v3-direct-enrollment-2026-10-23",
   "status": "implemented_requires_server_configuration",
   "active": true,
   "purpose": "Setter conversacional con informaci?n verificada, ejemplos revisados y acciones controladas por el servidor.",
@@ -166,6 +166,7 @@
         "online"
       ],
       "actions": [
+        "show_hotmart",
         "show_online_interest"
       ]
     },
@@ -179,7 +180,8 @@
     },
     "hotmart_link": {
       "topics": [
-        "course"
+        "course",
+        "online"
       ],
       "actions": [
         "show_hotmart"
@@ -304,7 +306,8 @@
     },
     "course_conditions": {
       "topics": [
-        "course"
+        "course",
+        "online"
       ],
       "actions": [
         "show_hotmart"

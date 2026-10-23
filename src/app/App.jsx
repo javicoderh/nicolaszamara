@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { SiteContentProvider, useSiteContent } from '../contexts/SiteContentContext/SiteContentContext.jsx'
+import { ChatbotProvider } from '../contexts/ChatbotContext/ChatbotContext.jsx'
+import { useSiteNavigation } from '../hooks/useSiteNavigation/useSiteNavigation.js'
 import { pageMetadata } from '../content/siteContent.js'
 import { usePageDelay } from '../hooks/usePageDelay/usePageDelay.js'
 import SiteHeader from '../components/SiteHeader/SiteHeader.jsx'
@@ -32,6 +35,7 @@ const routes = {
   '/cursos': { Page: CoursesPage, Skeleton: CoursesPageSkeleton },
   '/privacidad': { Page: PrivacyPage, Skeleton: PrivacyPageSkeleton },
 }
+const routePaths = Object.keys(routes)
 
 export function normalizePath(pathname) {
   if (pathname.length > 1) return pathname.replace(/\/+$/, '') || '/'
@@ -58,24 +62,21 @@ function updateMetadata(path) {
 
 function AppContent() {
   const content = useSiteContent()
-  const [path, setPath] = useState(() => normalizePath(window.location.pathname))
+  const location = useSiteNavigation(routePaths)
+  const path = normalizePath(location.pathname)
   const route = routes[path] || { Page: NotFoundPage, Skeleton: NotFoundPageSkeleton }
   const ready = usePageDelay(path)
-
-  useEffect(() => {
-    const handlePopState = () => setPath(normalizePath(window.location.pathname))
-    window.addEventListener('popstate', handlePopState)
-    return () => window.removeEventListener('popstate', handlePopState)
-  }, [])
+  const assistantReady = usePageDelay('global-assistant')
 
   useEffect(() => {
     updateMetadata(path)
-    if (!ready || !window.location.hash) return
+    if (!ready) return
     const frame = window.requestAnimationFrame(() => {
-      document.getElementById(decodeURIComponent(window.location.hash.slice(1)))?.scrollIntoView()
+      if (!location.hash) { window.scrollTo({ top: 0, behavior: 'instant' }); return }
+      try { document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView() } catch { /* Invalid URL escape: keep the page usable. */ }
     })
     return () => window.cancelAnimationFrame(frame)
-  }, [path, ready])
+  }, [path, location.hash, ready])
 
   const { Page, Skeleton } = route
   return (
@@ -84,11 +85,11 @@ function AppContent() {
       {ready ? <SiteHeader /> : <SiteHeaderSkeleton />}
       {ready ? <Page /> : <Skeleton />}
       {ready ? <SiteFooter /> : <SiteFooterSkeleton />}
-      {path !== '/chatbot' && (ready ? <Chatbot /> : <ChatbotSkeleton />)}
+      {assistantReady ? <Chatbot hidden={path === '/chatbot'} /> : path !== '/chatbot' && createPortal(<ChatbotSkeleton />, document.body)}
     </div>
   )
 }
 
 export default function App() {
-  return <SiteContentProvider><AppContent /></SiteContentProvider>
+  return <SiteContentProvider><ChatbotProvider><AppContent /></ChatbotProvider></SiteContentProvider>
 }

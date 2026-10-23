@@ -1,4 +1,5 @@
-.chatbot-skeleton { position: fixed; z-index: 19; right: max(20px, calc((100vw - 1100px) / 2)); bottom: 20px; width: 220px; height: 50px; border-radius: 28px; background: linear-gradient(100deg, #d6d9d3 25%, #ecece8 45%, #d6d9d3 65%); background-size: 200% 100%; animation: chatbot-shimmer 1.2s linear infinite; }
-.chatbot-skeleton span { display: block; width: 72%; height: 10px; margin: 20px auto; border-radius: 8px; background: rgb(255 255 255 / 55%); }
+.chatbot-skeleton { position: fixed; z-index: 40; right: max(24px, env(safe-area-inset-right)); bottom: max(24px, env(safe-area-inset-bottom)); width: 60px; height: 60px; border: 1px solid #9ab7a3; border-radius: 22px 22px 8px 22px; background: linear-gradient(100deg, #bbc8bc 25%, #e6e9df 45%, #bbc8bc 65%); background-size: 200% 100%; animation: chatbot-shimmer 1.2s linear infinite; }
+.chatbot-skeleton span { display: block; width: 24px; height: 20px; margin: 19px auto; border: 1px solid #93ac98; border-radius: 4px; background: rgb(255 255 255 / 35%); }
 @keyframes chatbot-shimmer { to { background-position-x: -200%; } }
+@media (max-width: 600px) { .chatbot-skeleton { right: max(12px, env(safe-area-inset-right)); bottom: max(12px, env(safe-area-inset-bottom)); width: 56px; height: 56px; } .chatbot-skeleton span { margin-top: 17px; } }
 @media (prefers-reduced-motion: reduce) { .chatbot-skeleton { animation: none; } }

@@ -12,6 +12,20 @@ async function loaded(api) {
   return hook
 }
 describe('useChatbot', () => {
+  it('clears the old topic, contact flow and draft when a fresh server session replaces it', async () => {
+    const api = mockChatApi(sessionResult({ completed_rounds: 2, topic: 'online', capturing: true,
+      last_result: { reply: 'Orientación anterior' } }))
+    const { result } = await loaded(api)
+    act(() => result.current.setDraft('Borrador anterior'))
+    api.session.mockResolvedValue(sessionResult({ conversation_id: '22222222-2222-4222-8222-222222222222' }))
+    act(() => result.current.loadSession({ fresh: true, restoreMessages: false }))
+    await reveal()
+    expect(api.session).toHaveBeenLastCalledWith(expect.objectContaining({ fresh: true }))
+    expect(result.current.session.state).toMatchObject({ completed_rounds: 0, topic: 'unknown', capturing: false })
+    expect(result.current.messages).toHaveLength(1)
+    expect(result.current.draft).toBe('')
+    expect(result.current.recovered).toBe(false)
+  })
   it('restores server state and last approved response without a provider call', async () => {
     const api = mockChatApi(sessionResult({ completed_rounds: 9, last_result: { reply: 'Última orientación' } }))
     const { result } = await loaded(api)
@@ -29,6 +43,7 @@ describe('useChatbot', () => {
     expect(result.current.messages.at(-1)).toMatchObject({
       requestId: api.send.mock.calls[0][0].request_id,
       conversationId: result.current.session.state.conversation_id,
+      action: 'show_hotmart',
     })
   })
   it('reuses the request ID after an uncertain transport failure', async () => {
