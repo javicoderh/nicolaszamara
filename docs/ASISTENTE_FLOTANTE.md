@@ -6,6 +6,8 @@ El asistente se monta una vez en `App`, fuera de las cargas de cada ruta. Usa un
 
 El botón aparece cerrado tras los 800 ms de carga inicial y no solicita sesión hasta abrirlo. Las peticiones mantienen su espera real más 800 ms. Cambiar de ruta, minimizar o ampliar no solicita otra renovación ni cancela una respuesta pendiente. La lógica de presupuesto, contacto y enlaces de Hotmart permanece en los servicios existentes.
 
+Al inicio de cada página solo se ve el icono del botón. La etiqueta «Conversemos» tiene opacidad 0 y aparece suavemente después de bajar más de 64 px; vuelve a ocultarse al regresar arriba. La etiqueta oculta no intercepta clics sobre la fotografía y el icono mantiene su nombre accesible y su funcionamiento.
+
 La estética combina la tipografía y paleta de la web con bordes geométricos, líneas verde salvia y un brillo discreto. El panel ocupa la altura visible y se adapta a `visualViewport` cuando aparece el teclado, con `100dvh` como respaldo. No abre el teclado automáticamente. No muestra barras de desplazamiento; la conversación, los enlaces y el formulario conservan su scroll táctil, con rueda y teclado.
 
 El modal entra desde la derecha con fade in y sale con fade out durante 240 ms. La salida mantiene el panel montado y el fondo bloqueado hasta terminar. Escape, el botón de cierre y un clic en el fondo cierran sin borrar la conversación. El foco queda contenido en el modal y vuelve al botón al cerrarlo; se restauran los estilos de scroll y el estado `inert` anteriores. La preferencia de movimiento reducido elimina las animaciones y la espera de cierre. Estos tiempos son de transición visual, independientes de los 800 ms de carga de datos.

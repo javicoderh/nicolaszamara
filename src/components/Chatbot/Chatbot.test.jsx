@@ -10,6 +10,32 @@ beforeEach(() => { vi.useFakeTimers(); vi.stubGlobal('fetch', vi.fn().mockResolv
 afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals() })
 
 describe('Chatbot', () => {
+  it('keeps only the icon available at the top and reveals the invitation after scrolling down', () => {
+    vi.stubGlobal('scrollY', 0)
+    const api = mockChatApi()
+    render(<Chatbot api={api} />)
+    const launcher = screen.getByRole('button', { name: /abrir asistente/i })
+    const invitation = launcher.querySelector('.chatbot__invitation')
+    expect(launcher).toBeEnabled()
+    expect(invitation).toHaveAttribute('aria-hidden', 'true')
+    expect(invitation).not.toHaveClass('chatbot__invitation--visible')
+    vi.stubGlobal('scrollY', 120)
+    fireEvent.scroll(window)
+    expect(invitation).toHaveAttribute('aria-hidden', 'false')
+    expect(invitation).toHaveClass('chatbot__invitation--visible')
+    vi.stubGlobal('scrollY', 0)
+    fireEvent.scroll(window)
+    expect(invitation).toHaveAttribute('aria-hidden', 'true')
+    expect(invitation).not.toHaveClass('chatbot__invitation--visible')
+    expect(api.session).not.toHaveBeenCalled()
+    open()
+    expect(screen.getByRole('dialog')).toBeInTheDocument()
+  })
+  it('shows the invitation when the browser restores a scrolled position', () => {
+    vi.stubGlobal('scrollY', 300)
+    render(<Chatbot api={mockChatApi()} />)
+    expect(screen.getByRole('button', { name: /abrir asistente/i }).querySelector('.chatbot__invitation')).toHaveClass('chatbot__invitation--visible')
+  })
   it('uses a body portal, stays closed initially and restores focus and draft when minimized', async () => {
     const api = mockChatApi()
     const { container } = render(<Chatbot api={api} />)

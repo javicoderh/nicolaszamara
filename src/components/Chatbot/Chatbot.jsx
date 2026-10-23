@@ -4,6 +4,7 @@ import { ChatbotProvider, useChatbotContext } from '../../contexts/ChatbotContex
 import { useChatbotViewport } from '../../hooks/useChatbotViewport/useChatbotViewport.js'
 import { useChatbotModal } from '../../hooks/useChatbotModal/useChatbotModal.js'
 import { MODAL_FADE_MS, useModalPresence } from '../../hooks/useModalPresence/useModalPresence.js'
+import { useScrollThreshold } from '../../hooks/useScrollThreshold/useScrollThreshold.js'
 import { siteSettings } from '../../content/siteContent.js'
 import { trackHotmartClick } from '../../services/hotmartTrackingService.js'
 import ChatContactForm from '../ChatContactForm/ChatContactForm.jsx'
@@ -29,6 +30,7 @@ function ChatbotView({ submitContact, embedded = false, hidden = false, chat, op
   const shellRef = useRef(null)
   const panelRef = useRef(null)
   const launcherRef = useRef(null)
+  const showInvitation = useScrollThreshold(64, !hidden && !embedded)
   const motion = useModalPresence(open, !hidden && !embedded)
   const visible = !hidden && (embedded || motion.present)
   const state = chat.session?.state
@@ -116,7 +118,7 @@ function ChatbotView({ submitContact, embedded = false, hidden = false, chat, op
       <p className="chatbot__notice">El mensaje se envía a OpenAI. No incluyas datos personales sensibles ni información clínica. Los datos del formulario de contacto se envían por separado. <a href="/privacidad">Privacidad</a></p>
     </section>}
     {!embedded && <button ref={launcherRef} hidden={motion.present} className="chatbot__launcher" type="button" aria-label="Abrir asistente: ¿en qué podemos ayudarte?" aria-expanded={open} aria-controls={open || chat.session ? 'chatbot-panel' : undefined} onClick={toggle}>
-      {!open && <span className="chatbot__invitation"><span>Conversemos</span>¿En qué podemos ayudarte?</span>}
+      {!open && <span className={`chatbot__invitation${showInvitation ? ' chatbot__invitation--visible' : ''}`} aria-hidden={!showInvitation}><span>Conversemos</span>¿En qué podemos ayudarte?</span>}
       <span className="chatbot__launcher-orb" aria-hidden="true"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">{open ? <path d="m10 13 6 6 6-6" /> : <><path d="M7 7h18v14H15l-6 5v-5H7Z" /><path d="M12 12h8m-8 4h5" /></>}</svg><span className="chatbot__signal" /></span>
     </button>}
   </div>
