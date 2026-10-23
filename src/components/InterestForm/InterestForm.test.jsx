@@ -6,6 +6,8 @@ import InterestFormSkeleton from './InterestFormSkeleton.jsx'
 function fillForm(kind = 'nature') {
   fireEvent.change(screen.getByLabelText(/^nombre/i), { target: { value: 'Ana' } })
   fireEvent.change(screen.getByLabelText(/correo electrónico/i), { target: { value: 'ana@example.com' } })
+  fireEvent.change(screen.getByLabelText(/teléfono con prefijo/i), { target: { value: '+56912345678' } })
+  fireEvent.click(screen.getByRole('radio', { name: 'WhatsApp' }))
   fireEvent.change(screen.getByLabelText(kind === 'nature' ? /ciudad/i : /país/i), { target: { value: 'Chile' } })
   fireEvent.click(screen.getByRole('checkbox', { name: /autorizo el uso/i }))
 }
@@ -43,11 +45,13 @@ describe('InterestForm', () => {
     await act(async () => { await vi.advanceTimersByTimeAsync(799) })
     expect(screen.getByRole('status')).toHaveTextContent('Estamos guardando')
     await act(async () => { await vi.advanceTimersByTimeAsync(1) })
-    expect(screen.getByRole('status')).toHaveTextContent(kind === 'online' ? 'Gracias por tu interés. Te avisaré cuando se abra una edición online.' : 'Gracias por tu interés. Te avisaré cuando se confirme un encuentro.')
-    expect(service).toHaveBeenCalledWith({ interest: kind, values: kind === 'online' ? { name: 'Ana', email: 'ana@example.com', country: 'Chile', experience: '' } : { name: 'Ana', email: 'ana@example.com', city: 'Chile' }, privacyConsent: true, updatesConsent: false, website: '' }, { signal: expect.any(AbortSignal) })
+    expect(screen.getByRole('status')).toHaveTextContent(kind === 'online' ? 'Gracias por tu interés. Te contactaré con información sobre el curso online.' : 'Gracias por tu interés. Te avisaré cuando se confirme un encuentro.')
+    expect(service).toHaveBeenCalledWith({ interest: kind, values: kind === 'online' ? { name: 'Ana', email: 'ana@example.com', phone: '+56912345678', contactPreference: 'whatsapp', country: 'Chile', experience: '' } : { name: 'Ana', email: 'ana@example.com', phone: '+56912345678', contactPreference: 'whatsapp', city: 'Chile' }, privacyConsent: true, updatesConsent: false, website: '' }, { signal: expect.any(AbortSignal) })
     fireEvent.click(screen.getByRole('button', { name: 'Registrar otro interés' }))
     expect(screen.getByLabelText(/^nombre/i)).toHaveValue('')
     expect(screen.getByRole('checkbox', { name: /autorizo/i })).not.toBeChecked()
+    expect(screen.getByLabelText(/teléfono con prefijo/i)).toHaveValue('')
+    expect(screen.getAllByRole('radio').every((radio) => !radio.checked)).toBe(true)
   })
 
   it('evita envíos simultáneos y diferencia límites de frecuencia', async () => {
@@ -65,5 +69,19 @@ describe('InterestForm', () => {
   it('ofrece un skeleton propio', () => {
     const { container } = render(<InterestFormSkeleton />)
     expect(container.firstChild).toHaveClass('interest-form-skeleton')
+  })
+  it.each(['nature', 'online'])('exige teléfono y preferencia en %s aunque el resto del formulario esté completo', (kind) => {
+    const service = vi.fn()
+    render(<InterestForm kind={kind} submitInterest={service} />)
+    fillForm(kind)
+    const form = screen.getByRole('button', { name: 'Registrar mi interés' }).closest('form')
+    const phone = screen.getByLabelText(/teléfono con prefijo/i)
+    fireEvent.change(phone, { target: { value: '' } })
+    fireEvent.submit(form)
+    expect(service).not.toHaveBeenCalled()
+    fireEvent.change(phone, { target: { value: '+56912345678' } })
+    screen.getAllByRole('radio').forEach((radio) => { radio.checked = false })
+    fireEvent.submit(form)
+    expect(service).not.toHaveBeenCalled()
   })
 })

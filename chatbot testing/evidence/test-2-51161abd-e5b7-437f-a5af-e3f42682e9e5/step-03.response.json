@@ -1,0 +1,88 @@
+{
+  "http_status": 200,
+  "body": {
+    "state": {
+      "busy": false,
+      "topic": "online",
+      "action": "show_online_interest",
+      "closed": false,
+      "can_send": true,
+      "capturing": false,
+      "restart_at": null,
+      "last_result": {
+        "stop": false,
+        "reply": "Puedes registrar tu interés para recibir información cuando se abra una edición online. La web todavía no confirma su apertura.",
+        "topic": "online",
+        "action": "show_online_interest",
+        "version": "setter-v1-2026-10-23",
+        "request_id": "c2dae113-9ac2-4b36-9fb4-2d2ccb251897",
+        "response_key": "online_info",
+        "contact_signal": "none",
+        "contact_declined": false
+      },
+      "conversation_id": "c6cb9e59-a7b8-413d-adb4-6b50709217cb",
+      "completed_rounds": 3,
+      "contact_declined": false,
+      "provider_attempts": 3,
+      "daily_completed_rounds": 3,
+      "daily_new_conversations": 1,
+      "daily_provider_attempts": 3
+    },
+    "result": {
+      "stop": false,
+      "reply": "Puedes registrar tu interés para recibir información cuando se abra una edición online. La web todavía no confirma su apertura.",
+      "topic": "online",
+      "action": "show_online_interest",
+      "version": "setter-v1-2026-10-23",
+      "request_id": "c2dae113-9ac2-4b36-9fb4-2d2ccb251897",
+      "response_key": "online_info",
+      "contact_signal": "none",
+      "contact_declined": false
+    },
+    "status": "completed",
+    "policy": {
+      "max_completed_rounds": 10,
+      "conversion_from_response": 8,
+      "max_provider_attempts_per_conversation": 12,
+      "max_completed_rounds_per_visitor_day": 30,
+      "max_provider_attempts_per_visitor_day": 36,
+      "max_new_conversations_per_visitor_day": 3,
+      "cooldown_minutes_after_close": 30,
+      "daily_timezone": "America/Santiago",
+      "max_context_messages": 12,
+      "max_user_message_characters": 1000,
+      "reveal_delay_ms": 800,
+      "contact_capture_consumes_model_round": false,
+      "final_actions_available_after_close": true,
+      "automatic_provider_retry": false
+    },
+    "provider_enabled": true,
+    "testing_configuration": {
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high",
+      "max_output_tokens": 25000
+    },
+    "testing_usage": {
+      "model": "gpt-6-luna",
+      "policy_version": "setter-v1-2026-10-23",
+      "reasoning_effort": "high",
+      "max_output_tokens": 25000,
+      "input_tokens": 2700,
+      "output_tokens": 81,
+      "total_tokens": 2781,
+      "input_tokens_details": {
+        "cache_write_tokens": 52,
+        "cached_tokens": 2645
+      },
+      "output_tokens_details": {
+        "reasoning_tokens": 46
+      },
+      "response_id": "resp_0447dc924f24e8c0016adba0607c6487d28461a23981b2b601",
+      "actual_model": "gpt-6-luna",
+      "service_tier": "default",
+      "response_status": "completed",
+      "estimated_micro_usd": 311
+    }
+  },
+  "duration_ms": 12048.74
+}

@@ -1,0 +1,8 @@
+{
+  "privacy_version": "2026-10-23-contact-v3",
+  "preferences": [
+    { "value": "video_call", "label": "Videollamada" },
+    { "value": "phone", "label": "Teléfono" },
+    { "value": "whatsapp", "label": "WhatsApp" }
+  ]
+}

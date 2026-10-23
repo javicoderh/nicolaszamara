@@ -1,0 +1,4 @@
+.chatbot-skeleton { position: fixed; z-index: 19; right: max(20px, calc((100vw - 1100px) / 2)); bottom: 20px; width: 220px; height: 50px; border-radius: 28px; background: linear-gradient(100deg, #d6d9d3 25%, #ecece8 45%, #d6d9d3 65%); background-size: 200% 100%; animation: chatbot-shimmer 1.2s linear infinite; }
+.chatbot-skeleton span { display: block; width: 72%; height: 10px; margin: 20px auto; border-radius: 8px; background: rgb(255 255 255 / 55%); }
+@keyframes chatbot-shimmer { to { background-position-x: -200%; } }
+@media (prefers-reduced-motion: reduce) { .chatbot-skeleton { animation: none; } }

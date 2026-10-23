@@ -1,0 +1,2 @@
+.contact-preference-skeleton { display: grid; grid-template-columns: repeat(3, 1fr); gap: 9px; }
+.contact-preference-skeleton span { min-height: 80px; border-radius: 8px; background: var(--color-surface-strong); }

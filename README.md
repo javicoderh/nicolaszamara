@@ -21,13 +21,27 @@ npm install
 npm run dev
 ```
 
-Para guardar formularios durante el desarrollo local, ejecuta en otra terminal (Python 3.12 o superior):
+Para guardar formularios y usar el setter durante el desarrollo local, crea un entorno con Python 3.12 o superior e instala la dependencia de zonas horarias:
 
 ```sh
-python -m backend.dev_server
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\python -m backend.dev_server
 ```
 
-Vite envía `/api` al servidor local en el puerto 3001. En Vercel, `api/interests.py` se publica como función Python y las rutas del frontend conservan su recarga directa. No hay dependencias Python externas.
+Vite envía `/api` al servidor local en el puerto 3001. En Vercel, las rutas `api/interests.py` y `api/chat.py` se publican como funciones Python y las rutas del frontend conservan su recarga directa. `requirements.txt` fija los datos de zonas horarias usados por el setter.
+
+## Asistente de servicios
+
+El setter orienta sobre consulta, terapias, cursos y naturaleza. OpenAI elige `topic`, `response_key`, `action` y `contact_signal`; el servidor valida la combinación y entrega textos de `config/chatbot/responses.es.json`. El modelo no escribe URLs ni registra contactos. RAG no está implementado.
+
+La bienvenida es local. El servidor limita cada conversación a 10 respuestas y 12 intentos, y cada visitante a 30 respuestas, 36 intentos y tres conversaciones nuevas por día de Santiago. Aplica una pausa de 30 minutos tras cerrar. Una cookie firmada `HttpOnly` identifica el navegador. Supabase autoriza atómicamente las reservas y el presupuesto; los reintentos recuperan resultados mediante `request_id`. La captura independiente permite elegir teléfono, WhatsApp o correo, revisar y autorizar, y guardar en el pipeline existente `/api/interests`. Hotmart usa `siteSettings.courseUrl`.
+
+Configura las variables de `.env.example` en el proceso Python o en Vercel: clave OpenAI, clave secreta de Supabase, secreto de cookie y presupuesto/tarifas explícitos. No uses prefijos `VITE_`. `OPENAI_MODEL` conserva `gpt-4.1-mini` por defecto. El servidor local carga únicamente las variables de servidor admitidas desde `.env.local` y `.env`, sin sobrescribir las del proceso; en Vercel se usan las variables del proyecto. Sin clave de OpenAI, la captura y los enlaces siguen disponibles si identidad y almacenamiento están configurados. Sin almacenamiento autorizado, no hay nuevas llamadas al modelo.
+
+Todos los nuevos intereses requieren teléfono internacional y una preferencia explícita entre videollamada, teléfono y mail. Los formularios de naturaleza y cursos online mantienen el correo obligatorio. El selector usa íconos con radios y tooltips al pasar el mouse o enfocar con teclado. Ver [el contrato de contacto](docs/CONTACTO_INTERESES.md).
+
+No guardamos texto libre ni historial en Supabase: solo cuotas, huellas HMAC, tokens y respuestas aprobadas. Los contactos autorizados se guardan separadamente en `interest_registrations`. Revisa [la implementación, activación y límites de las pruebas](docs/IMPLEMENTACION_SETTER.md) antes del despliegue público. Falta aprobar y operar la retención; no se activó borrado automático.
 
 ## Pruebas unitarias con Vitest y React Testing Library
 
@@ -49,7 +63,7 @@ npm run test:watch
 Las pruebas unitarias cubren páginas, componentes, skeletons, formularios, contexto, servicios y temporizadores. El backend incluye validación, persistencia y manejo HTTP con servicios simulados:
 
 ```sh
-python -m unittest discover -s tests -v
+.venv\Scripts\python -m unittest discover -s tests -v
 ```
 
 ## Metadatos y prerenderizado

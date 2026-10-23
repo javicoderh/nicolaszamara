@@ -4,8 +4,9 @@
   "outputDirectory": "dist",
   "functions": {
     "api/**/*.py": {
-      "maxDuration": 30,
-      "excludeFiles": "{node_modules/**,dist/**,src/**,tests/**,docs/**,database/**,*.docx,.vercel/**,.env*}"
+      "maxDuration": 45,
+      "includeFiles": "config/**",
+      "excludeFiles": "{node_modules/**,dist/**,src/**,tests/**,docs/**,database/**,*.docx,.vercel/**,.venv/**,.env*}"
     }
   },
   "rewrites": [

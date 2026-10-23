@@ -1,0 +1,51 @@
+{
+  "version": "setter-v1-2026-10-23",
+  "review_status": "draft_copy_requires_business_review",
+  "model_response_templates": {
+    "greeting": "Cuéntanos, ¿en qué podemos ayudarte? Podemos orientarte sobre nuestras consultas, terapias, cursos y actividades en la naturaleza.",
+    "acknowledgment": "Con gusto. Puedes continuar con la información y las opciones disponibles aquí.",
+    "consultation_info": "En nuestra primera consulta conversamos sobre tu motivo de atención y realizamos una evaluación individual. Puedes conocer nuestra forma de trabajo en la página de consulta.",
+    "therapies_info": "Ofrecemos acupuntura, moxibustión, ventosaterapia, tuina, Flores de Bach, medicina bioenergética, iridología y meditación y mindfulness.",
+    "course_info": "En nuestro curso Flores de Bach para la vida cotidiana trabajamos con ejemplos cotidianos y práctica guiada. Si quieres inscribirte, podemos mostrarte el enlace.",
+    "online_info": "Puedes dejarnos tu interés para recibir información sobre nuestro curso online.",
+    "nature_info": "Puedes dejarnos tu interés para que te compartamos información sobre nuestros encuentros en la naturaleza. El registro no confirma una reserva.",
+    "hotmart_link": "Aquí tienes el enlace para conocer el curso actual y continuar con la inscripción en Hotmart.",
+    "contact_offer": "¿Quieres que te contactemos para conversar sobre el servicio que te interesa?",
+    "contact_declined": "Entendido. Puedes seguir revisando la información del sitio y las opciones disponibles.",
+    "clarify_service": "¿Te interesa una consulta o terapia, nuestro curso de Flores de Bach, el curso online o nuestras actividades en la naturaleza?",
+    "clarify_intent": "¿Prefieres conocer más del servicio o que te contactemos para conversar?",
+    "details_unconfirmed": "Todavía no tenemos ese dato confirmado aquí. ¿Quieres que te contactemos para revisarlo antes de decidir?",
+    "medical_boundary": "Podemos explicarte el método de Bach. Para elegir una fórmula, dosis o tratamiento para tu situación, necesitamos una evaluación individual con un profesional.",
+    "urgent_attention": "Si estás en una urgencia o hay un riesgo inmediato, contacta los servicios de emergencia de tu zona y busca ayuda presencial.",
+    "payment_unverified": "Desde este chat no podemos verificar pagos ni confirmar una inscripción. Revisa la confirmación de Hotmart y sus canales de ayuda.",
+    "out_of_scope": "Podemos orientarte sobre nuestras consultas, terapias, cursos y actividades en la naturaleza.",
+    "goodbye": "Gracias por conversar. Aquí quedan disponibles los enlaces para continuar cuando lo necesites.",
+    "privacy_info": "La solicitud de contacto usa los datos que autorices para responder al interés indicado. La autorización para novedades es independiente y opcional. Puedes revisar la información de privacidad.",
+    "course_conditions": "Puedes revisar el precio y las condiciones vigentes del curso actual en su página de inscripción en Hotmart."
+  },
+  "local_contact_copy": {
+    "invitation": "¿Quieres que te contactemos para conversar sobre este servicio?",
+    "choose_service": "¿Sobre qué servicio te gustaría que te contacten?",
+    "choose_channel": "¿Prefieres videollamada, teléfono o mail?",
+    "name": "¿Cómo te llamas?",
+    "phone": "Indica el número al que pueden contactarte, con prefijo internacional.",
+    "email": "Indica el correo al que pueden contactarte.",
+    "review": "Revisa el servicio, tu nombre, teléfono, correo y preferencia de contacto. Puedes corregirlos antes de enviar.",
+    "contact_consent": "Autorizo que el equipo de Nicolás Zamara use estos datos para contactarme por el servicio indicado, según la información de privacidad.",
+    "updates_consent": "También quiero recibir novedades relacionadas (opcional).",
+    "submit": "Solicitar contacto",
+    "saving": "Estamos guardando tu solicitud de contacto…",
+    "saved": "Recibimos tu solicitud. Te contactaremos por el canal que elegiste.",
+    "unavailable": "No pudimos confirmar el registro. Conservamos los campos para que puedas reintentar.",
+    "rate_limited": "Recibimos varios intentos. Espera un momento antes de reintentar.",
+    "cancelled": "Entendido. Puedes continuar con la información del sitio."
+  },
+  "local_closure_copy": {
+    "contact": "Si quieres conversar con nosotros, puedes solicitar que te contactemos por el canal que prefieras.",
+    "hotmart": "Si quieres inscribirte al curso actual, puedes continuar directamente en Hotmart.",
+    "closed": "Podemos seguir en contacto a través del formulario. También puedes explorar nuestros servicios.",
+    "contact_link_label": "Solicitar que me contacten",
+    "hotmart_link_label": "Ver el curso e inscribirme",
+    "new_tab_notice": "Abre en una pestaña nueva"
+  }
+}

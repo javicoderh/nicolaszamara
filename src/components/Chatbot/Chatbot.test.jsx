@@ -1,0 +1,97 @@
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import Chatbot from './Chatbot.jsx'
+import { mockChatApi, sessionResult } from '../../test/chatbotFixtures.js'
+
+async function reveal() { await act(async () => vi.advanceTimersByTimeAsync(800)) }
+function open() { fireEvent.click(screen.getByRole('button', { name: /te ayudamos a elegir un servicio/i })) }
+beforeEach(() => { vi.useFakeTimers(); vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true })) })
+afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals() })
+
+describe('Chatbot', () => {
+  it('opens with navigation, privacy and an immediate skeleton during session recovery', async () => {
+    const api = mockChatApi()
+    render(<Chatbot api={api} />)
+    open()
+    expect(screen.getByRole('status', { name: 'Preparando orientación' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Consulta' })).toHaveAttribute('href', '/consulta')
+    expect(screen.getByText(/el mensaje se envía a OpenAI/i)).toBeInTheDocument()
+    await reveal()
+    expect(screen.getByLabelText('Escribe tu consulta')).toBeEnabled()
+    expect(api.send).not.toHaveBeenCalled()
+  })
+  it('shows a response only after request completion plus 800 ms and exposes Hotmart', async () => {
+    const api = mockChatApi()
+    let resolve
+    api.send.mockImplementation(() => new Promise((done) => { resolve = done }))
+    render(<Chatbot api={api} />)
+    open(); await reveal()
+    fireEvent.click(screen.getByRole('button', { name: 'Busco información sobre cursos' }))
+    await act(async () => vi.advanceTimersByTimeAsync(5000))
+    expect(screen.queryByText('Respuesta del curso')).not.toBeInTheDocument()
+    await act(async () => resolve(sessionResult({ topic: 'course', completed_rounds: 1 }, { status: 'completed', result: { reply: 'Respuesta del curso', topic: 'course', action: 'show_hotmart' } })))
+    await act(async () => vi.advanceTimersByTimeAsync(799))
+    expect(screen.queryByText('Respuesta del curso')).not.toBeInTheDocument()
+    await act(async () => vi.advanceTimersByTimeAsync(1))
+    expect(screen.getByText('Respuesta del curso')).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /ver el curso e inscribirme/i })).toHaveAttribute('target', '_blank')
+  })
+  it('keeps contact and links available after round ten and sends no more messages', async () => {
+    const api = mockChatApi(sessionResult({ completed_rounds: 10, closed: true, can_send: false, topic: 'course' }))
+    render(<Chatbot api={api} />)
+    open(); await reveal()
+    expect(screen.queryByLabelText('Escribe tu consulta')).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: 'Solicitar que me contacten' })).toBeEnabled()
+    expect(screen.getByRole('link', { name: /ver el curso e inscribirme/i })).toBeInTheDocument()
+    expect(api.send).not.toHaveBeenCalled()
+  })
+  it('shows the contact form without invoking the model when no model key exists', async () => {
+    const initial = sessionResult({}, { provider_enabled: false })
+    const api = mockChatApi(initial)
+    api.command.mockResolvedValue(sessionResult({ capturing: true, can_send: false }, { provider_enabled: false }))
+    render(<Chatbot api={api} />)
+    open(); await reveal()
+    fireEvent.click(screen.getByRole('button', { name: 'Solicitar que me contacten' }))
+    await reveal()
+    expect(screen.getByRole('form', { name: 'Solicitud de contacto' })).toBeInTheDocument()
+    expect(screen.queryByLabelText('Escribe tu consulta')).not.toBeInTheDocument()
+    expect(api.send).not.toHaveBeenCalled()
+  })
+  it('delays errors and retains the draft', async () => {
+    const api = mockChatApi()
+    api.send.mockRejectedValue(new Error('not_configured'))
+    render(<Chatbot api={api} />)
+    open(); await reveal()
+    fireEvent.change(screen.getByLabelText('Escribe tu consulta'), { target: { value: 'Busco un curso' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Enviar' }))
+    await act(async () => vi.advanceTimersByTimeAsync(799))
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument()
+    await act(async () => vi.advanceTimersByTimeAsync(1))
+    expect(screen.getByRole('alert')).toHaveTextContent(/todavía no está configurado/i)
+    expect(screen.getByLabelText('Escribe tu consulta')).toHaveValue('Busco un curso')
+  })
+  it('reveals the tenth answer before removing message entry', async () => {
+    const api = mockChatApi(sessionResult({ completed_rounds: 9 }))
+    api.send.mockResolvedValue(sessionResult({ completed_rounds: 10, closed: true, can_send: false },
+      { status: 'completed', result: { reply: 'Última respuesta del asistente', topic: 'consultation', action: 'offer_contact' } }))
+    render(<Chatbot api={api} />)
+    open(); await reveal()
+    fireEvent.change(screen.getByLabelText('Escribe tu consulta'), { target: { value: 'Consulta' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Enviar' }))
+    await act(async () => vi.advanceTimersByTimeAsync(799))
+    expect(screen.queryByText('Última respuesta del asistente')).not.toBeInTheDocument()
+    expect(screen.getByLabelText('Escribe tu consulta')).toBeInTheDocument()
+    await act(async () => vi.advanceTimersByTimeAsync(1))
+    expect(screen.getByText('Última respuesta del asistente')).toBeInTheDocument()
+    expect(screen.queryByLabelText('Escribe tu consulta')).not.toBeInTheDocument()
+  })
+  it('keeps Hotmart available without a model key and emits only the allowed click metric', async () => {
+    const api = mockChatApi(sessionResult({}, { provider_enabled: false })), listener = vi.fn()
+    render(<Chatbot api={api} />)
+    open(); await reveal()
+    window.addEventListener('nzamara:metric', listener, { once: true })
+    fireEvent.click(screen.getByRole('link', { name: /ver el curso e inscribirme/i }))
+    expect(listener.mock.calls[0][0].detail).toEqual({ eventName: 'hotmart_click' })
+    expect(api.send).not.toHaveBeenCalled()
+  })
+})

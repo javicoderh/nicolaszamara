@@ -1,0 +1,4 @@
+.chatbot-page { max-width: 900px; min-height: 66dvh; padding-block: clamp(48px, 9vh, 100px) 64px; }
+.chatbot-page h1 { max-width: 780px; margin: 0 auto 12px; color: var(--color-navy); font-size: clamp(2.4rem, 5vw, 3.8rem); line-height: 1.18; text-align: center; text-wrap: balance; }
+.chatbot-page__hint { max-width: 520px; margin: 0 auto 28px; color: var(--color-muted); font-size: .82rem; line-height: 1.7; text-align: center; text-wrap: balance; }
+@media (max-width: 640px) { .chatbot-page { padding-block: 44px 40px; } }

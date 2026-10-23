@@ -1,0 +1,31 @@
+{
+  "deployment": {
+    "id": "dpl_GaVTX7hDTemYUmJHfV2wz6RvZEtX",
+    "url": "https://nicolaszamara-f5hkn7shu-my-team-d5e0a31d.vercel.app",
+    "productionUrl": null,
+    "inspectorUrl": "https://vercel.com/my-team-d5e0a31d/nicolaszamara/GaVTX7hDTemYUmJHfV2wz6RvZEtX",
+    "readyState": "READY",
+    "target": null,
+    "deploymentApiUrl": "https://api.vercel.com/v13/deployments/dpl_GaVTX7hDTemYUmJHfV2wz6RvZEtX",
+    "buildMachine": {
+      "cores": 2,
+      "memory": 8192,
+      "machine": "basic",
+      "selectionType": "fixed",
+      "selectionSource": "plan-default"
+    },
+    "deploymentProtection": [
+      "vercel_authentication"
+    ]
+  },
+  "overrides": {
+    "OPENAI_MODEL": "gpt-6-luna",
+    "OPENAI_REASONING_EFFORT": "low",
+    "OPENAI_MAX_OUTPUT_TOKENS": "25000",
+    "OPENAI_REQUEST_TIMEOUT_SECONDS": "25",
+    "CHAT_TEST_METRICS": "1",
+    "CHAT_INPUT_USD_PER_MILLION": "0.10",
+    "CHAT_OUTPUT_USD_PER_MILLION": "0.50",
+    "CHAT_DAILY_BUDGET_MICRO_USD": "3000000"
+  }
+}

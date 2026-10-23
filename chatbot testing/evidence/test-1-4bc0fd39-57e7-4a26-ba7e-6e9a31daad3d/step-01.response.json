@@ -1,0 +1,88 @@
+{
+  "http_status": 200,
+  "body": {
+    "state": {
+      "busy": false,
+      "topic": "course",
+      "action": "show_course",
+      "closed": false,
+      "can_send": true,
+      "capturing": false,
+      "restart_at": null,
+      "last_result": {
+        "stop": false,
+        "reply": "Puedes conocer la propuesta de Flores de Bach para la vida cotidiana en la página de cursos. Si quieres inscribirte al curso actual, puedo mostrarte su enlace.",
+        "topic": "course",
+        "action": "show_course",
+        "version": "setter-v1-2026-10-23",
+        "request_id": "adac155e-7728-4180-a582-9baa7faadeab",
+        "response_key": "course_info",
+        "contact_signal": "none",
+        "contact_declined": false
+      },
+      "conversation_id": "05476410-b67f-40c9-996e-b145efc7c704",
+      "completed_rounds": 1,
+      "contact_declined": false,
+      "provider_attempts": 1,
+      "daily_completed_rounds": 1,
+      "daily_new_conversations": 1,
+      "daily_provider_attempts": 1
+    },
+    "result": {
+      "stop": false,
+      "reply": "Puedes conocer la propuesta de Flores de Bach para la vida cotidiana en la página de cursos. Si quieres inscribirte al curso actual, puedo mostrarte su enlace.",
+      "topic": "course",
+      "action": "show_course",
+      "version": "setter-v1-2026-10-23",
+      "request_id": "adac155e-7728-4180-a582-9baa7faadeab",
+      "response_key": "course_info",
+      "contact_signal": "none",
+      "contact_declined": false
+    },
+    "status": "completed",
+    "policy": {
+      "max_completed_rounds": 10,
+      "conversion_from_response": 8,
+      "max_provider_attempts_per_conversation": 12,
+      "max_completed_rounds_per_visitor_day": 30,
+      "max_provider_attempts_per_visitor_day": 36,
+      "max_new_conversations_per_visitor_day": 3,
+      "cooldown_minutes_after_close": 30,
+      "daily_timezone": "America/Santiago",
+      "max_context_messages": 12,
+      "max_user_message_characters": 1000,
+      "reveal_delay_ms": 800,
+      "contact_capture_consumes_model_round": false,
+      "final_actions_available_after_close": true,
+      "automatic_provider_retry": false
+    },
+    "provider_enabled": true,
+    "testing_configuration": {
+      "model": "gpt-6-luna",
+      "reasoning_effort": "low",
+      "max_output_tokens": 25000
+    },
+    "testing_usage": {
+      "model": "gpt-6-luna",
+      "policy_version": "setter-v1-2026-10-23",
+      "reasoning_effort": "low",
+      "max_output_tokens": 25000,
+      "input_tokens": 2591,
+      "output_tokens": 48,
+      "total_tokens": 2639,
+      "input_tokens_details": {
+        "cache_write_tokens": 0,
+        "cached_tokens": 2588
+      },
+      "output_tokens_details": {
+        "reasoning_tokens": 14
+      },
+      "response_id": "resp_06e9a526e09b5a41016adb9fae665087d2b4a8082ffff244ce",
+      "actual_model": "gpt-6-luna",
+      "service_tier": "default",
+      "response_status": "completed",
+      "estimated_micro_usd": 284
+    }
+  },
+  "duration_ms": 8127.39
+}

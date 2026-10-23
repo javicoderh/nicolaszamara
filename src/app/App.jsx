@@ -18,9 +18,14 @@ import PrivacyPage from '../pages/PrivacyPage/PrivacyPage.jsx'
 import PrivacyPageSkeleton from '../pages/PrivacyPage/PrivacyPageSkeleton.jsx'
 import NotFoundPage from '../pages/NotFoundPage/NotFoundPage.jsx'
 import NotFoundPageSkeleton from '../pages/NotFoundPage/NotFoundPageSkeleton.jsx'
+import Chatbot from '../components/Chatbot/Chatbot.jsx'
+import ChatbotSkeleton from '../components/Chatbot/ChatbotSkeleton.jsx'
 import './App.css'
+import ChatbotPage from '../pages/ChatbotPage/ChatbotPage.jsx'
+import ChatbotPageSkeleton from '../pages/ChatbotPage/ChatbotPageSkeleton.jsx'
 
 const routes = {
+  '/chatbot': { Page: ChatbotPage, Skeleton: ChatbotPageSkeleton },
   '/': { Page: HomePage, Skeleton: HomePageSkeleton },
   '/consulta': { Page: ConsultationPage, Skeleton: ConsultationPageSkeleton },
   '/terapias': { Page: TherapiesPage, Skeleton: TherapiesPageSkeleton },
@@ -79,6 +84,7 @@ function AppContent() {
       {ready ? <SiteHeader /> : <SiteHeaderSkeleton />}
       {ready ? <Page /> : <Skeleton />}
       {ready ? <SiteFooter /> : <SiteFooterSkeleton />}
+      {path !== '/chatbot' && (ready ? <Chatbot /> : <ChatbotSkeleton />)}
     </div>
   )
 }

@@ -1,0 +1,85 @@
+import { act, fireEvent, render, screen } from '@testing-library/react'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import ChatContactForm from './ChatContactForm.jsx'
+
+beforeEach(() => vi.useFakeTimers())
+afterEach(() => vi.useRealTimers())
+function fill(preference = 'whatsapp') {
+  fireEvent.change(screen.getByLabelText('Tu nombre'), { target: { value: 'Ana' } })
+  fireEvent.click(screen.getByRole('radio', { name: preference === 'phone' ? 'Teléfono' : preference === 'video_call' ? 'Videollamada' : 'WhatsApp' }))
+  fireEvent.change(screen.getByLabelText('Número con prefijo internacional'), { target: { value: '+56912345678' } })
+  fireEvent.change(screen.getByLabelText('Correo de contacto'), { target: { value: 'ana@example.invalid' } })
+  fireEvent.click(screen.getByRole('button', { name: 'Revisar solicitud' }))
+}
+function authorize() { fireEvent.click(screen.getByRole('checkbox', { name: /autorizo que el equipo/i })) }
+function props(extra = {}) { return { conversationId: 'conversation', initialTopic: 'consultation', onSaved: vi.fn(), onCancel: vi.fn(), ...extra } }
+describe('ChatContactForm', () => {
+  it('requires a review and explicit contact consent with optional updates unchecked', () => {
+    const submitContact = vi.fn()
+    render(<ChatContactForm {...props({ submitContact })} />)
+    fill()
+    expect(screen.getByText(/revisa tu solicitud/i)).toHaveTextContent('Ana')
+    expect(screen.getAllByRole('checkbox').every((input) => !input.checked)).toBe(true)
+    fireEvent.submit(screen.getByRole('form'))
+    expect(submitContact).not.toHaveBeenCalled()
+  })
+  it('saves the required phone and preference and delays success after the request', async () => {
+    const submitContact = vi.fn().mockResolvedValue({ status: 'saved' }), onSaved = vi.fn()
+    render(<ChatContactForm {...props({ submitContact, onSaved })} />)
+    fill('phone'); authorize()
+    fireEvent.click(screen.getByRole('button', { name: 'Solicitar contacto' }))
+    expect(screen.getByRole('status', { name: 'Guardando solicitud de contacto' })).toBeInTheDocument()
+    await act(async () => vi.advanceTimersByTimeAsync(799))
+    expect(onSaved).not.toHaveBeenCalled()
+    await act(async () => vi.advanceTimersByTimeAsync(1))
+    expect(screen.getByRole('status')).toHaveTextContent(/recibimos tu solicitud/i)
+    expect(submitContact.mock.calls[0][0]).toMatchObject({ source: 'chatbot', contactConsent: true, updatesConsent: false,
+      values: { name: 'Ana', contactPreference: 'phone', phone: '+56912345678', email: 'ana@example.invalid' } })
+    expect(submitContact.mock.calls[0][0]).not.toHaveProperty('messages')
+  })
+  it('keeps fields and request ID for retry after a save failure', async () => {
+    const submitContact = vi.fn().mockRejectedValueOnce(new Error('offline')).mockResolvedValue({ status: 'saved' })
+    render(<ChatContactForm {...props({ submitContact })} />)
+    fill(); authorize()
+    fireEvent.click(screen.getByRole('button', { name: 'Solicitar contacto' }))
+    await act(async () => vi.advanceTimersByTimeAsync(800))
+    expect(screen.getByRole('alert')).toHaveTextContent(/no pudimos confirmar/i)
+    expect(screen.getByLabelText('Tu nombre')).toHaveValue('Ana')
+    fireEvent.click(screen.getByRole('button', { name: 'Solicitar contacto' }))
+    await act(async () => vi.advanceTimersByTimeAsync(800))
+    expect(submitContact.mock.calls[0][0].request_id).toBe(submitContact.mock.calls[1][0].request_id)
+  })
+  it('lets the visitor cancel without submitting', () => {
+    const onCancel = vi.fn(), submitContact = vi.fn()
+    render(<ChatContactForm {...props({ onCancel, submitContact })} />)
+    fireEvent.click(screen.getByRole('button', { name: 'Cancelar' }))
+    expect(onCancel).toHaveBeenCalledOnce()
+    expect(submitContact).not.toHaveBeenCalled()
+  })
+  it('requires an explicit preference and an email for all channels', () => {
+    const submitContact = vi.fn()
+    render(<ChatContactForm {...props({ submitContact })} />)
+    expect(screen.getAllByRole('radio').every((radio) => !radio.checked)).toBe(true)
+    fireEvent.click(screen.getByRole('radio', { name: 'Videollamada' }))
+    expect(screen.getByLabelText('Correo de contacto')).toBeRequired()
+    expect(screen.getByText(/no confirma una cita/i)).toBeInTheDocument()
+    fireEvent.click(screen.getByRole('radio', { name: 'Teléfono' }))
+    expect(screen.getByLabelText('Correo de contacto')).toBeRequired()
+    fireEvent.click(screen.getByRole('radio', { name: 'WhatsApp' }))
+    expect(screen.getByLabelText('Correo de contacto')).toBeRequired()
+    expect(screen.queryByRole('radio', { name: 'Mail' })).not.toBeInTheDocument()
+  })
+  it.each(['Videollamada', 'Teléfono', 'WhatsApp'])('blocks the review without an email when choosing %s', (label) => {
+    const submitContact = vi.fn()
+    render(<ChatContactForm {...props({ submitContact })} />)
+    fireEvent.change(screen.getByLabelText('Tu nombre'), { target: { value: 'Ana' } })
+    fireEvent.change(screen.getByLabelText('Número con prefijo internacional'), { target: { value: '+56912345678' } })
+    fireEvent.click(screen.getByRole('radio', { name: label }))
+    fireEvent.click(screen.getByRole('button', { name: 'Revisar solicitud' }))
+    expect(screen.queryByText(/revisa tu solicitud/i)).not.toBeInTheDocument()
+    expect(submitContact).not.toHaveBeenCalled()
+    fireEvent.change(screen.getByLabelText('Correo de contacto'), { target: { value: 'ana@example.invalid' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Revisar solicitud' }))
+    expect(screen.getByText(/revisa tu solicitud/i)).toHaveTextContent(label)
+  })
+})

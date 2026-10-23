@@ -11,9 +11,9 @@ from backend.interests import InvalidSubmission, StorageUnavailable, process_sub
 
 
 def submission(kind="nature"):
-    values = {"name": " Ana ", "email": " ANA@example.invalid "}
+    values = {"name": " Ana ", "email": " ANA@example.invalid ", "phone": " +56 9 1234 5678 ", "contactPreference": "whatsapp"}
     values.update({"city": "Santiago"} if kind == "nature" else {"country": "Chile", "experience": ""})
-    return {"interest": kind, "values": values, "privacyConsent": True, "updatesConsent": False}
+    return {"interest": kind, "source_path": '/cursos' if kind == 'online' else '/', "values": values, "privacyConsent": True, "updatesConsent": False}
 
 
 class ValidationTests(unittest.TestCase):
@@ -21,6 +21,9 @@ class ValidationTests(unittest.TestCase):
         record = validate_submission(submission())
         self.assertEqual(record["full_name"], "Ana")
         self.assertEqual(record["email"], "ana@example.invalid")
+        self.assertEqual(record["phone"], "+56912345678")
+        self.assertEqual(record["contact_preference"], "whatsapp")
+        self.assertEqual(record['source_path'], '/')
         self.assertFalse(record["updates_consent"])
         self.assertIsNone(record["country"])
 
@@ -29,6 +32,15 @@ class ValidationTests(unittest.TestCase):
         self.assertEqual(record["country"], "Chile")
         self.assertIsNone(record["city"])
         self.assertIsNone(record["experience"])
+        self.assertEqual(record['source_path'], '/cursos')
+
+    @patch('backend.interests.save_interest')
+    def test_rejects_missing_or_unsafe_source_paths_before_persistence(self, save):
+        for path in (None, 'https://external.invalid', '/cursos?ref=value', '/cursos#online'):
+            value = submission()
+            value['source_path'] = path
+            self.assertEqual(process_submission(value)[0], 400)
+        save.assert_not_called()
 
     def test_rejects_invalid_inputs(self):
         invalid = [None, [], {}, {**submission(), "interest": "clinical"},
@@ -47,6 +59,27 @@ class ValidationTests(unittest.TestCase):
     def test_invalid_payload_never_calls_storage(self, save):
         self.assertEqual(process_submission({})[0], 400)
         save.assert_not_called()
+
+    def test_both_forms_require_phone_and_an_explicit_allowed_preference(self):
+        for kind in ('nature', 'online'):
+            for key, value in (('phone', None), ('phone', ''), ('phone', '912345678'), ('phone', '+00000000'),
+                               ('contactPreference', None), ('contactPreference', ''), ('contactPreference', 'email'),
+                               ('contactPreference', ['email'])):
+                payload = submission(kind)
+                payload['values'][key] = value
+                with self.subTest(kind=kind, key=key, value=value), self.assertRaises(InvalidSubmission):
+                    validate_submission(payload)
+            for key in ('phone', 'contactPreference'):
+                payload = submission(kind)
+                del payload['values'][key]
+                with self.assertRaises(InvalidSubmission): validate_submission(payload)
+
+    def test_both_forms_accept_each_preference_without_changing_it(self):
+        for kind in ('nature', 'online'):
+            for preference in ('video_call', 'phone', 'whatsapp'):
+                payload = submission(kind)
+                payload['values']['contactPreference'] = preference
+                self.assertEqual(validate_submission(payload)['contact_preference'], preference)
 
 
 class PersistenceTests(unittest.TestCase):

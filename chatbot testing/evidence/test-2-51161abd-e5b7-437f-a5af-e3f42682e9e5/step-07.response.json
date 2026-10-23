@@ -1,0 +1,88 @@
+{
+  "http_status": 200,
+  "body": {
+    "state": {
+      "busy": false,
+      "topic": "therapies",
+      "action": "show_therapies",
+      "closed": false,
+      "can_send": true,
+      "capturing": false,
+      "restart_at": null,
+      "last_result": {
+        "stop": false,
+        "reply": "En la web encontrarás acupuntura, moxibustión, ventosaterapia, tuina, Flores de Bach, medicina bioenergética, iridología y meditación y mindfulness.",
+        "topic": "therapies",
+        "action": "show_therapies",
+        "version": "setter-v1-2026-10-23",
+        "request_id": "bb2381e7-c37a-4c48-ae33-9889fed9fc97",
+        "response_key": "therapies_info",
+        "contact_signal": "none",
+        "contact_declined": true
+      },
+      "conversation_id": "c6cb9e59-a7b8-413d-adb4-6b50709217cb",
+      "completed_rounds": 7,
+      "contact_declined": true,
+      "provider_attempts": 7,
+      "daily_completed_rounds": 7,
+      "daily_new_conversations": 1,
+      "daily_provider_attempts": 7
+    },
+    "result": {
+      "stop": false,
+      "reply": "En la web encontrarás acupuntura, moxibustión, ventosaterapia, tuina, Flores de Bach, medicina bioenergética, iridología y meditación y mindfulness.",
+      "topic": "therapies",
+      "action": "show_therapies",
+      "version": "setter-v1-2026-10-23",
+      "request_id": "bb2381e7-c37a-4c48-ae33-9889fed9fc97",
+      "response_key": "therapies_info",
+      "contact_signal": "none",
+      "contact_declined": true
+    },
+    "status": "completed",
+    "policy": {
+      "max_completed_rounds": 10,
+      "conversion_from_response": 8,
+      "max_provider_attempts_per_conversation": 12,
+      "max_completed_rounds_per_visitor_day": 30,
+      "max_provider_attempts_per_visitor_day": 36,
+      "max_new_conversations_per_visitor_day": 3,
+      "cooldown_minutes_after_close": 30,
+      "daily_timezone": "America/Santiago",
+      "max_context_messages": 12,
+      "max_user_message_characters": 1000,
+      "reveal_delay_ms": 800,
+      "contact_capture_consumes_model_round": false,
+      "final_actions_available_after_close": true,
+      "automatic_provider_retry": false
+    },
+    "provider_enabled": true,
+    "testing_configuration": {
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high",
+      "max_output_tokens": 25000
+    },
+    "testing_usage": {
+      "model": "gpt-6-luna",
+      "policy_version": "setter-v1-2026-10-23",
+      "reasoning_effort": "high",
+      "max_output_tokens": 25000,
+      "input_tokens": 2846,
+      "output_tokens": 135,
+      "total_tokens": 2981,
+      "input_tokens_details": {
+        "cache_write_tokens": 302,
+        "cached_tokens": 2541
+      },
+      "output_tokens_details": {
+        "reasoning_tokens": 94
+      },
+      "response_id": "resp_035bc5cff48a31fa016adba0962c5087d2836d3f6160e7e5bf",
+      "actual_model": "gpt-6-luna",
+      "service_tier": "default",
+      "response_status": "completed",
+      "estimated_micro_usd": 353
+    }
+  },
+  "duration_ms": 10309.19
+}

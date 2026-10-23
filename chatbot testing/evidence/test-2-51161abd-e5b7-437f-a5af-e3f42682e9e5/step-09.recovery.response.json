@@ -1,0 +1,88 @@
+{
+  "http_status": 200,
+  "body": {
+    "state": {
+      "busy": false,
+      "topic": "consultation",
+      "action": "none",
+      "closed": false,
+      "can_send": true,
+      "capturing": false,
+      "restart_at": null,
+      "last_result": {
+        "stop": false,
+        "reply": "Ese dato no está confirmado en la información disponible. Puedes revisarlo con el equipo antes de decidir.",
+        "topic": "consultation",
+        "action": "none",
+        "version": "setter-v1-2026-10-23",
+        "request_id": "b81eb08e-c08e-4ff2-b276-9e7240ca8d46",
+        "response_key": "details_unconfirmed",
+        "contact_signal": "none",
+        "contact_declined": true
+      },
+      "conversation_id": "c6cb9e59-a7b8-413d-adb4-6b50709217cb",
+      "completed_rounds": 9,
+      "contact_declined": true,
+      "provider_attempts": 10,
+      "daily_completed_rounds": 9,
+      "daily_new_conversations": 1,
+      "daily_provider_attempts": 10
+    },
+    "result": {
+      "stop": false,
+      "reply": "Ese dato no está confirmado en la información disponible. Puedes revisarlo con el equipo antes de decidir.",
+      "topic": "consultation",
+      "action": "none",
+      "version": "setter-v1-2026-10-23",
+      "request_id": "b81eb08e-c08e-4ff2-b276-9e7240ca8d46",
+      "response_key": "details_unconfirmed",
+      "contact_signal": "none",
+      "contact_declined": true
+    },
+    "status": "completed",
+    "policy": {
+      "max_completed_rounds": 10,
+      "conversion_from_response": 8,
+      "max_provider_attempts_per_conversation": 12,
+      "max_completed_rounds_per_visitor_day": 30,
+      "max_provider_attempts_per_visitor_day": 36,
+      "max_new_conversations_per_visitor_day": 3,
+      "cooldown_minutes_after_close": 30,
+      "daily_timezone": "America/Santiago",
+      "max_context_messages": 12,
+      "max_user_message_characters": 1000,
+      "reveal_delay_ms": 800,
+      "contact_capture_consumes_model_round": false,
+      "final_actions_available_after_close": true,
+      "automatic_provider_retry": false
+    },
+    "provider_enabled": true,
+    "testing_configuration": {
+      "model": "gpt-6-luna",
+      "reasoning_effort": "high",
+      "max_output_tokens": 25000
+    },
+    "testing_usage": {
+      "model": "gpt-6-luna",
+      "policy_version": "setter-v1-2026-10-23",
+      "reasoning_effort": "high",
+      "max_output_tokens": 25000,
+      "input_tokens": 2859,
+      "output_tokens": 132,
+      "total_tokens": 2991,
+      "input_tokens_details": {
+        "cache_write_tokens": 312,
+        "cached_tokens": 2544
+      },
+      "output_tokens_details": {
+        "reasoning_tokens": 97
+      },
+      "response_id": "resp_0abd59aedc0d8c7d016adba28cdf1c87d28c1b94df7269ed1f",
+      "actual_model": "gpt-6-luna",
+      "service_tier": "default",
+      "response_status": "completed",
+      "estimated_micro_usd": 352
+    }
+  },
+  "duration_ms": 11285.59
+}

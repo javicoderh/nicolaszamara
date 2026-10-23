@@ -3,6 +3,7 @@ const allowedEvents = new Set([
   'whatsapp_click',
   'online_interest_saved',
   'nature_interest_saved',
+  'chat_contact_saved',
 ])
 
 export function trackEvent(eventName) {

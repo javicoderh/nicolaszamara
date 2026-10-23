@@ -1,0 +1,22 @@
+{
+  "retrieved_date": "2026-10-23",
+  "model": "gpt-6-luna",
+  "pricing": {
+    "source_url": "https://developers.openai.com/api/docs/models/gpt-6-luna",
+    "service_tier": "default",
+    "usd_per_million_input": "0.10",
+    "usd_per_million_cached_input": "0.01",
+    "usd_per_million_cache_write": "0.125",
+    "usd_per_million_output": "0.50"
+  },
+  "fx": {
+    "source_url": "https://si3.bcentral.cl/indicadoressiete/secure/indicadoresdiarios.aspx",
+    "date": "2026-10-23",
+    "clp_per_usd": "986.58",
+    "corroborating_urls": [
+      "https://indicadores.cl/conversores/dolar/",
+      "https://utilidad.cl/valor-dolar-historico"
+    ],
+    "note": "Dólar observado consultado en Banco Central y corroborado en dos fuentes. La consulta directa a mindicador.cl agotó el plazo y no se usó para obtener el valor."
+  }
+}

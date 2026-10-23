@@ -4,7 +4,7 @@ import AreaGrid from '../../components/AreaGrid/AreaGrid.jsx'
 import PhotoPlaceholder from '../../components/PhotoPlaceholder/PhotoPlaceholder.jsx'
 import { homeContent } from '../../content/siteContent.js'
 import { useSiteContent } from '../../contexts/SiteContentContext/SiteContentContext.jsx'
-import { trackEvent } from '../../services/analyticsService.js'
+import { trackHotmartClick } from '../../services/hotmartTrackingService.js'
 import './HomePage.css'
 
 export default function HomePage() {
@@ -56,8 +56,8 @@ export default function HomePage() {
           <h2 id="home-course-title">{homeContent.course.title}</h2>
           <p>{homeContent.course.description}</p>
           <p>{homeContent.course.additional}</p>
-          <ActionLink href={courseUrl} target="_blank" rel="noreferrer" onClick={() => trackEvent('hotmart_click')}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
-          <ActionLink className="home-course__secondary" href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
+          <ActionLink href={courseUrl} target="_blank" rel="noreferrer" onClick={() => { void trackHotmartClick('home') }}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
+          <ActionLink className="home-course__secondary" href="/cursos#interes-online" variant="text">Me interesa el curso online</ActionLink>
         </div>
         <PhotoPlaceholder orientation="landscape" />
       </section>

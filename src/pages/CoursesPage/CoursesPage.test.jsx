@@ -8,8 +8,9 @@ describe('CoursesPage', () => {
   it('enlaza a la landing aprobada y distingue el interés de una matrícula', () => {
     render(<SiteContentProvider><CoursesPage /></SiteContentProvider>)
     expect(screen.getByRole('link', { name: /ver el curso e inscribirme/i })).toHaveAttribute('href', 'https://nzamara-mtc.hotmart.host/flores-de-bach-vida-cotidiana')
-    expect(screen.getAllByText(/cuando se abra una edición online/i)[0]).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: /futura modalidad online/i })).toBeInTheDocument()
+    expect(screen.getAllByText(/recibir información sobre el curso online/i)[0]).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: /curso online para público hispanohablante/i })).toBeInTheDocument()
+    expect(screen.queryByText(/futura modalidad online/i)).not.toBeInTheDocument()
   })
 
   it('ofrece un skeleton propio', () => {

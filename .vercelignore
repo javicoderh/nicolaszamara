@@ -1,0 +1,19 @@
+.git
+.vercel
+.env*
+.venv
+.preview
+node_modules
+dist
+**/__pycache__
+**/*.pyc
+*.docx
+/*.jpg
+/*.jpeg
+/*.JPG
+/*.png
+docs
+database
+tests
+scripts
+chatbot testing

@@ -1,8 +1,10 @@
 """Vercel file-based function: POST /api/interests."""
 import json
 from http.server import BaseHTTPRequestHandler
+from urllib.parse import urlsplit
 
 from backend.interests import process_submission
+from backend.chat_identity import visitor_from_cookie
 
 
 class handler(BaseHTTPRequestHandler):
@@ -13,6 +15,8 @@ class handler(BaseHTTPRequestHandler):
         self.send_header("Cache-Control", "no-store")
         self.send_header("X-Content-Type-Options", "nosniff")
         self.send_header("Content-Length", str(len(encoded)))
+        if getattr(self, 'setter_cookie', None):
+            self.send_header('Set-Cookie', self.setter_cookie)
         if status == 429:
             self.send_header("Retry-After", "60")
         if status == 405:
@@ -25,7 +29,7 @@ class handler(BaseHTTPRequestHandler):
             return self.reply(404, {"status": "not_found"})
         if self.headers.get_content_type() != "application/json":
             return self.reply(415, {"status": "invalid"})
-        if self.headers.get("Sec-Fetch-Site") == "cross-site":
+        if not self.same_origin():
             return self.reply(403, {"status": "invalid"})
         try:
             length = int(self.headers.get("Content-Length", "0"))
@@ -37,8 +41,17 @@ class handler(BaseHTTPRequestHandler):
             payload = json.loads(self.rfile.read(length))
         except (ValueError, UnicodeError):
             return self.reply(400, {"status": "invalid"})
-        status, result = process_submission(payload)
+        if isinstance(payload, dict) and payload.get('source') == 'chatbot':
+            status, result = process_submission(payload, visitor=visitor_from_cookie(self.headers.get('Cookie')))
+        else:
+            status, result = process_submission(payload)
         self.reply(status, result)
+
+    def same_origin(self):
+        if self.headers.get('Sec-Fetch-Site') == 'cross-site':
+            return False
+        origin = self.headers.get('Origin')
+        return not origin or urlsplit(origin).netloc == self.headers.get('Host')
 
     def do_GET(self):
         self.reply(405, {"status": "method_not_allowed"})

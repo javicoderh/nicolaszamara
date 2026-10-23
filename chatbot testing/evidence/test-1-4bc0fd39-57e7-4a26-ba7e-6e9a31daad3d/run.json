@@ -1,0 +1,456 @@
+{
+  "case": 1,
+  "effort": "low",
+  "run_id": "4bc0fd39-57e7-4a26-ba7e-6e9a31daad3d",
+  "date": "2026-10-23",
+  "started_at": "2026-10-23T17:56:53.500315+00:00",
+  "status": "APROBADO",
+  "rounds": [
+    {
+      "step": 1,
+      "prompt": "Hola, quiero información sobre el curso Flores de Bach para la vida cotidiana.",
+      "request_id": "adac155e-7728-4180-a582-9baa7faadeab",
+      "http_status": 200,
+      "status": "completed",
+      "duration_ms": 8127.39,
+      "reply": "Puedes conocer la propuesta de Flores de Bach para la vida cotidiana en la página de cursos. Si quieres inscribirte al curso actual, puedo mostrarte su enlace.",
+      "topic": "course",
+      "action": "show_course",
+      "completed_rounds": 1,
+      "provider_attempts": 1,
+      "closed": false,
+      "usage": {
+        "model": "gpt-6-luna",
+        "policy_version": "setter-v1-2026-10-23",
+        "reasoning_effort": "low",
+        "max_output_tokens": 25000,
+        "input_tokens": 2591,
+        "output_tokens": 48,
+        "total_tokens": 2639,
+        "input_tokens_details": {
+          "cache_write_tokens": 0,
+          "cached_tokens": 2588
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 14
+        },
+        "response_id": "resp_06e9a526e09b5a41016adb9fae665087d2b4a8082ffff244ce",
+        "actual_model": "gpt-6-luna",
+        "service_tier": "default",
+        "response_status": "completed",
+        "estimated_micro_usd": 284
+      },
+      "cost": {
+        "usd": "0.00005018",
+        "clp": "0.0495065844"
+      }
+    },
+    {
+      "step": 2,
+      "prompt": "¿Qué propuesta tiene ese curso? Busco información general para aprender.",
+      "request_id": "2068a842-5a51-4fae-aa56-4b93c3e40d07",
+      "http_status": 200,
+      "status": "completed",
+      "duration_ms": 10357.09,
+      "reply": "Puedes conocer la propuesta de Flores de Bach para la vida cotidiana en la página de cursos. Si quieres inscribirte al curso actual, puedo mostrarte su enlace.",
+      "topic": "course",
+      "action": "show_course",
+      "completed_rounds": 2,
+      "provider_attempts": 2,
+      "closed": false,
+      "usage": {
+        "model": "gpt-6-luna",
+        "policy_version": "setter-v1-2026-10-23",
+        "reasoning_effort": "low",
+        "max_output_tokens": 25000,
+        "input_tokens": 2648,
+        "output_tokens": 62,
+        "total_tokens": 2710,
+        "input_tokens_details": {
+          "cache_write_tokens": 104,
+          "cached_tokens": 2541
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 28
+        },
+        "response_id": "resp_017c90ffa80554a1016adb9fb72c9487d2baf7e0f79c4205f4",
+        "actual_model": "gpt-6-luna",
+        "service_tier": "default",
+        "response_status": "completed",
+        "estimated_micro_usd": 296
+      },
+      "cost": {
+        "usd": "0.00006971",
+        "clp": "0.0687744918"
+      }
+    },
+    {
+      "step": 3,
+      "prompt": "¿La futura modalidad online ya está abierta?",
+      "request_id": "ecb83338-5283-4f9a-b72a-d50a62401549",
+      "http_status": 200,
+      "status": "completed",
+      "duration_ms": 14316.39,
+      "reply": "Puedes registrar tu interés para recibir información cuando se abra una edición online. La web todavía no confirma su apertura.",
+      "topic": "online",
+      "action": "show_online_interest",
+      "completed_rounds": 3,
+      "provider_attempts": 3,
+      "closed": false,
+      "usage": {
+        "model": "gpt-6-luna",
+        "policy_version": "setter-v1-2026-10-23",
+        "reasoning_effort": "low",
+        "max_output_tokens": 25000,
+        "input_tokens": 2700,
+        "output_tokens": 85,
+        "total_tokens": 2785,
+        "input_tokens_details": {
+          "cache_write_tokens": 52,
+          "cached_tokens": 2645
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 50
+        },
+        "response_id": "resp_005a1f76f30ecb70016adb9fc3f51c87d29982578e0de73c3a",
+        "actual_model": "gpt-6-luna",
+        "service_tier": "default",
+        "response_status": "completed",
+        "estimated_micro_usd": 313
+      },
+      "cost": {
+        "usd": "0.00007575",
+        "clp": "0.0747334350"
+      }
+    },
+    {
+      "step": 4,
+      "prompt": "Prefiero volver al curso actual. ¿Dónde puedo revisar su precio y condiciones?",
+      "request_id": "8fdefe44-ce17-4eba-981a-349312cdf8bd",
+      "http_status": 200,
+      "status": "completed",
+      "duration_ms": 21819.84,
+      "reply": "Puedes revisar el precio y las condiciones vigentes del curso actual en su página de inscripción en Hotmart.",
+      "topic": "course",
+      "action": "show_hotmart",
+      "completed_rounds": 4,
+      "provider_attempts": 4,
+      "closed": false,
+      "usage": {
+        "model": "gpt-6-luna",
+        "policy_version": "setter-v1-2026-10-23",
+        "reasoning_effort": "low",
+        "max_output_tokens": 25000,
+        "input_tokens": 2749,
+        "output_tokens": 76,
+        "total_tokens": 2825,
+        "input_tokens_details": {
+          "cache_write_tokens": 204,
+          "cached_tokens": 2542
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 41
+        },
+        "response_id": "resp_03f338dd7b893cad016adb9fd926c887d287671fcee11361bb",
+        "actual_model": "gpt-6-luna",
+        "service_tier": "default",
+        "response_status": "completed",
+        "estimated_micro_usd": 313
+      },
+      "cost": {
+        "usd": "0.00008922",
+        "clp": "0.0880226676"
+      }
+    },
+    {
+      "step": 5,
+      "prompt": "¿Puedes mostrarme el enlace para inscribirme al curso actual?",
+      "request_id": "36805c69-a057-426a-95df-ffc08dc60e9e",
+      "http_status": 200,
+      "status": "completed",
+      "duration_ms": 9499.42,
+      "reply": "Aquí tienes el enlace para conocer el curso actual y continuar con la inscripción en Hotmart.",
+      "topic": "course",
+      "action": "show_hotmart",
+      "completed_rounds": 5,
+      "provider_attempts": 5,
+      "closed": false,
+      "usage": {
+        "model": "gpt-6-luna",
+        "policy_version": "setter-v1-2026-10-23",
+        "reasoning_effort": "low",
+        "max_output_tokens": 25000,
+        "input_tokens": 2794,
+        "output_tokens": 52,
+        "total_tokens": 2846,
+        "input_tokens_details": {
+          "cache_write_tokens": 249,
+          "cached_tokens": 2542
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 16
+        },
+        "response_id": "resp_02eb289334989224016adb9fe687a087d2aaccb015f9277efd",
+        "actual_model": "gpt-6-luna",
+        "service_tier": "default",
+        "response_status": "completed",
+        "estimated_micro_usd": 306
+      },
+      "cost": {
+        "usd": "0.000082845",
+        "clp": "0.08173322010"
+      }
+    },
+    {
+      "step": 6,
+      "prompt": "No quiero dejar mis datos por ahora, solo seguir leyendo información del curso.",
+      "request_id": "b7b16c14-83c1-4448-9f2d-8fb64ed2fcc5",
+      "http_status": 200,
+      "status": "completed",
+      "duration_ms": 10225.5,
+      "reply": "Puedes conocer la propuesta de Flores de Bach para la vida cotidiana en la página de cursos. Si quieres inscribirte al curso actual, puedo mostrarte su enlace.",
+      "topic": "course",
+      "action": "show_course",
+      "completed_rounds": 6,
+      "provider_attempts": 6,
+      "closed": false,
+      "usage": {
+        "model": "gpt-6-luna",
+        "policy_version": "setter-v1-2026-10-23",
+        "reasoning_effort": "low",
+        "max_output_tokens": 25000,
+        "input_tokens": 2837,
+        "output_tokens": 94,
+        "total_tokens": 2931,
+        "input_tokens_details": {
+          "cache_write_tokens": 43,
+          "cached_tokens": 2791
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 59
+        },
+        "response_id": "resp_0ee6eccfc9f22471016adb9ff0ce1c87d2ab1461b87e308d60",
+        "actual_model": "gpt-6-luna",
+        "service_tier": "default",
+        "response_status": "completed",
+        "estimated_micro_usd": 331
+      },
+      "cost": {
+        "usd": "0.000080585",
+        "clp": "0.07950354930"
+      }
+    },
+    {
+      "step": 7,
+      "prompt": "Gracias. ¿También puedo encontrar información sobre las terapias en la web?",
+      "request_id": "b56934b4-d50b-478d-9630-bffd2f35c568",
+      "http_status": 200,
+      "status": "completed",
+      "duration_ms": 10299.04,
+      "reply": "En la web encontrarás acupuntura, moxibustión, ventosaterapia, tuina, Flores de Bach, medicina bioenergética, iridología y meditación y mindfulness.",
+      "topic": "therapies",
+      "action": "show_therapies",
+      "completed_rounds": 7,
+      "provider_attempts": 7,
+      "closed": false,
+      "usage": {
+        "model": "gpt-6-luna",
+        "policy_version": "setter-v1-2026-10-23",
+        "reasoning_effort": "low",
+        "max_output_tokens": 25000,
+        "input_tokens": 2846,
+        "output_tokens": 78,
+        "total_tokens": 2924,
+        "input_tokens_details": {
+          "cache_write_tokens": 302,
+          "cached_tokens": 2541
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 37
+        },
+        "response_id": "resp_01718eb4941c2dfd016adb9ffa66bc87d2ab8d7c4b4ccfc604",
+        "actual_model": "gpt-6-luna",
+        "service_tier": "default",
+        "response_status": "completed",
+        "estimated_micro_usd": 324
+      },
+      "cost": {
+        "usd": "0.00010246",
+        "clp": "0.1010849868"
+      }
+    },
+    {
+      "step": 8,
+      "prompt": "Me interesa una primera consulta individual. ¿Cómo comienza?",
+      "request_id": "09b6fb3f-e620-4e9b-ab32-1c49c924705c",
+      "http_status": 200,
+      "status": "completed",
+      "duration_ms": 11029.06,
+      "reply": "La primera consulta incluye una conversación y una evaluación individual. Puedes revisar cómo comienza la atención en la página de consulta.",
+      "topic": "consultation",
+      "action": "show_consultation",
+      "completed_rounds": 8,
+      "provider_attempts": 8,
+      "closed": false,
+      "usage": {
+        "model": "gpt-6-luna",
+        "policy_version": "setter-v1-2026-10-23",
+        "reasoning_effort": "low",
+        "max_output_tokens": 25000,
+        "input_tokens": 2857,
+        "output_tokens": 104,
+        "total_tokens": 2961,
+        "input_tokens_details": {
+          "cache_write_tokens": 308,
+          "cached_tokens": 2546
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 66
+        },
+        "response_id": "resp_0dd40497ec08d2d4016adba004d7a887d293b18e2b78371efb",
+        "actual_model": "gpt-6-luna",
+        "service_tier": "default",
+        "response_status": "completed",
+        "estimated_micro_usd": 338
+      },
+      "cost": {
+        "usd": "0.00011626",
+        "clp": "0.1146997908"
+      }
+    },
+    {
+      "step": 9,
+      "prompt": "¿Puedes confirmar cuánto dura y qué disponibilidad hay para la consulta? Si no está publicado, no lo inventes.",
+      "request_id": "ee289b4d-a99c-4f8b-ae2d-e6c8f93e9ee3",
+      "http_status": 200,
+      "status": "completed",
+      "duration_ms": 13099.17,
+      "reply": "Ese dato no está confirmado en la información disponible. Puedes revisarlo con el equipo antes de decidir.",
+      "topic": "consultation",
+      "action": "none",
+      "completed_rounds": 9,
+      "provider_attempts": 9,
+      "closed": false,
+      "usage": {
+        "model": "gpt-6-luna",
+        "policy_version": "setter-v1-2026-10-23",
+        "reasoning_effort": "low",
+        "max_output_tokens": 25000,
+        "input_tokens": 2859,
+        "output_tokens": 97,
+        "total_tokens": 2956,
+        "input_tokens_details": {
+          "cache_write_tokens": 312,
+          "cached_tokens": 2544
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 62
+        },
+        "response_id": "resp_03e71cc98e26b9f1016adba00faeec87d2808b083fccb9c7c2",
+        "actual_model": "gpt-6-luna",
+        "service_tier": "default",
+        "response_status": "completed",
+        "estimated_micro_usd": 335
+      },
+      "cost": {
+        "usd": "0.00011324",
+        "clp": "0.1117203192"
+      }
+    },
+    {
+      "step": 10,
+      "prompt": "Quiero que el equipo me contacte por una consulta individual.",
+      "request_id": "ee0de84c-f2ef-48c2-b4fd-129b87f6e715",
+      "http_status": 200,
+      "status": "completed",
+      "duration_ms": 9274.84,
+      "reply": "Podemos continuar con una solicitud para que el equipo te contacte por el servicio que te interesa.",
+      "topic": "consultation",
+      "action": "start_contact_capture",
+      "completed_rounds": 10,
+      "provider_attempts": 10,
+      "closed": true,
+      "usage": {
+        "model": "gpt-6-luna",
+        "policy_version": "setter-v1-2026-10-23",
+        "reasoning_effort": "low",
+        "max_output_tokens": 25000,
+        "input_tokens": 2850,
+        "output_tokens": 88,
+        "total_tokens": 2938,
+        "input_tokens_details": {
+          "cache_write_tokens": 306,
+          "cached_tokens": 2541
+        },
+        "output_tokens_details": {
+          "reasoning_tokens": 52
+        },
+        "response_id": "resp_06313b5394b19050016adba01c4db887d2bb8c5c7f92c33096",
+        "actual_model": "gpt-6-luna",
+        "service_tier": "default",
+        "response_status": "completed",
+        "estimated_micro_usd": 329
+      },
+      "cost": {
+        "usd": "0.00010796",
+        "clp": "0.1065111768"
+      }
+    }
+  ],
+  "checks": [
+    {
+      "name": "Sesión y configuración del esfuerzo",
+      "passed": true,
+      "detail": "HTTP 200; configuración {\"model\": \"gpt-6-luna\", \"reasoning_effort\": \"low\", \"max_output_tokens\": 25000}"
+    },
+    {
+      "name": "Diez respuestas y cierre",
+      "passed": true,
+      "detail": "completed_rounds=10, closed=True"
+    },
+    {
+      "name": "Intento 11 sin llamada al proveedor",
+      "passed": true,
+      "detail": "status=conversation_closed; intentos=10"
+    },
+    {
+      "name": "Repetición idempotente de ronda 10",
+      "passed": true,
+      "detail": "Mismo request_id; sin incremento de intentos."
+    },
+    {
+      "name": "Captura disponible después del cierre",
+      "passed": true,
+      "detail": "Comando local, sin OpenAI."
+    },
+    {
+      "name": "Guardado de contacto ficticio autorizado",
+      "passed": true,
+      "detail": "Preferencia phone; lead_request_id=7b95b35b-5f73-4cf1-b175-93e4122ef9d2."
+    },
+    {
+      "name": "Reintento del contacto sin duplicar",
+      "passed": true,
+      "detail": "Se reutilizó el identificador de guardado; comprobar unicidad en Supabase."
+    },
+    {
+      "name": "Cuotas conservadas después de guardar",
+      "passed": true,
+      "detail": "Sin nuevas rondas ni intentos durante la captura."
+    },
+    {
+      "name": "Contraste independiente con Supabase",
+      "passed": true,
+      "detail": "10 peticiones completadas, 28515 tokens de respuestas completadas coincidentes y exactamente un contacto con preferencia phone, sin novedades activadas. Los intentos inciertos se contabilizan adicionalmente con el usage capturado en HTTP."
+    },
+    {
+      "name": "Entrega de acción y enlace Hotmart",
+      "passed": true,
+      "detail": "El paso 5 seleccionó show_hotmart sin exigir captura. El frontend resuelve el destino desde siteSettings.courseUrl: https://nzamara-mtc.hotmart.host/flores-de-bach-vida-cotidiana. No se automatizó el clic ni una compra; no se confirmó disponibilidad del checkout externo."
+    }
+  ],
+  "deployment": "https://nicolaszamara-f5hkn7shu-my-team-d5e0a31d.vercel.app",
+  "conversation_id": "05476410-b67f-40c9-996e-b145efc7c704",
+  "lead_request_id": "7b95b35b-5f73-4cf1-b175-93e4122ef9d2",
+  "finished_at": "2026-10-23T18:00:01.582153+00:00"
+}

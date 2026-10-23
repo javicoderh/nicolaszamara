@@ -1,24 +1,28 @@
 import { useRef } from 'react'
 import { submitInterest as defaultSubmitInterest } from '../../services/interestService.js'
 import { useInterestSubmission } from '../../hooks/useInterestSubmission/useInterestSubmission.js'
+import ContactPreference from '../ContactPreference/ContactPreference.jsx'
 import './InterestForm.css'
 
+const phoneField = { name: 'phone', label: 'Teléfono con prefijo internacional', type: 'tel', required: true, autocomplete: 'tel' }
 const fieldMap = {
   online: [
     { name: 'name', label: 'Nombre', type: 'text', required: true, autocomplete: 'name' },
     { name: 'email', label: 'Correo electrónico', type: 'email', required: true, autocomplete: 'email' },
+    phoneField,
     { name: 'country', label: 'País', type: 'text', required: true, autocomplete: 'country-name' },
     { name: 'experience', label: 'Experiencia previa (opcional)', type: 'text', required: false, autocomplete: 'off' },
   ],
   nature: [
     { name: 'name', label: 'Nombre', type: 'text', required: true, autocomplete: 'name' },
     { name: 'email', label: 'Correo electrónico', type: 'email', required: true, autocomplete: 'email' },
+    phoneField,
     { name: 'city', label: 'Ciudad', type: 'text', required: true, autocomplete: 'address-level2' },
   ],
 }
 
 const formCopy = {
-  online: { title: 'Flores de Bach en modalidad online', purpose: 'Si te gustaría participar desde tu ciudad o país, déjame tus datos para recibir información cuando se abra una edición online.', success: 'Gracias por tu interés. Te avisaré cuando se abra una edición online.' },
+  online: { title: 'Curso online', purpose: 'Si te gustaría participar desde tu ciudad o país, déjame tus datos para recibir información sobre el curso online de Flores de Bach.', success: 'Gracias por tu interés. Te contactaré con información sobre el curso online.' },
   nature: { title: 'Me interesan los baños de bosque', purpose: 'Déjame tus datos para recibir información cuando se confirme un encuentro.', success: 'Gracias por tu interés. Te avisaré cuando se confirme un encuentro.' },
 }
 
@@ -36,6 +40,7 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
     if (!event.currentTarget.reportValidity()) return
     const formData = new FormData(event.currentTarget)
     const values = Object.fromEntries(fields.map((field) => [field.name, formData.get(field.name)]))
+    values.contactPreference = formData.get('contactPreference')
     void submit({
       interest: kind,
       values,
@@ -55,12 +60,15 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
         {fields.map((field) => (
           <label className="interest-form__field" key={field.name}>
             <span>{field.label}{field.required ? ' *' : ''}</span>
-            <input name={field.name} type={field.type} autoComplete={field.autocomplete} required={field.required} maxLength={field.name === 'email' ? 254 : field.name === 'experience' ? 500 : field.name === 'name' ? 120 : 100} />
+            <input name={field.name} type={field.type} autoComplete={field.autocomplete} required={field.required}
+              pattern={field.name === 'phone' ? '\\+[1-9][0-9 ]{6,24}' : undefined} placeholder={field.name === 'phone' ? '+56 9 1234 5678' : undefined}
+              maxLength={field.name === 'phone' ? 30 : field.name === 'email' ? 254 : field.name === 'experience' ? 500 : field.name === 'name' ? 120 : 100} />
           </label>
         ))}
+        <ContactPreference />
         <label className="interest-form__consent">
           <input name="privacyConsent" type="checkbox" required />
-          <span>Autorizo el uso de mis datos para responder a este interés y he leído la información de privacidad. *</span>
+          <span>Autorizo el uso de mis datos para responder a este interés según mi preferencia de contacto y he leído la información de privacidad. *</span>
         </label>
         <label className="interest-form__consent">
           <input name="updatesConsent" type="checkbox" />

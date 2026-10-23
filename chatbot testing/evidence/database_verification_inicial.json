@@ -1,0 +1,40 @@
+{
+  "contacts": [
+    {
+      "count": 1,
+      "preference": "video_call",
+      "lead_request_id": "d4027c13-ef11-472f-ac1f-449dc1fd93df",
+      "updates_disabled": true
+    },
+    {
+      "count": 1,
+      "preference": "phone",
+      "lead_request_id": "d0ab4eb4-45c3-4a3b-8f72-bfa2ab441c3f",
+      "updates_disabled": true
+    }
+  ],
+  "requests": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "high",
+      "input_tokens": 28024,
+      "total_tokens": 29180,
+      "output_tokens": 1156,
+      "conversation_id": "86b1060d-8941-48c5-bc63-ea162526c4e5",
+      "completed_requests": 10,
+      "reserved_micro_usd": 192590
+    },
+    {
+      "model": "gpt-6-luna",
+      "effort": "low",
+      "input_tokens": 28024,
+      "total_tokens": 28709,
+      "output_tokens": 685,
+      "conversation_id": "a7f89631-1f47-49c4-9980-2bce267c3f52",
+      "completed_requests": 10,
+      "reserved_micro_usd": 192590
+    }
+  ],
+  "verified_date": "2026-10-23",
+  "source": "Supabase execute_sql; private.setter_requests and public.interest_registrations; read-only aggregate verification"
+}

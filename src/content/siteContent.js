@@ -27,6 +27,10 @@ export const siteSettings = {
 }
 
 export const pageMetadata = {
+  '/chatbot': {
+    title: 'Conversemos | Nicolás Zamara',
+    description: 'Encuentra orientación sobre consultas, terapias y cursos, y solicita contacto con el equipo.',
+  },
   '/': {
     title: 'Nicolás Zamara | Consulta, formación y naturaleza',
     description: 'Consulta terapéutica, cursos de Flores de Bach y una invitación a conectar con la naturaleza.',
@@ -41,7 +45,7 @@ export const pageMetadata = {
   },
   '/cursos': {
     title: 'Cursos y formación | Nicolás Zamara',
-    description: 'Flores de Bach para la vida cotidiana y registro de interés para una futura modalidad online.',
+    description: 'Flores de Bach para la vida cotidiana e información sobre el curso online.',
   },
   '/privacidad': {
     title: 'Privacidad | Nicolás Zamara',
@@ -74,8 +78,12 @@ export const homeContent = {
 
 export const privacyCopy = {
   sections: [
-    { title: 'Finalidad de los registros', body: 'Los datos de cada formulario se usarán únicamente para responder al interés indicado y, si la persona lo autoriza por separado, enviar novedades relacionadas.' },
-    { title: 'Datos que se guardan', body: 'Se guardan tu nombre, correo electrónico, el interés que indicas y tus autorizaciones, junto con la fecha de registro. Según el formulario, también se recogen tu ciudad o país y, si decides compartirla, tu experiencia previa. No se solicita información clínica.' },
+    { title: 'Asistente conversacional', body: 'Si usas el asistente, tu mensaje y el historial reciente se envían a OpenAI para generar una respuesta usando la información disponible de los servicios. No almacenamos automáticamente tus mensajes ni el historial completo en nuestra base de datos. Una cookie anónima permite recuperar el estado y sus límites; guardamos contadores, intentos y respuestas del asistente. Evita incluir información clínica o datos personales sensibles.' },
+    { title: 'Propuestas para mejorar las respuestas', body: 'Si eliges sugerir una mejor respuesta y autorizas su envío, guardamos el caso que escribas, la respuesta señalada del asistente, tu propuesta y comentario, junto con la fecha y una referencia anónima de la conversación. No copiamos automáticamente el historial. El equipo revisa las propuestas; solo los ejemplos aprobados se usan para orientar respuestas futuras de OpenAI. No incluyas datos personales ni información clínica. Esta autorización es independiente de la solicitud de contacto.' },
+    { title: 'Solicitud de contacto desde el asistente', body: 'Versión de esta autorización: 23 de octubre de 2026, contacto v3. Con tu autorización explícita guardamos el servicio de interés, tu nombre, teléfono, correo y preferencia de contacto: videollamada, teléfono o WhatsApp. El teléfono y el correo son obligatorios en las tres opciones. Usamos estos datos para contactarte por ese interés. La autorización para novedades es independiente y opcional. Estos campos no se envían al modelo de OpenAI. El registro no confirma una reserva ni una inscripción.' },
+    { title: 'Finalidad de los registros', body: 'Los datos de cada formulario se usarán únicamente para responder al interés indicado, según tu preferencia de contacto, y, si lo autorizas por separado, enviar novedades relacionadas. Elegir videollamada expresa una preferencia; no confirma una cita.' },
+    { title: 'Datos que se guardan', body: 'En los formularios de interés se guardan tu nombre, correo, teléfono, preferencia de contacto, interés y autorizaciones, junto con la fecha de registro. Según el formulario, también tu ciudad o país y, opcionalmente, tu experiencia previa. En los nuevos registros, el teléfono, el correo y la elección de videollamada, teléfono o WhatsApp son obligatorios. No se solicita información clínica.' },
     { title: 'Almacenamiento', body: 'Los registros se almacenan en Supabase, en São Paulo, y se reciben a través de Vercel. Los visitantes del sitio no pueden consultar ni modificar los registros guardados.' },
+    { title: 'Origen de las solicitudes y clics en el curso', body: 'Guardamos si una solicitud llegó desde el formulario del asistente o desde un formulario de la web y la ruta donde se envió, sin parámetros de consulta ni fragmentos. Para contar clics al enlace del curso usamos un identificador anónimo de navegador mediante una cookie firmada, con una vigencia de hasta ocho días. Distinguimos los clics del asistente, la página de cursos y el inicio; registramos su fecha y ruta. No enviamos nombres, correos, teléfonos ni mensajes en esos eventos. El conteo corresponde a ese navegador y no confirma una compra o inscripción.' },
   ],
 }

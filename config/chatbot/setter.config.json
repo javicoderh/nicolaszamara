@@ -1,0 +1,431 @@
+{
+  "version": "setter-v2-conversational-2026-10-23",
+  "status": "implemented_requires_server_configuration",
+  "active": true,
+  "purpose": "Setter conversacional con informaci?n verificada, ejemplos revisados y acciones controladas por el servidor.",
+  "model": {
+    "requested_label": "Luna",
+    "api_model_id": null,
+    "select_via": "OPENAI_MODEL",
+    "change_current_default": false,
+    "equivalence_with_sol_verified": false
+  },
+  "files": {
+    "system_prompt": "prompts/selector.system.md",
+    "developer_prompt": "prompts/selector.developer.md",
+    "contact_flow": "prompts/captura-contacto.md",
+    "implementation_prompt": "prompts/implementar-con-luna.md",
+    "responses": "responses.es.json",
+    "cases": "decision-cases.json"
+  },
+  "policy": {
+    "max_completed_rounds": 10,
+    "conversion_from_response": 8,
+    "max_provider_attempts_per_conversation": 12,
+    "max_completed_rounds_per_visitor_day": 30,
+    "max_provider_attempts_per_visitor_day": 36,
+    "max_new_conversations_per_visitor_day": 3,
+    "cooldown_minutes_after_close": 30,
+    "daily_timezone": "America/Santiago",
+    "max_context_messages": 12,
+    "max_user_message_characters": 1000,
+    "reveal_delay_ms": 800,
+    "contact_capture_consumes_model_round": false,
+    "final_actions_available_after_close": true,
+    "automatic_provider_retry": false
+  },
+  "catalog": {
+    "business_content_source": "src/content/siteContent.js",
+    "hotmart_url_source": "siteSettings.courseUrl",
+    "lead_table": "public.interest_registrations",
+    "lead_pipeline": "/api/interests",
+    "topics": [
+      "consultation",
+      "therapies",
+      "course",
+      "online",
+      "nature",
+      "unknown",
+      "out_of_scope"
+    ],
+    "therapy_ids": [
+      "acupuntura",
+      "moxibustion",
+      "ventosaterapia",
+      "tuina",
+      "flores-de-bach",
+      "medicina-bioenergetica",
+      "iridologia",
+      "meditacion-y-mindfulness"
+    ],
+    "topic_to_interest": {
+      "consultation": "consultation",
+      "therapies": "consultation",
+      "course": "course",
+      "online": "online",
+      "nature": "nature"
+    },
+    "actions": {
+      "none": {
+        "type": "no_navigation"
+      },
+      "ask_service": {
+        "type": "local_question"
+      },
+      "ask_intent": {
+        "type": "local_question"
+      },
+      "show_consultation": {
+        "type": "link",
+        "href": "/consulta"
+      },
+      "show_therapies": {
+        "type": "link",
+        "href": "/terapias"
+      },
+      "show_course": {
+        "type": "link",
+        "href": "/cursos"
+      },
+      "show_online_interest": {
+        "type": "link",
+        "href": "/cursos#interes-online"
+      },
+      "show_nature": {
+        "type": "link",
+        "href": "/#interes-naturaleza"
+      },
+      "show_hotmart": {
+        "type": "configured_link",
+        "source": "siteSettings.courseUrl",
+        "event": "hotmart_click"
+      },
+      "offer_contact": {
+        "type": "local_contact_invitation"
+      },
+      "start_contact_capture": {
+        "type": "local_contact_flow"
+      },
+      "stop": {
+        "type": "end_requested_by_visitor"
+      },
+      "show_privacy": {
+        "type": "link",
+        "href": "/privacidad"
+      }
+    }
+  },
+  "decisions": {
+    "greeting": {
+      "topics": [
+        "unknown"
+      ],
+      "actions": [
+        "none"
+      ]
+    },
+    "acknowledgment": {
+      "topics": [
+        "unknown",
+        "consultation",
+        "therapies",
+        "course",
+        "online",
+        "nature"
+      ],
+      "actions": [
+        "none"
+      ]
+    },
+    "consultation_info": {
+      "topics": [
+        "consultation"
+      ],
+      "actions": [
+        "show_consultation"
+      ]
+    },
+    "therapies_info": {
+      "topics": [
+        "therapies"
+      ],
+      "actions": [
+        "show_therapies"
+      ]
+    },
+    "course_info": {
+      "topics": [
+        "course"
+      ],
+      "actions": [
+        "show_course"
+      ]
+    },
+    "online_info": {
+      "topics": [
+        "online"
+      ],
+      "actions": [
+        "show_online_interest"
+      ]
+    },
+    "nature_info": {
+      "topics": [
+        "nature"
+      ],
+      "actions": [
+        "show_nature"
+      ]
+    },
+    "hotmart_link": {
+      "topics": [
+        "course"
+      ],
+      "actions": [
+        "show_hotmart"
+      ]
+    },
+    "contact_offer": {
+      "topics": [
+        "consultation",
+        "therapies",
+        "course",
+        "online",
+        "nature"
+      ],
+      "actions": [
+        "offer_contact",
+        "start_contact_capture"
+      ]
+    },
+    "contact_declined": {
+      "topics": [
+        "unknown",
+        "consultation",
+        "therapies",
+        "course",
+        "online",
+        "nature"
+      ],
+      "actions": [
+        "none"
+      ]
+    },
+    "clarify_service": {
+      "topics": [
+        "unknown"
+      ],
+      "actions": [
+        "ask_service"
+      ]
+    },
+    "clarify_intent": {
+      "topics": [
+        "consultation",
+        "therapies",
+        "course",
+        "online",
+        "nature"
+      ],
+      "actions": [
+        "ask_intent"
+      ]
+    },
+    "details_unconfirmed": {
+      "topics": [
+        "consultation",
+        "therapies",
+        "course",
+        "online",
+        "nature"
+      ],
+      "actions": [
+        "offer_contact",
+        "none"
+      ]
+    },
+    "medical_boundary": {
+      "topics": [
+        "unknown",
+        "consultation",
+        "therapies",
+        "course",
+        "online",
+        "nature"
+      ],
+      "actions": [
+        "none"
+      ]
+    },
+    "urgent_attention": {
+      "topics": [
+        "unknown"
+      ],
+      "actions": [
+        "none"
+      ]
+    },
+    "payment_unverified": {
+      "topics": [
+        "course"
+      ],
+      "actions": [
+        "none"
+      ]
+    },
+    "out_of_scope": {
+      "topics": [
+        "out_of_scope"
+      ],
+      "actions": [
+        "none"
+      ]
+    },
+    "goodbye": {
+      "topics": [
+        "unknown",
+        "consultation",
+        "therapies",
+        "course",
+        "online",
+        "nature"
+      ],
+      "actions": [
+        "stop"
+      ]
+    },
+    "privacy_info": {
+      "topics": [
+        "unknown"
+      ],
+      "actions": [
+        "show_privacy"
+      ]
+    },
+    "course_conditions": {
+      "topics": [
+        "course"
+      ],
+      "actions": [
+        "show_hotmart"
+      ]
+    }
+  },
+  "server_guards": [
+    "Autorizar cuotas y presupuesto antes de cualquier llamada; el modelo no cuenta rondas.",
+    "No invocar al modelo durante captura estructurada ni después del cierre o del agotamiento de cuota.",
+    "Validar esquema, pertenencia al catálogo y combinación response_key/topic/action; el JSON válido no demuestra corrección semántica.",
+    "Derivar rutas, URL de Hotmart y textos desde catálogos aprobados; nunca ejecutarlos desde texto del modelo.",
+    "Los datos de captura no forman parte del contexto del modelo; la autorización y la persistencia se comprueban fuera del selector.",
+    "No aceptar contadores, consentimientos ni operaciones comerciales como ciertos por aparecer en mensajes de visitantes o documentos RAG.",
+    "Conservar el estado activo de contacto y la respuesta idempotente en el servidor.",
+    "Tratar rechazo, salida incompleta o decisión inválida como fallo controlado; no hacer un segundo llamado automático para corregirla.",
+    "contact_signal describe solo la intencion actual: declined impide iniciar u ofrecer captura; requested no equivale a consentimiento. none conserva la eleccion anterior. start_contact_capture requiere requested, servicio confirmado y autorizacion posterior en el formulario."
+  ],
+  "trusted_context_fields": [
+    "active_topic",
+    "last_action",
+    "pending_question",
+    "contact_declined",
+    "approved_facts",
+    "allowed_response_keys",
+    "allowed_actions",
+    "previous_reply",
+    "reviewed_examples"
+  ],
+  "pending_question_values": [
+    "none",
+    "contact_opt_in",
+    "service_selection",
+    "intent_selection"
+  ],
+  "user_context_fields": [
+    "last_user_message",
+    "recent_messages"
+  ],
+  "structured_output": {
+    "type": "json_schema",
+    "name": "setter_conversation_v3",
+    "strict": true,
+    "schema": {
+      "type": "object",
+      "properties": {
+        "topic": {
+          "type": "string",
+          "enum": [
+            "consultation",
+            "therapies",
+            "course",
+            "online",
+            "nature",
+            "unknown",
+            "out_of_scope"
+          ]
+        },
+        "response_key": {
+          "type": "string",
+          "enum": [
+            "greeting",
+            "acknowledgment",
+            "consultation_info",
+            "therapies_info",
+            "course_info",
+            "online_info",
+            "nature_info",
+            "hotmart_link",
+            "contact_offer",
+            "contact_declined",
+            "clarify_service",
+            "clarify_intent",
+            "details_unconfirmed",
+            "medical_boundary",
+            "urgent_attention",
+            "payment_unverified",
+            "out_of_scope",
+            "goodbye",
+            "privacy_info",
+            "course_conditions"
+          ]
+        },
+        "action": {
+          "type": "string",
+          "enum": [
+            "none",
+            "ask_service",
+            "ask_intent",
+            "show_consultation",
+            "show_therapies",
+            "show_course",
+            "show_online_interest",
+            "show_nature",
+            "show_hotmart",
+            "offer_contact",
+            "start_contact_capture",
+            "stop",
+            "show_privacy"
+          ]
+        },
+        "contact_signal": {
+          "type": "string",
+          "enum": [
+            "none",
+            "requested",
+            "declined"
+          ]
+        },
+        "reply": {
+          "type": "string",
+          "description": "Respuesta natural en espa?ol, hasta 700 caracteres, sin URLs, una sola pregunta pertinente como m?ximo."
+        }
+      },
+      "required": [
+        "topic",
+        "response_key",
+        "action",
+        "contact_signal",
+        "reply"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

@@ -1,8 +1,24 @@
 import { act, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import App, { normalizePath } from './App.jsx'
+import { chatbotApi } from '../services/chatbotService.js'
+import { sessionResult } from '../test/chatbotFixtures.js'
 
 describe('App', () => {
+  it('serves /chatbot directly after the page delay without a duplicate floating assistant', async () => {
+    const session = vi.spyOn(chatbotApi, 'session').mockResolvedValue(sessionResult())
+    window.history.replaceState({}, '', '/chatbot/')
+    render(<App />)
+    expect(screen.getByLabelText('Cargando conversación')).toHaveAttribute('aria-busy', 'true')
+    await act(async () => vi.advanceTimersByTimeAsync(799))
+    expect(screen.queryByRole('heading', { name: '¿En qué podemos ayudarte?' })).not.toBeInTheDocument()
+    await act(async () => vi.advanceTimersByTimeAsync(1))
+    expect(screen.getByRole('heading', { name: '¿En qué podemos ayudarte?' })).toBeInTheDocument()
+    expect(screen.getAllByRole('region', { name: 'Asistente de servicios' })).toHaveLength(1)
+    expect(screen.queryByRole('button', { name: /te ayudamos a elegir/i })).not.toBeInTheDocument()
+    expect(document.title).toBe('Conversemos | Nicolás Zamara')
+    session.mockRestore()
+  })
   beforeEach(() => vi.useFakeTimers())
   afterEach(() => {
     vi.useRealTimers()

@@ -1,0 +1,13 @@
+.contact-preference { min-width: 0; margin: 0; padding: 0; border: 0; }
+.contact-preference legend { margin-bottom: 10px; color: var(--color-navy); font-size: .78rem; font-weight: 600; }
+.contact-preference__choices { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 9px; }
+.contact-preference .contact-preference__option { position: relative; display: grid; justify-items: center; gap: 6px; padding: 12px 4px; border: 1px solid #9eae9f; border-radius: 8px; color: var(--color-navy); background: #faf9f6; cursor: pointer; }
+.contact-preference__option:has(input:checked) { border-color: var(--color-sage-dark); background: #e6eee3; box-shadow: inset 0 0 0 1px var(--color-sage-dark); }
+.contact-preference__option:focus-within { outline: 2px solid var(--color-navy); outline-offset: 3px; }
+.contact-preference__control { display: flex; align-items: center; gap: 9px; }
+.contact-preference__control svg { width: 26px; height: 26px; }
+.contact-preference .contact-preference__control input[type=radio] { width: 17px; height: 17px; min-height: 0; margin: 0; padding: 0; accent-color: var(--color-sage-dark); cursor: pointer; }
+.contact-preference__label { font-size: .73rem; font-weight: 500; }
+.contact-preference__tooltip { position: absolute; z-index: 30; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); padding: 6px 9px; border-radius: 5px; white-space: nowrap; color: #fff; background: var(--color-navy); font-size: .72rem; box-shadow: 0 3px 10px rgb(0 0 0 / 18%); }
+.contact-preference__tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; margin-left: -4px; border: 4px solid transparent; border-top-color: var(--color-navy); }
+.contact-preference:disabled .contact-preference__option { cursor: wait; opacity: .65; }

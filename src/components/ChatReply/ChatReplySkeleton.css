@@ -1,0 +1,3 @@
+.chat-reply-skeleton { display: grid; gap: 8px; padding: 13px; border: 1px solid #d9dfd8; border-radius: 14px; background: #fff; width: 85%; }
+.chat-reply-skeleton span { height: 12px; border-radius: 4px; background: #dfe5df; }
+.chat-reply-skeleton span:last-child { width: 70%; }

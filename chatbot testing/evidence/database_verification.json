@@ -1,0 +1,80 @@
+{
+  "contacts": [
+    {
+      "count": 1,
+      "preference": "video_call",
+      "lead_request_id": "a0f94666-4b50-4359-ab06-dc1addda1149",
+      "updates_disabled": true
+    },
+    {
+      "count": 1,
+      "preference": "video_call",
+      "lead_request_id": "d4027c13-ef11-472f-ac1f-449dc1fd93df",
+      "updates_disabled": true
+    },
+    {
+      "count": 1,
+      "preference": "phone",
+      "lead_request_id": "7b95b35b-5f73-4cf1-b175-93e4122ef9d2",
+      "updates_disabled": true
+    },
+    {
+      "count": 1,
+      "preference": "phone",
+      "lead_request_id": "d0ab4eb4-45c3-4a3b-8f72-bfa2ab441c3f",
+      "updates_disabled": true
+    }
+  ],
+  "requests": [
+    {
+      "model": "gpt-6-luna",
+      "effort": "high",
+      "input_tokens": 28024,
+      "total_tokens": 29180,
+      "output_tokens": 1156,
+      "total_attempts": 10,
+      "conversation_id": "86b1060d-8941-48c5-bc63-ea162526c4e5",
+      "completed_requests": 10,
+      "reserved_micro_usd": 192590,
+      "uncertain_attempts": 0
+    },
+    {
+      "model": "gpt-6-luna",
+      "effort": "low",
+      "input_tokens": 27731,
+      "total_tokens": 28515,
+      "output_tokens": 784,
+      "total_attempts": 10,
+      "conversation_id": "05476410-b67f-40c9-996e-b145efc7c704",
+      "completed_requests": 10,
+      "reserved_micro_usd": 192590,
+      "uncertain_attempts": 0
+    },
+    {
+      "model": "gpt-6-luna",
+      "effort": "high",
+      "input_tokens": 27731,
+      "total_tokens": 28855,
+      "output_tokens": 1124,
+      "total_attempts": 11,
+      "conversation_id": "c6cb9e59-a7b8-413d-adb4-6b50709217cb",
+      "completed_requests": 10,
+      "reserved_micro_usd": 211849,
+      "uncertain_attempts": 1
+    },
+    {
+      "model": "gpt-6-luna",
+      "effort": "low",
+      "input_tokens": 28024,
+      "total_tokens": 28709,
+      "output_tokens": 685,
+      "total_attempts": 10,
+      "conversation_id": "a7f89631-1f47-49c4-9980-2bce267c3f52",
+      "completed_requests": 10,
+      "reserved_micro_usd": 192590,
+      "uncertain_attempts": 0
+    }
+  ],
+  "verified_date": "2026-10-23",
+  "source": "Read-only aggregate query through Supabase execute_sql. For the uncertain attempt, provider usage is preserved in the HTTP failure evidence and not in the private completed ledger."
+}
