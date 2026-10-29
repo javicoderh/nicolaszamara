@@ -1,4 +1,5 @@
 .consult-page { max-width: 1000px; padding-block: 75px 90px; }
+.consult-page__interest { margin-top: 70px; scroll-margin-top: 100px; }
 .consult-page h1, .consult-page h2 { color: var(--color-navy); font-weight: 400; line-height: 1.08; letter-spacing: -.025em; }
 .consult-page h1 { min-width: 0; margin: 0; font-size: clamp(2.5rem, 4.6vw, 4.3rem); text-transform: uppercase; }
 .consult-page__intro { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); align-items: stretch; gap: 48px; }

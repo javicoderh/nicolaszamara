@@ -13,6 +13,11 @@ describe('SiteHeader', () => {
     expect(toggle).toHaveAttribute('aria-expanded', 'true')
     expect(screen.getByRole('link', { name: 'Consulta' })).toHaveAttribute('href', '/consulta')
     expect(screen.getByRole('link', { name: 'Terapias' })).toHaveAttribute('href', '/terapias')
+    expect(screen.getByRole('link', { name: 'Naturaleza' })).toHaveAttribute('href', '/naturaleza')
+    expect(screen.getByRole('link', { name: 'Sobre mí' })).toHaveAttribute('href', '/sobre-mi')
+    for (const link of screen.getByRole('navigation', { name: 'Navegación principal' }).querySelectorAll('a')) {
+      expect(link.getAttribute('href')).not.toContain('#')
+    }
   })
 
   it('ofrece un skeleton propio', () => {

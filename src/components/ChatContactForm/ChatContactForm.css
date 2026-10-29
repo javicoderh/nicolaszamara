@@ -10,3 +10,4 @@
 .chat-contact button[type=button] { color: #294b31; background: #f2f5f0; }
 .chat-contact [role=alert] { color: #8c342b; }
 .chat-contact__saved { margin: 0; padding: 16px; font-size: .8rem; }
+.chat-contact__review-notice { padding: 10px 12px; border-left: 3px solid var(--color-sage-dark); background: #fff; color: var(--color-navy); }

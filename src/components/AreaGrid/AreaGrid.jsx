@@ -12,7 +12,7 @@ export default function AreaGrid({ areas }) {
     <div className="area-grid">
       {areas.map((area, index) => (
         <article className="area-card" key={area.number}>
-          <div className="area-card__visual" aria-hidden="true"><svg viewBox="0 0 120 120" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d={illustrations[index % illustrations.length]} /></svg></div>
+          <a className="area-card__visual" href={area.href} aria-label={`Ir a ${area.title}`}><svg aria-hidden="true" viewBox="0 0 120 120" fill="none" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"><path d={illustrations[index % illustrations.length]} /></svg></a>
           <span className="area-card__number">{area.number}</span>
           <h3>{area.title}</h3>
           <p>{area.description}</p>

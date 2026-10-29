@@ -17,6 +17,27 @@ def submission(kind="nature"):
 
 
 class ValidationTests(unittest.TestCase):
+    @patch('backend.interests.save_interest')
+    def test_consultation_form_is_saved_without_location_or_experience(self, save):
+        payload = submission()
+        payload['interest'] = 'consultation'
+        payload['source_path'] = '/consulta'
+        del payload['values']['city']
+        self.assertEqual(process_submission(payload), (201, {'status': 'saved'}))
+        record = save.call_args.args[0]
+        self.assertEqual(record['interest'], 'consultation')
+        self.assertEqual(record['source_path'], '/consulta')
+        for field in ('country', 'city', 'experience'):
+            self.assertIsNone(record[field])
+        for field in ('email', 'phone', 'contactPreference'):
+            invalid = copy.deepcopy(payload)
+            del invalid['values'][field]
+            with self.assertRaises(InvalidSubmission):
+                validate_submission(invalid)
+        payload['values']['clinical_notes'] = 'unexpected'
+        with self.assertRaises(InvalidSubmission):
+            validate_submission(payload)
+
     def test_normalizes_values_without_enabling_updates(self):
         record = validate_submission(submission())
         self.assertEqual(record["full_name"], "Ana")

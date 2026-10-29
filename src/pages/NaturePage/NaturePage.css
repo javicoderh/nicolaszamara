@@ -1,0 +1,14 @@
+.nature-page__hero { display: grid; grid-template-columns: 1fr 1fr; background: var(--color-areas); }
+.nature-page__photo-frame { position: relative; min-width: 0; overflow: hidden; }
+.nature-page__photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 30% center; }
+.nature-page__copy { align-self: center; max-width: 720px; padding: 70px clamp(30px, 6vw, 90px); }
+.nature-page h1 { margin: 0; color: var(--color-navy); font-size: clamp(2.4rem, 4vw, 3.75rem); font-weight: 400; line-height: 1.08; }
+.nature-page__copy p { color: var(--color-muted); font-size: .88rem; line-height: 1.95; }
+.nature-page__copy .nature-page__label { color: var(--color-navy); font-weight: 600; }
+.nature-page__interest { max-width: 850px; padding-block: 75px 90px; scroll-margin-top: 100px; }
+@media(max-width: 640px) {
+  .nature-page__hero { grid-template-columns: 1fr; }
+  .nature-page__photo-frame { aspect-ratio: 3 / 2; }
+  .nature-page__copy { padding: 42px 20px 55px; }
+  .nature-page__interest { padding-block: 50px 60px; }
+}

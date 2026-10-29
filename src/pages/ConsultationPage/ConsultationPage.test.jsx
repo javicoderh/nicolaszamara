@@ -8,10 +8,12 @@ describe('ConsultationPage', () => {
   it('explica evaluación individual y no promete una reserva', () => {
     render(<SiteContentProvider><ConsultationPage /></SiteContentProvider>)
     expect(screen.getByText(/La acupuntura y las técnicas complementarias se eligen según cada caso/i)).toBeInTheDocument()
-    expect(screen.getByRole('status')).toHaveTextContent('WhatsApp no está disponible')
-    expect(screen.queryByRole('link', { name: /whatsapp/i })).not.toBeInTheDocument()
+    const whatsapp = screen.getByRole('link', { name: /Consultar disponibilidad por WhatsApp/i })
+    expect(whatsapp).toHaveAttribute('href', `https://wa.me/56953961219?text=${encodeURIComponent('Hola, quisiera consultar disponibilidad para una sesión.')}`)
+    expect(whatsapp).toHaveAttribute('target', '_blank')
+    expect(screen.getByRole('heading', { name: 'Me interesa agendar una consulta' })).toBeInTheDocument()
     expect(screen.queryByRole('definition')).not.toBeInTheDocument()
-    expect(screen.queryByText(/versión de pruebas|consulta al coordinar tu atención/i)).not.toBeInTheDocument()
+    expect(screen.getByText(/versión de pruebas/i)).toBeInTheDocument()
   })
 
   it('presenta únicamente los datos prácticos configurados', () => {
@@ -27,6 +29,7 @@ describe('ConsultationPage', () => {
     expect(screen.getByLabelText('Cargando consulta')).toHaveAttribute('aria-busy', 'true')
     expect(container.querySelector('.consult-skeleton__photo')).toBeInTheDocument()
     expect(container.querySelector('.consult-skeleton__title')).toBeInTheDocument()
+    expect(container.querySelector('.interest-form-skeleton')).toBeInTheDocument()
   })
 
   it('presenta la foto MAYA-925 antes del texto dentro del hero', () => {

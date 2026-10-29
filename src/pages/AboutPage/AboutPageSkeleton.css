@@ -1,0 +1,6 @@
+.about-skeleton { max-width: 1100px; min-height: 600px; padding-block: 80px 100px; display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); align-items: start; gap: 48px; }
+.about-skeleton__photo { width: 100%; aspect-ratio: 960 / 1439; background: var(--color-surface-strong); animation: about-pulse 1.3s ease-in-out infinite alternate; }
+.about-skeleton span { display: block; height: 85px; margin-bottom: 28px; background: var(--color-surface-strong); animation: about-pulse 1.3s ease-in-out infinite alternate; }
+.about-skeleton span:first-child { width: 80%; height: 95px; }
+@keyframes about-pulse { to { opacity: .45; } }
+@media(max-width: 700px) { .about-skeleton { padding-block: 48px 60px; grid-template-columns: 1fr; gap: 32px; } .about-skeleton__photo { max-width: 420px; justify-self: center; } }

@@ -34,7 +34,7 @@ export function useInterestSubmission(submitInterest) {
       if (active.current !== task) return
       active.current = null
       setStatus(outcome)
-      if (outcome === 'saved') trackEvent(payload.interest === 'online' ? 'online_interest_saved' : 'nature_interest_saved')
+      if (outcome === 'saved') trackEvent(`${payload.interest}_interest_saved`)
     }, BASE_DELAY_MS)
   }
 

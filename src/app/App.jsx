@@ -24,10 +24,16 @@ import NotFoundPageSkeleton from '../pages/NotFoundPage/NotFoundPageSkeleton.jsx
 import Chatbot from '../components/Chatbot/Chatbot.jsx'
 import ChatbotSkeleton from '../components/Chatbot/ChatbotSkeleton.jsx'
 import './App.css'
+import AboutPage from '../pages/AboutPage/AboutPage.jsx'
+import AboutPageSkeleton from '../pages/AboutPage/AboutPageSkeleton.jsx'
+import NaturePage from '../pages/NaturePage/NaturePage.jsx'
+import NaturePageSkeleton from '../pages/NaturePage/NaturePageSkeleton.jsx'
 import ChatbotPage from '../pages/ChatbotPage/ChatbotPage.jsx'
 import ChatbotPageSkeleton from '../pages/ChatbotPage/ChatbotPageSkeleton.jsx'
 
 const routes = {
+  '/sobre-mi': { Page: AboutPage, Skeleton: AboutPageSkeleton },
+  '/naturaleza': { Page: NaturePage, Skeleton: NaturePageSkeleton },
   '/chatbot': { Page: ChatbotPage, Skeleton: ChatbotPageSkeleton },
   '/': { Page: HomePage, Skeleton: HomePageSkeleton },
   '/consulta': { Page: ConsultationPage, Skeleton: ConsultationPageSkeleton },

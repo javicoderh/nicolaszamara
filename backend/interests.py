@@ -40,7 +40,7 @@ def text_field(values, key, maximum, required=True):
 def validate_submission(payload):
     if isinstance(payload, dict) and payload.get('source') == 'chatbot':
         return validate_contact(payload)
-    if not isinstance(payload, dict) or payload.get("interest") not in ("online", "nature"):
+    if not isinstance(payload, dict) or payload.get("interest") not in ("online", "nature", "consultation"):
         raise InvalidSubmission("Invalid interest")
     if payload.get("privacyConsent") is not True:
         raise InvalidSubmission("Privacy consent is required")
@@ -51,6 +51,8 @@ def validate_submission(payload):
         raise InvalidSubmission("Invalid fields")
     kind = payload["interest"]
     allowed = {"name", "email", "phone", "contactPreference", "country", "experience"} if kind == "online" else {"name", "email", "phone", "contactPreference", "city"}
+    if kind == 'consultation':
+        allowed = {"name", "email", "phone", "contactPreference"}
     if set(values) - allowed:
         raise InvalidSubmission("Unexpected fields")
     try:

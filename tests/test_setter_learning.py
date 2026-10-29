@@ -79,8 +79,8 @@ class LearningTests(unittest.TestCase):
                     'contact_signal': 'none', 'reply': 'Esta frase no debe publicarse.'}
         self.assertEqual(render_decision(decision, {})['reply'], RESPONSES['medical_boundary'])
 
-    def test_both_course_modalities_keep_direct_enrollment_without_contact_gating(self):
-        for topic in ('course', 'online'):
+    def test_current_course_keeps_direct_enrollment_without_contact_gating(self):
+        for topic in ('course',):
             for completed in (0, 7, 9):
                 decision = {'topic': topic, 'response_key': 'hotmart_link', 'action': 'show_hotmart',
                             'contact_signal': 'declined', 'reply': 'Te dejamos el enlace para inscribirte directamente en Hotmart.'}
@@ -90,12 +90,24 @@ class LearningTests(unittest.TestCase):
                 self.assertEqual(result['action'], 'show_hotmart')
                 self.assertNotIn('solicitar que te contactemos', result['reply'])
 
-    def test_legacy_online_interest_decision_is_redirected_to_registration(self):
+    def test_online_interest_keeps_the_future_edition_form(self):
         decision = {'topic': 'online', 'response_key': 'online_info', 'action': 'show_online_interest',
                     'contact_signal': 'none', 'reply': 'Te dejamos el enlace de inscripción de nuestro curso online.'}
         result = render_decision(validate_decision(decision, trusted_context({}), require_reply=True), {'completed_rounds': 9})
-        self.assertEqual(result['action'], 'show_hotmart')
-        self.assertNotIn('contactemos', result['reply'])
+        self.assertEqual(result['action'], 'show_online_interest')
+        self.assertIn('cuando se abra una edición online', result['reply'])
+        self.assertNotIn('Hotmart', result['reply'])
+
+    def test_online_legacy_enrollment_is_not_presented_as_open(self):
+        for response_key in ('online_info', 'hotmart_link', 'course_conditions'):
+            for rounds in (0, 7, 9):
+                decision = {'topic': 'online', 'response_key': response_key, 'action': 'show_hotmart',
+                            'contact_signal': 'none', 'reply': 'Inscríbete ahora en Hotmart.'}
+                result = render_decision(validate_decision(decision, trusted_context({}), require_reply=True),
+                                         {'completed_rounds': rounds})
+                self.assertEqual(result['action'], 'show_online_interest')
+                self.assertIn('cuando se abra una edición online', result['reply'])
+                self.assertNotIn('Hotmart', result['reply'])
 
     def test_educational_flower_associations_are_available_to_the_provider(self):
         facts = {fact['id']: fact for fact in trusted_context({})['approved_facts']}

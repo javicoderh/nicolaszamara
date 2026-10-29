@@ -1,8 +1,7 @@
 import InterestForm from '../../components/InterestForm/InterestForm.jsx'
 import ActionLink from '../../components/ActionLink/ActionLink.jsx'
 import AreaGrid from '../../components/AreaGrid/AreaGrid.jsx'
-import PhotoPlaceholder from '../../components/PhotoPlaceholder/PhotoPlaceholder.jsx'
-import { homeContent } from '../../content/siteContent.js'
+import { homeContent, aboutContent, natureContent } from '../../content/siteContent.js'
 import { useSiteContent } from '../../contexts/SiteContentContext/SiteContentContext.jsx'
 import { trackHotmartClick } from '../../services/hotmartTrackingService.js'
 import './HomePage.css'
@@ -19,6 +18,7 @@ export default function HomePage() {
           <div className="home-hero__actions">
             <ActionLink href="/consulta">Conoce la consulta <span aria-hidden="true">↗</span></ActionLink>
             <ActionLink href="/cursos" variant="text">Explora los cursos <span aria-hidden="true">→</span></ActionLink>
+            <ActionLink href="/naturaleza" variant="text">Reconecta con la naturaleza <span aria-hidden="true">→</span></ActionLink>
           </div>
         </div>
         <img
@@ -57,17 +57,36 @@ export default function HomePage() {
           <p>{homeContent.course.description}</p>
           <p>{homeContent.course.additional}</p>
           <ActionLink href={courseUrl} target="_blank" rel="noreferrer" onClick={() => { void trackHotmartClick('home') }}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
-          <ActionLink className="home-course__secondary" href="/cursos#interes-online" variant="text">Me interesa el curso online</ActionLink>
+          <ActionLink className="home-course__secondary" href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
         </div>
-        <PhotoPlaceholder orientation="landscape" />
+        <img
+          className="home-course__photo"
+          src="/photos/presentacion-botanica-1280.jpg"
+          srcSet="/photos/presentacion-botanica-640.jpg 640w, /photos/presentacion-botanica-1280.jpg 1280w"
+          sizes="(max-width: 640px) calc(100vw - 40px), 40vw"
+          alt="Presentación de botánica con una flor amarilla proyectada en pantalla"
+          width="1280"
+          height="960"
+          loading="lazy"
+          decoding="async"
+        />
       </section>
 
       <section className="home-about page-wrap" id="sobre-mi" aria-labelledby="about-title">
+        <img
+          className="home-about__photo"
+          src="/photos/sobre-mi-maya-844-960.jpg"
+          srcSet="/photos/sobre-mi-maya-844-480.jpg 480w, /photos/sobre-mi-maya-844-960.jpg 960w"
+          sizes="(max-width: 640px) calc(100vw - 40px), 420px"
+          alt="Nicolás Zamara sentado en un jardín"
+          width="960"
+          height="1439"
+          loading="lazy"
+          decoding="async"
+        />
         <div className="home-about__copy">
-          <h2 id="about-title">Hola, soy Nicolás.</h2>
-          <p>Mi trabajo reúne la Medicina China Integrativa, las Flores de Bach y la enseñanza. Me interesa comprender tu motivo de consulta y conocerte: qué te preocupa, cómo te sientes y qué está pasando en tu vida.</p>
-          <p>Desde ahí, integro distintas herramientas y explico cada paso de la atención, para orientarte de manera integral y acompañarte en el cuidado de tu salud.</p>
-          <p>Fuera de la consulta, una parte importante de mi vida transcurre entre bosques, montañas y ríos. Ese vínculo también está presente en mi forma de entender y compartir el bienestar.</p>
+          <h2 id="about-title">{aboutContent.title}</h2>
+          {aboutContent.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         </div>
       </section>
 
@@ -86,10 +105,9 @@ export default function HomePage() {
           />
         </div>
         <div className="home-nature__copy">
-          <h2 id="nature-title">Darte tiempo para estar en la naturaleza.</h2>
-          <p>Desde niño pasaba tiempo en parques nacionales como Conguillío, Huerquehue y muchos otros lugares. Después vinieron la alta montaña, la escalada en roca y el aprendizaje de navegar por ríos tranquilos y de aguas bravas. Todo eso me llevó a permanecer semanas inmerso en entornos naturales. Además de mi trabajo como terapeuta, soy guía de rafting y kayakista, y ese vínculo sigue siendo parte importante de mi vida.</p>
-          <p>De ahí nace lo que quiero compartir a través de los baños de bosque: detenernos, escuchar, observar y dejar espacio a lo que percibimos. No necesitas conocer el nombre de cada especie para encontrarte con el lugar.</p>
-          <p>Si te gustaría participar, puedes dejarme tu contacto para recibir información cuando se confirme el próximo encuentro.</p>
+          <p className="home-nature__label">Naturaleza y bienestar</p>
+          <h2 id="nature-title">{natureContent.title}</h2>
+          {natureContent.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
           <ActionLink href="#interes-naturaleza">Me interesan los baños de bosque</ActionLink>
         </div>
       </section>

@@ -7,4 +7,5 @@
 .privacy-page__sections section { padding-block: 28px; border-bottom: 1px solid var(--color-line); }
 .privacy-page__sections p, .privacy-page__contact { margin: 0; color: var(--color-muted); font-size: .87rem; line-height: 1.95; }
 .privacy-page__contact { margin-top: 32px; }
+.privacy-page__review-notice { padding: 16px; border-left: 3px solid var(--color-sage-dark); background: var(--color-surface); color: var(--color-navy); font-size: .87rem; line-height: 1.8; }
 @media(max-width:640px) { .privacy-page { padding-block: 48px 60px; } }

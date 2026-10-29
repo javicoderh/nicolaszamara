@@ -7,6 +7,8 @@ Aplicación de la consulta terapéutica Nicolas Zamara: React + Vite, API Python
 - `/`: inicio, áreas de trabajo, curso, presentación y registro de interés en naturaleza.
 - `/consulta`: primera atención, evaluación individual, datos prácticos y consulta de disponibilidad.
 - `/cursos`: curso Flores de Bach y formulario de interés para una futura edición online.
+- `/naturaleza`: presentación de baños de bosque y formulario de interés en próximos encuentros.
+- `/sobre-mi`: presentación personal de Nicolás, sin las demás secciones del inicio.
 - `/privacidad`: información de la versión de pruebas, con datos del responsable y canal de solicitudes pendientes de revisión.
 - Las rutas desconocidas muestran una página 404. `vercel.json` permite cargar directamente las rutas en Vercel.
 

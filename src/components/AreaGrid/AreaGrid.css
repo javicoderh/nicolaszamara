@@ -4,6 +4,9 @@
 .area-card:nth-child(2) .area-card__visual { background: #c0b7a6; }
 .area-card:nth-child(3) .area-card__visual { background: #9cafa9; }
 .area-card__visual svg { width: 51%; height: 51%; }
+.area-card__visual { text-decoration: none; transition: box-shadow .2s ease; }
+.area-card__visual:hover { box-shadow: 0 0 0 3px var(--color-navy); }
+.area-card__visual:focus-visible { outline: 3px solid var(--color-navy); outline-offset: 5px; }
 .area-card__number { display: none; }
 .area-card h3 { margin: 0 0 13px; color: var(--color-navy); font-family: var(--font-body); font-size: 1.08rem; font-weight: 600; line-height: 1.6; }
 .area-card p { max-width: 300px; margin: 0 0 13px; color: var(--color-muted); font-size: .84rem; line-height: 1.9; }

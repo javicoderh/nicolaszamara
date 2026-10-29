@@ -30,9 +30,12 @@ describe('App', () => {
     window.history.replaceState({}, '', '/')
     render(<App />)
     expect(screen.getByLabelText('Cargando inicio')).toHaveAttribute('aria-busy', 'true')
+    expect(document.querySelector('.floating-whatsapp-skeleton')).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: /contactar por whatsapp/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('heading', { name: /cuidar tu salud también es atender cómo te sientes/i })).not.toBeInTheDocument()
     act(() => vi.advanceTimersByTime(800))
     expect(screen.getByRole('heading', { name: /cuidar tu salud también es atender cómo te sientes/i })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /contactar por whatsapp/i })).toHaveAttribute('href', 'https://wa.me/56953961219')
   })
 
   it('quita la barra final en rutas interiores', () => {
@@ -69,13 +72,13 @@ describe('App', () => {
     expect(session).toHaveBeenCalledTimes(1)
   })
 
-  it.each(['/', '/consulta', '/terapias', '/cursos', '/privacidad', '/ruta-inexistente'])('presenta %s sin rótulos de sección ni textos de prueba', (path) => {
+  it.each(['/', '/consulta', '/terapias', '/cursos', '/naturaleza', '/sobre-mi', '/privacidad', '/ruta-inexistente'])('presenta %s sin contenido editorial pendiente', (path) => {
     window.history.replaceState({}, '', path)
     const { container } = render(<App />)
     act(() => vi.advanceTimersByTime(800))
     expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
     expect(container.querySelector('.eyebrow')).toBeNull()
-    expect(container).not.toHaveTextContent(/versión de pruebas|datos ficticios|durante la revisión|pendiente de entrega|un espacio para escuchar, aprender y estar/i)
+    expect(container).not.toHaveTextContent(/Credenciales y antecedentes específicos pendientes|Tres caminos, una misma escucha|pendiente de entrega|un espacio para escuchar, aprender y estar/i)
     expect(container.querySelector('.photo-placeholder figcaption')).toBeNull()
   })
 
@@ -84,6 +87,22 @@ describe('App', () => {
     render(<App />)
     act(() => vi.advanceTimersByTime(800))
     expect(screen.getByRole('heading', { name: /una atención que considera tu motivo/i })).toBeInTheDocument()
+  })
+
+  it.each([
+    ['/sobre-mi', 'Cargando sobre mí', 'Hola, soy Nicolás.', 'Sobre mí | Nicolás Zamara', 'Sobre mí'],
+    ['/naturaleza', 'Cargando naturaleza', 'Darte tiempo para estar en la naturaleza.', 'Naturaleza y bienestar | Nicolás Zamara', 'Naturaleza'],
+  ])('abre %s directamente y respeta el delay de 800 ms', (path, loading, heading, title, label) => {
+    window.history.replaceState({}, '', path)
+    render(<App />)
+    expect(screen.getByLabelText(loading)).toHaveAttribute('aria-busy', 'true')
+    act(() => vi.advanceTimersByTime(799))
+    expect(screen.queryByRole('heading', { level: 1 })).not.toBeInTheDocument()
+    act(() => vi.advanceTimersByTime(1))
+    expect(screen.getByRole('heading', { level: 1, name: heading })).toBeInTheDocument()
+    expect(document.title).toBe(title)
+    expect(within(screen.getByRole('navigation', { name: 'Navegación principal' })).getByRole('link', { name: label })).toHaveAttribute('aria-current', 'page')
+    expect(screen.queryByRole('heading', { name: 'Flores de Bach para la vida cotidiana' })).not.toBeInTheDocument()
   })
 
   it('muestra la página no encontrada para rutas desconocidas', () => {

@@ -21,7 +21,7 @@ export default function CoursesPage() {
           <p>{homeContent.course.additional}</p>
           <div className="courses-page__actions">
             <ActionLink href={courseUrl} target="_blank" rel="noreferrer" onClick={() => { void trackHotmartClick('course') }}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
-            <ActionLink href="/cursos#interes-online" variant="text">Me interesa el curso online</ActionLink>
+            <ActionLink href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
           </div>
         </div>
         <div className="courses-page__photo-frame">
@@ -42,7 +42,7 @@ export default function CoursesPage() {
         <div className="page-wrap courses-page__online-inner">
           <div>
             <h2>Curso online para público hispanohablante.</h2>
-            <p>Si te gustaría participar desde tu ciudad o país, déjame tus datos para recibir información sobre el curso online de Flores de Bach.</p>
+            <p>Si te gustaría participar desde tu ciudad o país, déjame tus datos para recibir información cuando se abra una edición online.</p>
           </div>
           <InterestForm kind="online" />
         </div>

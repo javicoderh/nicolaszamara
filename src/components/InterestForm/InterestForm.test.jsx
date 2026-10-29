@@ -8,7 +8,7 @@ function fillForm(kind = 'nature') {
   fireEvent.change(screen.getByLabelText(/correo electrónico/i), { target: { value: 'ana@example.com' } })
   fireEvent.change(screen.getByLabelText(/teléfono con prefijo/i), { target: { value: '+56912345678' } })
   fireEvent.click(screen.getByRole('radio', { name: 'WhatsApp' }))
-  fireEvent.change(screen.getByLabelText(kind === 'nature' ? /ciudad/i : /país/i), { target: { value: 'Chile' } })
+  if (kind !== 'consultation') fireEvent.change(screen.getByLabelText(kind === 'nature' ? /ciudad/i : /país/i), { target: { value: 'Chile' } })
   fireEvent.click(screen.getByRole('checkbox', { name: /autorizo el uso/i }))
 }
 
@@ -16,19 +16,37 @@ describe('InterestForm', () => {
   beforeEach(() => vi.useFakeTimers())
   afterEach(() => vi.useRealTimers())
 
+  it('registra consulta después de la petición más 800 ms sin confirmar una reserva', async () => {
+    let resolve
+    const service = vi.fn(() => new Promise((done) => { resolve = done }))
+    render(<InterestForm kind="consultation" submitInterest={service} />)
+    fillForm('consultation')
+    fireEvent.click(screen.getByRole('button', { name: 'Registrar mi interés' }))
+    await act(async () => { await vi.advanceTimersByTimeAsync(1200) })
+    expect(screen.getByRole('status')).toHaveTextContent('Estamos guardando')
+    await act(async () => { resolve({ status: 'saved' }) })
+    await act(async () => { await vi.advanceTimersByTimeAsync(799) })
+    expect(screen.getByRole('status')).toHaveTextContent('Estamos guardando')
+    await act(async () => { await vi.advanceTimersByTimeAsync(1) })
+    expect(screen.getByRole('status')).toHaveTextContent('Te contactaremos para coordinar tu consulta')
+    expect(screen.getByRole('status')).toHaveTextContent('La hora se confirma al acordarla directamente')
+    expect(service).toHaveBeenCalledWith({ interest: 'consultation', values: { name: 'Ana', email: 'ana@example.com', phone: '+56912345678', contactPreference: 'whatsapp' }, privacyConsent: true, updatesConsent: false, website: '' }, { signal: expect.any(AbortSignal) })
+  })
+
   it('requiere autorización y mantiene novedades sin marcar', () => {
     const service = vi.fn()
     render(<InterestForm kind="nature" submitInterest={service} />)
     expect(screen.getByRole('checkbox', { name: /autorizo/i })).not.toBeChecked()
     expect(screen.getByRole('checkbox', { name: /novedades/i })).not.toBeChecked()
+    expect(screen.getByText(/versión de pruebas/i)).toHaveTextContent('utiliza datos ficticios')
     fireEvent.submit(screen.getByRole('button', { name: 'Registrar mi interés' }).closest('form'))
     expect(service).not.toHaveBeenCalled()
   })
 
-  it('muestra error honesto y conserva los campos para reintentar', async () => {
+  it.each(['nature', 'consultation'])('muestra error honesto y conserva los campos para reintentar en %s', async (kind) => {
     const service = vi.fn().mockRejectedValue(new Error('offline'))
-    render(<InterestForm kind="nature" submitInterest={service} />)
-    fillForm()
+    render(<InterestForm kind={kind} submitInterest={service} />)
+    fillForm(kind)
     fireEvent.click(screen.getByRole('button', { name: 'Registrar mi interés' }))
     await act(async () => { await vi.advanceTimersByTimeAsync(800) })
     expect(screen.getByRole('alert')).toHaveTextContent('No pudimos confirmar el registro')
@@ -45,7 +63,7 @@ describe('InterestForm', () => {
     await act(async () => { await vi.advanceTimersByTimeAsync(799) })
     expect(screen.getByRole('status')).toHaveTextContent('Estamos guardando')
     await act(async () => { await vi.advanceTimersByTimeAsync(1) })
-    expect(screen.getByRole('status')).toHaveTextContent(kind === 'online' ? 'Gracias por tu interés. Te contactaré con información sobre el curso online.' : 'Gracias por tu interés. Te avisaré cuando se confirme un encuentro.')
+    expect(screen.getByRole('status')).toHaveTextContent(kind === 'online' ? 'Gracias por tu interés. Te avisaré cuando se abra una edición online.' : 'Gracias por tu interés. Te avisaré cuando se confirme un encuentro.')
     expect(service).toHaveBeenCalledWith({ interest: kind, values: kind === 'online' ? { name: 'Ana', email: 'ana@example.com', phone: '+56912345678', contactPreference: 'whatsapp', country: 'Chile', experience: '' } : { name: 'Ana', email: 'ana@example.com', phone: '+56912345678', contactPreference: 'whatsapp', city: 'Chile' }, privacyConsent: true, updatesConsent: false, website: '' }, { signal: expect.any(AbortSignal) })
     fireEvent.click(screen.getByRole('button', { name: 'Registrar otro interés' }))
     expect(screen.getByLabelText(/^nombre/i)).toHaveValue('')

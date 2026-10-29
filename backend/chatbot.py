@@ -139,16 +139,16 @@ def render_decision(decision, state):
     fixed = decision['response_key'] in ('medical_boundary', 'urgent_attention', 'payment_unverified', 'privacy_info', 'goodbye', 'out_of_scope')
     reply = RESPONSES[decision['response_key']] if fixed else decision.get('reply', RESPONSES[decision['response_key']]).strip()
     action = decision["action"]
-    # Online course inquiries must keep a direct registration path, including
-    # decisions produced with the older interest-form action.
-    if decision['response_key'] == 'online_info':
-        action = 'show_hotmart'
+    # The online edition is not open: never turn interest into an enrollment offer.
+    if topic == 'online' and decision['response_key'] in ('online_info', 'hotmart_link', 'course_conditions'):
+        reply = RESPONSES['online_info']
+        action = 'show_online_interest'
     round_number = state.get("completed_rounds", 0) + 1
     if action != 'show_hotmart' and round_number >= POLICY["conversion_from_response"] and decision["response_key"] not in (
             "medical_boundary", "urgent_attention", "privacy_info", "goodbye", "payment_unverified", "out_of_scope"):
         if topic == "course" and action not in ('show_hotmart', 'start_contact_capture'):
             reply += " " + COPY["local_closure_copy"]["hotmart"]
-        elif topic in ("consultation", "therapies", "online", "nature") and not declined and action != "start_contact_capture":
+        elif topic in ("consultation", "therapies", "nature") and not declined and action != "start_contact_capture":
             reply += " " + COPY["local_closure_copy"]["contact"]
             action = "offer_contact"
     return {"reply": reply, "topic": topic, "action": action, "response_key": decision["response_key"],

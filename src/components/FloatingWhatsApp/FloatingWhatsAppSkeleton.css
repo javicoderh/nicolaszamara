@@ -1,0 +1,4 @@
+.floating-whatsapp-skeleton { position: absolute; right: 0; bottom: calc(100% + 12px); width: 60px; height: 60px; border: 1px solid #9ab7a3; border-radius: 50%; background: #bbc8bc; animation: whatsapp-pulse 1.2s ease-in-out infinite alternate; }
+@keyframes whatsapp-pulse { to { opacity: .45; } }
+@media(max-width: 600px) { .floating-whatsapp-skeleton { width: 56px; height: 56px; } }
+@media(prefers-reduced-motion: reduce) { .floating-whatsapp-skeleton { animation: none; } }

@@ -9,8 +9,8 @@ const navigation = [
   { label: 'Terapias', href: '/terapias' },
   { label: 'Consulta', href: '/consulta' },
   { label: 'Cursos', href: '/cursos' },
-  { label: 'Naturaleza', href: '/#naturaleza' },
-  { label: 'Sobre mí', href: '/#sobre-mi' },
+  { label: 'Naturaleza', href: '/naturaleza' },
+  { label: 'Sobre mí', href: '/sobre-mi' },
 ]
 
 export default function SiteHeader() {

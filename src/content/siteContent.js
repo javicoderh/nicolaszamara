@@ -13,7 +13,7 @@ export const siteSettings = {
   brand: 'Nicolás Zamara',
   descriptor: 'Consulta · Formación · Naturaleza',
   contact: {
-    whatsappNumber: '',
+    whatsappNumber: '+56953961219',
     email: '',
     address: '',
     accessibility: '',
@@ -27,6 +27,14 @@ export const siteSettings = {
 }
 
 export const pageMetadata = {
+  '/sobre-mi': {
+    title: 'Sobre mí | Nicolás Zamara',
+    description: 'Conoce a Nicolás Zamara, su trabajo como terapeuta y su vínculo con la naturaleza.',
+  },
+  '/naturaleza': {
+    title: 'Naturaleza y bienestar | Nicolás Zamara',
+    description: 'Conoce los baños de bosque y registra tu interés para recibir información sobre próximos encuentros.',
+  },
   '/chatbot': {
     title: 'Conversemos | Nicolás Zamara',
     description: 'Encuentra orientación sobre consultas, terapias y cursos, y solicita contacto con el equipo.',
@@ -67,7 +75,7 @@ export const homeContent = {
   areas: [
     { number: '01', title: 'Consulta y terapias', description: 'Atención individual con acupuntura, Medicina China Integrativa y Flores de Bach. Un espacio para evaluar tu motivo de consulta y acompañarte con un tratamiento personalizado que integra herramientas naturales y complementarias.', href: '/consulta', link: 'Conocer la atención' },
     { number: '02', title: 'Cursos y formación', description: 'Aprende a comprender y recomendar Flores de Bach en situaciones cotidianas, con herramientas prácticas, criterio y respeto por la experiencia de cada persona.', href: '/cursos', link: 'Conocer el curso' },
-    { number: '03', title: 'Naturaleza y bienestar', description: 'Una invitación a bajar el ritmo, encontrar calma, abrir los sentidos y dedicar tiempo a estar en la naturaleza.', href: '/#naturaleza', link: 'Más información' },
+    { number: '03', title: 'Naturaleza y bienestar', description: 'Una invitación a bajar el ritmo, encontrar calma, abrir los sentidos y dedicar tiempo a estar en la naturaleza.', href: '/naturaleza', link: 'Más información' },
   ],
   course: {
     title: 'Flores de Bach para la vida cotidiana',
@@ -85,4 +93,22 @@ export const privacyCopy = {
     { title: 'Almacenamiento', body: 'Los registros se almacenan en Supabase, en São Paulo, y se reciben a través de Vercel. Los visitantes del sitio no pueden consultar ni modificar los registros guardados.' },
     { title: 'Origen de las solicitudes y clics en el curso', body: 'Guardamos si una solicitud llegó desde el formulario del asistente o desde un formulario de la web y la ruta donde se envió, sin parámetros de consulta ni fragmentos. Para contar clics al enlace del curso usamos un identificador anónimo de navegador mediante una cookie firmada, con una vigencia de hasta ocho días. Distinguimos los clics del asistente, la página de cursos y el inicio; registramos su fecha y ruta. No enviamos nombres, correos, teléfonos ni mensajes en esos eventos. El conteo corresponde a ese navegador y no confirma una compra o inscripción.' },
   ],
+}
+
+export const aboutContent = {
+  "title": "Hola, soy Nicolás.",
+  "paragraphs": [
+    "Mi trabajo reúne la Medicina China Integrativa, las Flores de Bach y la enseñanza. Me interesa comprender tu motivo de consulta y conocerte: qué te preocupa, cómo te sientes y qué está pasando en tu vida.",
+    "Desde ahí, integro distintas herramientas y explico cada paso de la atención, para orientarte de manera integral y acompañarte en el cuidado de tu salud.",
+    "Fuera de la consulta, una parte importante de mi vida transcurre entre bosques, montañas y ríos. Ese vínculo también está presente en mi forma de entender y compartir el bienestar."
+  ]
+}
+
+export const natureContent = {
+  "title": "Darte tiempo para estar en la naturaleza.",
+  "paragraphs": [
+    "Desde niño pasaba tiempo en parques nacionales como Conguillío, Huerquehue y muchos otros lugares. Después vinieron la alta montaña, la escalada en roca y el aprendizaje de navegar por ríos tranquilos y de aguas bravas. Todo eso me llevó a permanecer semanas inmerso en entornos naturales. Además de mi trabajo como terapeuta, soy guía de rafting y kayakista, y ese vínculo sigue siendo parte importante de mi vida.",
+    "De ahí nace lo que quiero compartir a través de los baños de bosque: detenernos, escuchar, observar y dejar espacio a lo que percibimos. No necesitas conocer el nombre de cada especie para encontrarte con el lugar.",
+    "Si te gustaría participar, puedes dejarme tu contacto para recibir información cuando se confirme el próximo encuentro."
+  ]
 }

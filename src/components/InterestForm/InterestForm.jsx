@@ -6,6 +6,11 @@ import './InterestForm.css'
 
 const phoneField = { name: 'phone', label: 'Teléfono con prefijo internacional', type: 'tel', required: true, autocomplete: 'tel' }
 const fieldMap = {
+  consultation: [
+    { name: 'name', label: 'Nombre', type: 'text', required: true, autocomplete: 'name' },
+    { name: 'email', label: 'Correo electrónico', type: 'email', required: true, autocomplete: 'email' },
+    phoneField,
+  ],
   online: [
     { name: 'name', label: 'Nombre', type: 'text', required: true, autocomplete: 'name' },
     { name: 'email', label: 'Correo electrónico', type: 'email', required: true, autocomplete: 'email' },
@@ -22,7 +27,8 @@ const fieldMap = {
 }
 
 const formCopy = {
-  online: { title: 'Curso online', purpose: 'Si te gustaría participar desde tu ciudad o país, déjame tus datos para recibir información sobre el curso online de Flores de Bach.', success: 'Gracias por tu interés. Te contactaré con información sobre el curso online.' },
+  consultation: { title: 'Me interesa agendar una consulta', purpose: 'Déjame tus datos para contactarte y coordinar disponibilidad. El registro no confirma una hora.', success: 'Gracias por tu interés. Te contactaremos para coordinar tu consulta. La hora se confirma al acordarla directamente.' },
+  online: { title: 'Flores de Bach en modalidad online', purpose: 'Si te gustaría participar desde tu ciudad o país, déjame tus datos para recibir información cuando se abra una edición online.', success: 'Gracias por tu interés. Te avisaré cuando se abra una edición online.' },
   nature: { title: 'Me interesan los baños de bosque', purpose: 'Déjame tus datos para recibir información cuando se confirme un encuentro.', success: 'Gracias por tu interés. Te avisaré cuando se confirme un encuentro.' },
 }
 
@@ -54,6 +60,7 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
     <section className="interest-form" aria-labelledby={`${kind}-form-title`}>
       <h3 id={`${kind}-form-title`}>{copy.title}</h3>
       <p>{copy.purpose} Revisa también la <a href="/privacidad">información de privacidad</a>.</p>
+      <p className="interest-form__review-notice">Versión de pruebas: utiliza datos ficticios para probar este formulario.</p>
       <form ref={formRef} onSubmit={handleSubmit} aria-busy={status === 'submitting'}>
         <fieldset disabled={status === 'submitting' || status === 'saved'}>
         <legend className="interest-form__legend">Datos para registrar tu interés</legend>

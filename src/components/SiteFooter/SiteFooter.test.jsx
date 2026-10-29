@@ -8,6 +8,9 @@ describe('SiteFooter', () => {
   it('muestra los enlaces y solo los contactos configurados', () => {
     render(<SiteContentProvider value={{ brand: 'Nicolás', descriptor: 'Presencia', contact: { email: '' }, socialLinks: [] }}><SiteFooter /></SiteContentProvider>)
     expect(screen.getByRole('link', { name: 'Privacidad' })).toHaveAttribute('href', '/privacidad')
+    expect(screen.getByRole('link', { name: 'Sobre mí' })).toHaveAttribute('href', '/sobre-mi')
+    expect(screen.getByRole('link', { name: 'Naturaleza y bienestar' })).toHaveAttribute('href', '/naturaleza')
+    expect(screen.getByRole('link', { name: 'Recibir información' })).toHaveAttribute('href', '/naturaleza#interes-naturaleza')
     expect(screen.queryByRole('link', { name: 'Correo' })).not.toBeInTheDocument()
   })
 

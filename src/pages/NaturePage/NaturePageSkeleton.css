@@ -1,0 +1,5 @@
+.nature-skeleton__hero { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; min-height: 650px; padding: 50px; background: var(--color-areas); }
+.nature-skeleton__hero span { display: block; background: var(--color-surface-strong); animation: nature-pulse 1.3s ease-in-out infinite alternate; }
+.nature-skeleton__form { max-width: 850px; padding-block: 75px 90px; }
+@keyframes nature-pulse { to { opacity: .45; } }
+@media(max-width: 640px) { .nature-skeleton__hero { grid-template-columns: 1fr; min-height: 900px; padding: 20px; } .nature-skeleton__form { padding-block: 50px 60px; } }

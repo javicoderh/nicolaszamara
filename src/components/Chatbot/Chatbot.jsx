@@ -10,6 +10,7 @@ import { trackHotmartClick } from '../../services/hotmartTrackingService.js'
 import ChatContactForm from '../ChatContactForm/ChatContactForm.jsx'
 import ChatReplySkeleton from '../ChatReply/ChatReplySkeleton.jsx'
 import './Chatbot.css'
+import FloatingWhatsApp from '../FloatingWhatsApp/FloatingWhatsApp.jsx'
 
 const quickPrompts = ['Quiero conocer las terapias', 'Busco información sobre cursos', 'Quiero consultar disponibilidad']
 const serviceLinks = [
@@ -55,6 +56,7 @@ function ChatbotView({ submitContact, embedded = false, hidden = false, chat, op
 
   if (hidden) return null
   const view = <div ref={shellRef} style={{ '--chat-modal-duration': `${MODAL_FADE_MS}ms` }} className={`chatbot${embedded ? ' chatbot--embedded' : ''}${motion.present ? ' chatbot--open' : ''}${motion.exiting ? ' chatbot--closing' : ''}`}>
+    {!embedded && !motion.present && <FloatingWhatsApp phoneNumber={siteSettings.contact.whatsappNumber} />}
     {motion.present && <div className="chatbot__backdrop" aria-hidden="true" onClick={minimize} />}
     {(embedded || motion.present || chat.session || chat.pending || chat.error) && <section ref={panelRef} id={embedded ? 'chatbot-page-panel' : 'chatbot-panel'} hidden={!visible}
       className={`chatbot__panel${state?.capturing ? ' chatbot__panel--capturing' : ''}`} aria-label="Asistente de servicios" role={embedded ? 'region' : 'dialog'} aria-modal={motion.present ? true : undefined} tabIndex={-1}
@@ -74,6 +76,7 @@ function ChatbotView({ submitContact, embedded = false, hidden = false, chat, op
           {message.role === 'assistant' && message.action === 'show_hotmart' && <a className="chatbot__enrollment" href={siteSettings.courseUrl}
             target="_blank" rel="noopener noreferrer" aria-label="Inscribirme al curso en Hotmart (abre en otra pestaña)"
             onClick={() => { void trackHotmartClick('chatbot') }}>Inscribirme en Hotmart ↗</a>}
+          {message.role === 'assistant' && message.action === 'show_online_interest' && <a className="chatbot__enrollment" href="/cursos#interes-online" onClick={() => { if (!embedded) minimize() }}>Me interesa la modalidad online</a>}
         </div>)}
         {chat.recovered && <p className="chatbot__notice">Recuperamos la última orientación y el estado de tu conversación. El historial anterior de esta pestaña puede no estar disponible.</p>}
         {chat.pending && <ChatReplySkeleton />}
@@ -103,7 +106,7 @@ function ChatbotView({ submitContact, embedded = false, hidden = false, chat, op
         </>}
       <nav className="chatbot__links" aria-label="Explorar servicios">
         {serviceLinks.map((link) => <a href={link.href} key={link.href} onClick={(event) => { if (!embedded && event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) minimize() }}>{link.label}</a>)}
-        {!['medical_boundary', 'urgent_attention'].includes(state?.last_result?.response_key) && <a href={siteSettings.courseUrl} target="_blank" rel="noopener noreferrer" aria-label="Ver el curso e inscribirme (abre en otra pestaña)" onClick={() => { void trackHotmartClick('chatbot') }}>Inscribirme ↗</a>}
+        {state?.topic !== 'online' && !['medical_boundary', 'urgent_attention'].includes(state?.last_result?.response_key) && <a href={siteSettings.courseUrl} target="_blank" rel="noopener noreferrer" aria-label="Ver el curso e inscribirme (abre en otra pestaña)" onClick={() => { void trackHotmartClick('chatbot') }}>Inscribirme ↗</a>}
         {state && !state.capturing && <button type="button" aria-label="Solicitar que me contacten" disabled={chat.pending || state.busy} onClick={() => { setContactSaved(false); chat.command('start_capture') }}>Contacto</button>}
         {action === 'show_privacy' && <a href="/privacidad">Información de privacidad</a>}
       </nav>

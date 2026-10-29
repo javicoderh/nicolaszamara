@@ -1,5 +1,6 @@
 import { useSiteContent } from '../../contexts/SiteContentContext/SiteContentContext.jsx'
 import ActionLink from '../../components/ActionLink/ActionLink.jsx'
+import InterestForm from '../../components/InterestForm/InterestForm.jsx'
 import { trackEvent } from '../../services/analyticsService.js'
 import { homeContent } from '../../content/siteContent.js'
 import './ConsultationPage.css'
@@ -66,6 +67,10 @@ export default function ConsultationPage() {
           </details>
         ))}
       </section>
+
+      <div id="interes-consulta" className="consult-page__interest">
+        <InterestForm kind="consultation" />
+      </div>
 
       <section className="consult-page__contact" aria-labelledby="consult-contact-title">
         <div>

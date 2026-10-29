@@ -20,6 +20,7 @@ describe('ChatContactForm', () => {
     fill()
     expect(screen.getByText(/revisa tu solicitud/i)).toHaveTextContent('Ana')
     expect(screen.getAllByRole('checkbox').every((input) => !input.checked)).toBe(true)
+    expect(screen.getByText(/versión de pruebas/i)).toHaveTextContent('utiliza datos ficticios')
     fireEvent.submit(screen.getByRole('form'))
     expect(submitContact).not.toHaveBeenCalled()
   })

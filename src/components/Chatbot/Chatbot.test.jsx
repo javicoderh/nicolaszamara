@@ -10,6 +10,33 @@ beforeEach(() => { vi.useFakeTimers(); vi.stubGlobal('fetch', vi.fn().mockResolv
 afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals() })
 
 describe('Chatbot', () => {
+  it('muestra WhatsApp junto al lanzador y lo oculta al abrir el asistente', () => {
+    render(<Chatbot api={mockChatApi()} />)
+    expect(screen.getByRole('link', { name: /contactar por whatsapp/i })).toHaveAttribute('href', 'https://wa.me/56953961219')
+    open()
+    expect(screen.queryByRole('link', { name: /contactar por whatsapp/i })).not.toBeInTheDocument()
+  })
+
+  it('omite WhatsApp flotante en el asistente integrado', () => {
+    render(<Chatbot embedded api={mockChatApi()} />)
+    expect(screen.queryByRole('link', { name: /contactar por whatsapp/i })).not.toBeInTheDocument()
+  })
+  it('dirige la futura edición online al formulario de interés después de la espera', async () => {
+    const api = mockChatApi()
+    api.send.mockResolvedValue(sessionResult({ topic: 'online', action: 'show_online_interest', completed_rounds: 1 },
+      { status: 'completed', result: { reply: 'Te avisaremos cuando se abra una edición online.',
+        topic: 'online', action: 'show_online_interest', request_id: 'online-interest' } }))
+    render(<Chatbot embedded api={api} />)
+    await reveal()
+    fireEvent.change(screen.getByLabelText('Escribe tu consulta'), { target: { value: 'Me interesa la modalidad online' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Enviar' }))
+    await act(async () => vi.advanceTimersByTimeAsync(799))
+    expect(within(screen.getByRole('log')).queryByRole('link')).not.toBeInTheDocument()
+    await act(async () => vi.advanceTimersByTimeAsync(1))
+    expect(within(screen.getByRole('log')).getByRole('link', { name: 'Me interesa la modalidad online' })).toHaveAttribute('href', '/cursos#interes-online')
+    expect(within(screen.getByRole('log')).queryByRole('link', { name: /hotmart/i })).not.toBeInTheDocument()
+    expect(api.command).not.toHaveBeenCalled()
+  })
   it('keeps only the icon available at the top and reveals the invitation after scrolling down', () => {
     vi.stubGlobal('scrollY', 0)
     const api = mockChatApi()
@@ -106,7 +133,7 @@ describe('Chatbot', () => {
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: /abrir asistente/i })).toHaveFocus()
   })
-  it.each(['presencial', 'online'])('provides a clickable enrollment link inside the answer for the %s course', async (modality) => {
+  it.each(['presencial'])('provides a clickable enrollment link inside the answer for the %s course', async (modality) => {
     const api = mockChatApi()
     api.send.mockResolvedValue(sessionResult({ topic: modality === 'online' ? 'online' : 'course', action: 'show_hotmart', completed_rounds: 1 },
       { status: 'completed', result: { reply: 'Te dejamos el enlace de inscripción en Hotmart.',

@@ -39,6 +39,7 @@ export default function ChatContactForm({ conversationId, initialTopic, onCancel
   if (capture.status === 'saved') return <p className="chat-contact__saved" role="status">Recibimos tu solicitud. Te contactaremos por el canal que elegiste.</p>
   return <form className="chat-contact" aria-label="Solicitud de contacto" onSubmit={submit}>
     <p>Déjanos tus datos para que podamos contactarte. Este formulario no confirma una reserva.</p>
+    <p className="chat-contact__review-notice">Versión de pruebas: utiliza datos ficticios para probar este formulario.</p>
     <fieldset disabled={capture.pending}>
       <label>Servicio<select required value={service} onChange={(event) => { setService(event.target.value); edit() }}>
         <option value="">Elige un servicio</option>{Object.entries(services).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
