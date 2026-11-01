@@ -1,0 +1,6 @@
+.admin-page-skeleton { max-width: 1240px; margin: 30px auto; display: grid; gap: 20px; min-height: 480px; }
+.admin-page-skeleton > span { background: var(--color-surface-strong); height: 38px; border-radius: 10px; width: 65%; }
+.admin-page-skeleton > span:nth-child(2) { width: 40%; height: 20px; }
+.admin-page-skeleton > div { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+.admin-page-skeleton > div span { background: var(--color-surface-strong); border-radius: 12px; min-height: 200px; }
+@media(max-width: 600px) { .admin-page-skeleton > div { grid-template-columns: 1fr; } }

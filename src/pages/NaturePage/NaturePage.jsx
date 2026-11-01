@@ -22,14 +22,14 @@ export default function NaturePage() {
         </div>
         <div className="nature-page__copy">
           <p className="nature-page__label">Naturaleza y bienestar</p>
-          <h1 id="nature-title">{natureContent.title}</h1>
+          <h1 id="nature-title" data-analytics-section="nature_intro">{natureContent.title}</h1>
           {natureContent.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          <ActionLink href="#interes-naturaleza">Me interesan los baños de bosque</ActionLink>
+          <ActionLink analytics={{ element_id: 'nature_interest', placement: 'nature_intro', service: 'nature' }} href="#interes-naturaleza">Me interesan los baños de bosque</ActionLink>
         </div>
       </section>
 
       <section className="nature-page__interest page-wrap" id="interes-naturaleza" aria-label="Registro de interés en naturaleza">
-        <InterestForm kind="nature" />
+        <InterestForm kind="nature" placement="nature_page_form" />
       </section>
     </main>
   )

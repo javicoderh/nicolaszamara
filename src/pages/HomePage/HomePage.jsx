@@ -12,13 +12,13 @@ export default function HomePage() {
     <main id="main-content" className="home-page">
       <section className="home-hero page-wrap" aria-labelledby="home-title">
         <div className="home-hero__copy">
-          <h1 id="home-title">{homeContent.hero.title}</h1>
+          <h1 id="home-title" data-analytics-section="home_hero">{homeContent.hero.title}</h1>
           <p className="home-hero__intro">{homeContent.hero.description}</p>
           <p className="home-hero__intro">{homeContent.hero.additional}</p>
           <div className="home-hero__actions">
-            <ActionLink href="/consulta">Conoce la consulta <span aria-hidden="true">↗</span></ActionLink>
-            <ActionLink href="/cursos" variant="text">Explora los cursos <span aria-hidden="true">→</span></ActionLink>
-            <ActionLink href="/naturaleza" variant="text">Reconecta con la naturaleza <span aria-hidden="true">→</span></ActionLink>
+            <ActionLink analytics={{ element_id: 'hero_consultation', placement: 'home_hero', service: 'consultation' }} href="/consulta">Conoce la consulta <span aria-hidden="true">↗</span></ActionLink>
+            <ActionLink analytics={{ element_id: 'hero_courses', placement: 'home_hero', service: 'course' }} href="/cursos" variant="text">Explora los cursos <span aria-hidden="true">→</span></ActionLink>
+            <ActionLink analytics={{ element_id: 'hero_nature', placement: 'home_hero', service: 'nature' }} href="/naturaleza" variant="text">Reconecta con la naturaleza <span aria-hidden="true">→</span></ActionLink>
           </div>
         </div>
         <img
@@ -36,7 +36,7 @@ export default function HomePage() {
       <section className="home-areas" aria-labelledby="areas-title">
         <div className="page-wrap">
         <div className="home-section-heading">
-          <h2 id="areas-title">¿Por dónde te gustaría comenzar?</h2>
+          <h2 id="areas-title" data-analytics-section="home_areas">¿Por dónde te gustaría comenzar?</h2>
         </div>
         <AreaGrid areas={homeContent.areas} />
         </div>
@@ -44,20 +44,20 @@ export default function HomePage() {
 
       <section className="home-consult-band">
         <div className="page-wrap home-consult-band__inner">
-          <h2>{homeContent.consultation.title}</h2>
+          <h2 data-analytics-section="home_consultation">{homeContent.consultation.title}</h2>
           <p>{homeContent.consultation.description}</p>
           <p>{homeContent.consultation.additional}</p>
-          <ActionLink href="/consulta" variant="light">Cómo es la primera consulta <span aria-hidden="true">↗</span></ActionLink>
+          <ActionLink analytics={{ element_id: 'home_consultation_details', placement: 'home_consultation', service: 'consultation' }} href="/consulta" variant="light">Cómo es la primera consulta <span aria-hidden="true">↗</span></ActionLink>
         </div>
       </section>
 
       <section className="home-course page-wrap" aria-labelledby="home-course-title">
         <div className="home-course__copy">
-          <h2 id="home-course-title">{homeContent.course.title}</h2>
+          <h2 id="home-course-title" data-analytics-section="home_course">{homeContent.course.title}</h2>
           <p>{homeContent.course.description}</p>
           <p>{homeContent.course.additional}</p>
-          <ActionLink href={courseUrl} target="_blank" rel="noreferrer" onClick={() => { void trackHotmartClick('home') }}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
-          <ActionLink className="home-course__secondary" href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
+          <ActionLink analytics={{ element_id: 'home_course_hotmart', placement: 'home_course', service: 'course' }} href={courseUrl} target="_blank" rel="noreferrer" onClick={() => { void trackHotmartClick('home', { element_id: 'home_course_hotmart', placement: 'home_course', service: 'course' }) }}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
+          <ActionLink analytics={{ element_id: 'home_course_online', placement: 'home_course', service: 'online' }} className="home-course__secondary" href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
         </div>
         <img
           className="home-course__photo"
@@ -85,7 +85,7 @@ export default function HomePage() {
           decoding="async"
         />
         <div className="home-about__copy">
-          <h2 id="about-title">{aboutContent.title}</h2>
+          <h2 id="about-title" data-analytics-section="home_about">{aboutContent.title}</h2>
           {aboutContent.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
         </div>
       </section>
@@ -106,9 +106,9 @@ export default function HomePage() {
         </div>
         <div className="home-nature__copy">
           <p className="home-nature__label">Naturaleza y bienestar</p>
-          <h2 id="nature-title">{natureContent.title}</h2>
+          <h2 id="nature-title" data-analytics-section="home_nature">{natureContent.title}</h2>
           {natureContent.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          <ActionLink href="#interes-naturaleza">Me interesan los baños de bosque</ActionLink>
+          <ActionLink analytics={{ element_id: 'home_nature_interest', placement: 'home_nature', service: 'nature' }} href="#interes-naturaleza">Me interesan los baños de bosque</ActionLink>
         </div>
       </section>
 

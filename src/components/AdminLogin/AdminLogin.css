@@ -1,0 +1,10 @@
+.admin-login { width: min(520px, 100%); margin: 6vh auto; padding: clamp(24px, 5vw, 48px); background: #f8f7f3; border: 1px solid var(--color-line); border-radius: 20px; box-shadow: 0 20px 60px #05234b0a; }
+.admin-login__eyebrow { color: var(--color-sage-ink); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; }
+.admin-login h1 { color: var(--color-navy); font-size: clamp(2.2rem, 5vw, 3rem); line-height: 1.15; }
+.admin-login fieldset { display: grid; gap: 18px; border: 0; padding: 16px 0 24px; }
+.admin-login legend { font-weight: 600; }
+.admin-login label { display: grid; gap: 6px; }
+.admin-login input { width: 100%; min-height: 48px; border: 1px solid var(--color-line); border-radius: 8px; padding: 10px 12px; background: white; }
+.admin-login button { border: 0; border-radius: 8px; padding: 12px; color: white; background: var(--color-navy); }
+.admin-login [role=alert] { color: #8c2929; }
+.admin-login button:disabled { opacity: .6; }

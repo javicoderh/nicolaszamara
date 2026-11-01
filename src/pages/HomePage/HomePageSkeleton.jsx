@@ -4,7 +4,7 @@ import './HomePageSkeleton.css'
 
 export default function HomePageSkeleton() {
   return (
-    <main id="main-content" className="home-page-skeleton" aria-label="Cargando inicio" aria-busy="true">
+    <main className="home-page-skeleton" aria-label="Cargando inicio" aria-busy="true">
       <div className="home-page-skeleton__hero page-wrap">
         <div className="home-page-skeleton__copy">
           <span className="home-page-skeleton__title" />

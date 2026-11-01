@@ -1,16 +1,18 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { BASE_DELAY_MS } from '../../config/loading.js'
 export { BASE_DELAY_MS }
 
 export function usePageDelay(key, delay = BASE_DELAY_MS) {
-  const [ready, setReady] = useState(false)
+  const [settled, setSettled] = useState(null)
+  const cycle = useRef({ key, delay, id: 0 })
+  if (cycle.current.key !== key || cycle.current.delay !== delay) cycle.current = { key, delay, id: cycle.current.id + 1 }
+  const id = cycle.current.id
 
   useEffect(() => {
-    setReady(false)
-    const timer = window.setTimeout(() => setReady(true), delay)
+    const timer = window.setTimeout(() => setSettled(id), delay)
     return () => window.clearTimeout(timer)
-  }, [key, delay])
+  }, [key, delay, id])
 
-  return ready
+  return settled === id
 }

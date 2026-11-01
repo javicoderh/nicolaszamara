@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 const locationSnapshot = () => ({ pathname: window.location.pathname, hash: window.location.hash })
 
 // Keep ordinary anchors (new tabs, downloads and external destinations) native.
-export function useSiteNavigation(paths) {
-  const [location, setLocation] = useState(locationSnapshot)
+export function useSiteNavigation(paths, initialPath = '/') {
+  const [location, setLocation] = useState(() => typeof window === 'undefined' ? { pathname: initialPath, hash: '' } : locationSnapshot())
 
   useEffect(() => {
     const sync = () => setLocation(locationSnapshot())

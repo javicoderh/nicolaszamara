@@ -10,18 +10,18 @@ export default function CoursesPage() {
   return (
     <main id="main-content" className="courses-page">
       <header className="courses-page__intro page-wrap">
-        <h1>Aprender para acompañar con más atención.</h1>
+        <h1 data-analytics-section="courses_intro">Aprender para acompañar con más atención.</h1>
         <p>Una formación para acercarse a las Flores de Bach desde la vida cotidiana, con un uso responsable y respeto por la autonomía de cada persona.</p>
       </header>
 
       <section className="courses-page__course page-wrap" aria-labelledby="bach-title">
         <div className="courses-page__course-copy">
-          <h2 id="bach-title">{homeContent.course.title}</h2>
+          <h2 id="bach-title" data-analytics-section="courses_offer">{homeContent.course.title}</h2>
           <p>{homeContent.course.description}</p>
           <p>{homeContent.course.additional}</p>
           <div className="courses-page__actions">
-            <ActionLink href={courseUrl} target="_blank" rel="noreferrer" onClick={() => { void trackHotmartClick('course') }}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
-            <ActionLink href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
+            <ActionLink analytics={{ element_id: 'courses_hotmart', placement: 'courses_offer', service: 'course' }} href={courseUrl} target="_blank" rel="noreferrer" onClick={() => { void trackHotmartClick('course', { element_id: 'courses_hotmart', placement: 'courses_offer', service: 'course' }) }}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
+            <ActionLink analytics={{ element_id: 'courses_online_interest', placement: 'courses_offer', service: 'online' }} href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
           </div>
         </div>
         <div className="courses-page__photo-frame">

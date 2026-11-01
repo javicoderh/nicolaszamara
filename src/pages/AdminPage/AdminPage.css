@@ -1,0 +1,8 @@
+.admin-page { min-height: 100vh; background: #eff0e9; }
+.admin-page__header { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding: 20px clamp(20px, 4vw, 56px); background: var(--color-navy); color: white; }
+.admin-page__header > a { text-decoration: none; font-weight: 600; }
+.admin-page__header a span { display: block; color: #ced8ce; text-transform: uppercase; letter-spacing: .15em; font-size: .65rem; font-weight: 400; }
+.admin-page__header > div { display: flex; align-items: center; flex-wrap: wrap; gap: 16px; font-size: .8rem; }
+.admin-page__header button { min-height: 44px; border: 1px solid #8194a9; border-radius: 8px; padding: 8px 14px; background: transparent; color: white; }
+.admin-page__body { padding: 24px clamp(20px, 4vw, 56px) 56px; }
+.admin-page__logout { position: fixed; inset: 0; background: #eff0e9f5; padding: 15vh 10vw; z-index: 100; overflow: auto; }

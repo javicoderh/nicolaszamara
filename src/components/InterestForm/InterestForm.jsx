@@ -3,6 +3,9 @@ import { submitInterest as defaultSubmitInterest } from '../../services/interest
 import { useInterestSubmission } from '../../hooks/useInterestSubmission/useInterestSubmission.js'
 import ContactPreference from '../ContactPreference/ContactPreference.jsx'
 import './InterestForm.css'
+import { useFormMetrics } from '../../hooks/useFormMetrics/useFormMetrics.js'
+import { formPlacement } from '../../services/formMetrics.js'
+import { useHydrated } from '../../contexts/HydrationContext/HydrationContext.jsx'
 
 const phoneField = { name: 'phone', label: 'Teléfono con prefijo internacional', type: 'tel', required: true, autocomplete: 'tel' }
 const fieldMap = {
@@ -32,8 +35,10 @@ const formCopy = {
   nature: { title: 'Me interesan los baños de bosque', purpose: 'Déjame tus datos para recibir información cuando se confirme un encuentro.', success: 'Gracias por tu interés. Te avisaré cuando se confirme un encuentro.' },
 }
 
-export default function InterestForm({ kind, submitInterest = defaultSubmitInterest }) {
-  const { status, submit, reset } = useInterestSubmission(submitInterest)
+export default function InterestForm({ kind, submitInterest = defaultSubmitInterest, placement = formPlacement(kind, '/') }) {
+  const hydrated = useHydrated()
+  const metrics = useFormMetrics({ kind, placement, service: kind, source: 'form' })
+  const { status, submit, reset } = useInterestSubmission(submitInterest, metrics)
   const formRef = useRef(null)
   const fields = fieldMap[kind]
   const copy = formCopy[kind]
@@ -58,11 +63,13 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
 
   return (
     <section className="interest-form" aria-labelledby={`${kind}-form-title`}>
-      <h3 id={`${kind}-form-title`}>{copy.title}</h3>
+      <h3 id={`${kind}-form-title`} data-analytics-section={placement}>{copy.title}</h3>
       <p>{copy.purpose} Revisa también la <a href="/privacidad">información de privacidad</a>.</p>
       <p className="interest-form__review-notice">Versión de pruebas: utiliza datos ficticios para probar este formulario.</p>
-      <form ref={formRef} onSubmit={handleSubmit} aria-busy={status === 'submitting'}>
-        <fieldset disabled={status === 'submitting' || status === 'saved'}>
+      <form ref={formRef} onSubmit={handleSubmit} aria-busy={status === 'submitting'} data-clarity-mask="true"
+        onFocusCapture={(event) => { if (event.target.name !== 'website') metrics.start() }} onChange={() => metrics.start()}
+        onInvalidCapture={(event) => metrics.invalid(event.target)}>
+        <fieldset disabled={!hydrated || status === 'submitting' || status === 'saved'}>
         <legend className="interest-form__legend">Datos para registrar tu interés</legend>
         {fields.map((field) => (
           <label className="interest-form__field" key={field.name}>
@@ -87,6 +94,7 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
         </button>
         </fieldset>
       </form>
+      <noscript>Para solicitar contacto, visita la página de consulta y utiliza su enlace de WhatsApp.</noscript>
       {status === 'submitting' && <p className="interest-form__message" role="status">Estamos guardando tu interés…</p>}
       {status === 'saved' && <p className="interest-form__message" role="status">{copy.success}</p>}
       {status === 'saved' && <button className="interest-form__submit" type="button" onClick={() => { formRef.current?.reset(); reset() }}>Registrar otro interés</button>}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 export function useScrollThreshold(threshold = 64, enabled = true) {
-  const [scrolled, setScrolled] = useState(() => window.scrollY > threshold)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     if (!enabled) return

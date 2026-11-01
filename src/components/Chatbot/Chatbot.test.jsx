@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import Chatbot from './Chatbot.jsx'
 import { mockChatApi, sessionResult } from '../../test/chatbotFixtures.js'
 import { MODAL_FADE_MS } from '../../hooks/useModalPresence/useModalPresence.js'
+vi.mock('../../services/analyticsPermission.js', () => ({ analyticsAllowed: () => true }))
 
 async function reveal() { await act(async () => vi.advanceTimersByTimeAsync(800)) }
 function open() { fireEvent.click(screen.getByRole('button', { name: /abrir asistente/i })) }
@@ -237,7 +238,7 @@ describe('Chatbot', () => {
     open(); await reveal()
     window.addEventListener('nzamara:metric', listener, { once: true })
     fireEvent.click(screen.getByRole('link', { name: /ver el curso e inscribirme/i }))
-    expect(listener.mock.calls[0][0].detail).toEqual({ eventName: 'hotmart_click' })
+    expect(listener.mock.calls[0][0].detail).toEqual({ eventName: 'hotmart_click', params: { element_id: 'chat_hotmart', placement: 'floating_chat', service: 'course', source: 'chatbot' } })
     expect(api.send).not.toHaveBeenCalled()
   })
 })

@@ -3,6 +3,8 @@ import { useSiteContent } from '../../contexts/SiteContentContext/SiteContentCon
 import ActionLink from '../ActionLink/ActionLink.jsx'
 import BrandMark from '../BrandMark/BrandMark.jsx'
 import './SiteHeader.css'
+import { navigationParams } from '../../services/analyticsSensors.js'
+import { trackEvent } from '../../services/analyticsService.js'
 
 const navigation = [
   { label: 'Inicio', href: '/' },
@@ -13,14 +15,14 @@ const navigation = [
   { label: 'Sobre mí', href: '/sobre-mi' },
 ]
 
-export default function SiteHeader() {
+export default function SiteHeader({ currentPath = typeof window === 'undefined' ? '/' : window.location.pathname }) {
   const { brand } = useSiteContent()
   const [menuOpen, setMenuOpen] = useState(false)
   const toggleRef = useRef(null)
 
   return (
     <header className="site-header">
-      <a className="site-header__brand" href="/" aria-label={`${brand}, inicio`}>
+      <a className="site-header__brand" href="/" aria-label={`${brand}, inicio`} onClick={() => trackEvent('navigation_click', { element_id: 'brand_home', placement: 'header', destination_path: '/' })}>
         <BrandMark name={brand} />
       </a>
       <button
@@ -45,8 +47,12 @@ export default function SiteHeader() {
           }
         }}
       >
-        {navigation.map((item) => <a key={item.href} href={item.href} aria-current={!item.href.includes('#') && window.location.pathname === item.href ? 'page' : undefined} onClick={() => setMenuOpen(false)}>{item.label}</a>)}
-        <ActionLink className="site-header__cta" href="/consulta" variant="compact">Conoce la consulta</ActionLink>
+        {navigation.map((item) => <a key={item.href} href={item.href} aria-current={currentPath === item.href ? 'page' : undefined} onClick={() => {
+          setMenuOpen(false)
+          const params = navigationParams(item.href, 'header')
+          if (params) trackEvent('navigation_click', params)
+        }}>{item.label}</a>)}
+        <ActionLink analytics={{ element_id: 'header_consultation', placement: 'header', service: 'consultation' }} className="site-header__cta" href="/consulta" variant="compact">Conoce la consulta</ActionLink>
       </nav>
     </header>
   )

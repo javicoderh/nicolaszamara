@@ -2,6 +2,7 @@ import { fireEvent, render, screen } from '@testing-library/react'
 import { describe, expect, it, vi } from 'vitest'
 import FloatingWhatsApp from './FloatingWhatsApp.jsx'
 import FloatingWhatsAppSkeleton from './FloatingWhatsAppSkeleton.jsx'
+vi.mock('../../services/analyticsPermission.js', () => ({ analyticsAllowed: () => true }))
 
 describe('FloatingWhatsApp', () => {
   it('abre el número configurado y registra únicamente el evento de clic', () => {
@@ -14,7 +15,7 @@ describe('FloatingWhatsApp', () => {
     const listener = vi.fn()
     window.addEventListener('nzamara:metric', listener, { once: true })
     fireEvent.click(link)
-    expect(listener.mock.calls[0][0].detail).toEqual({ eventName: 'whatsapp_click' })
+    expect(listener.mock.calls[0][0].detail).toEqual({ eventName: 'whatsapp_click', params: { element_id: 'floating_whatsapp', placement: 'floating_contact', service: 'general' } })
   })
 
   it('omite el enlace cuando no existe un número', () => {

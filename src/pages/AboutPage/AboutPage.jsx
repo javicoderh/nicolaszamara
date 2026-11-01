@@ -17,7 +17,7 @@ export default function AboutPage() {
       />
       <div className="about-page__copy">
         <p className="about-page__label">Sobre mí</p>
-        <h1>{aboutContent.title}</h1>
+        <h1 data-analytics-section="about_bio">{aboutContent.title}</h1>
         {aboutContent.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
       </div>
     </main>

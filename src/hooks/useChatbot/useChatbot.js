@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { trackEvent } from '../../services/analyticsService.js'
 import { useDelayedOperation } from '../useDelayedOperation/useDelayedOperation.js'
 import { chatbotApi } from '../../services/chatbotService.js'
 
@@ -31,6 +32,7 @@ export function useChatbot(api = chatbotApi) {
   const current = useRef(null)
   const retry = useRef(null)
   const delivered = useRef(new Set())
+  const engaged = useRef(new Set())
   const remote = useDelayedOperation()
 
   function accept(value, { restore = false, requestId } = {}) {
@@ -70,7 +72,7 @@ export function useChatbot(api = chatbotApi) {
     })
   }
 
-  function send(text = draft, retrying = false) {
+  function send(text = draft, retrying = false, placement = 'floating_chat') {
     const content = text.trim()
     const state = current.current?.state
     if (!state || !content || content.length > 1000 || (!retrying && (!state.can_send || !current.current.provider_enabled))) return false
@@ -86,6 +88,10 @@ export function useChatbot(api = chatbotApi) {
     setError('')
     setDraft(content)
     if (!retrying) setMessages((previous) => [...previous, { role: 'user', content }])
+    if (!engaged.current.has(state.conversation_id)) {
+      engaged.current.add(state.conversation_id)
+      trackEvent('chatbot_engaged', { placement })
+    }
     return true
   }
 

@@ -1,10 +1,17 @@
 import { useEffect } from 'react'
+import { HydrationProvider, useHydrated } from '../contexts/HydrationContext/HydrationContext.jsx'
+import { AnalyticsConsentProvider, useAnalyticsConsent } from '../contexts/AnalyticsConsentContext/AnalyticsConsentContext.jsx'
+import AnalyticsConsent from '../components/AnalyticsConsent/AnalyticsConsent.jsx'
+import AnalyticsConsentSkeleton from '../components/AnalyticsConsent/AnalyticsConsentSkeleton.jsx'
 import { createPortal } from 'react-dom'
 import { SiteContentProvider, useSiteContent } from '../contexts/SiteContentContext/SiteContentContext.jsx'
 import { ChatbotProvider } from '../contexts/ChatbotContext/ChatbotContext.jsx'
 import { useSiteNavigation } from '../hooks/useSiteNavigation/useSiteNavigation.js'
-import { pageMetadata } from '../content/siteContent.js'
+import { SITE_ROUTES, normalizeSitePath } from '../config/siteRoutes.js'
+import { applySeoMetadata } from '../services/seoService.js'
 import { usePageDelay } from '../hooks/usePageDelay/usePageDelay.js'
+import { usePageAnalytics } from '../hooks/usePageAnalytics/usePageAnalytics.js'
+import { usePageSensors } from '../hooks/usePageSensors/usePageSensors.js'
 import SiteHeader from '../components/SiteHeader/SiteHeader.jsx'
 import SiteHeaderSkeleton from '../components/SiteHeader/SiteHeaderSkeleton.jsx'
 import SiteFooter from '../components/SiteFooter/SiteFooter.jsx'
@@ -30,6 +37,7 @@ import NaturePage from '../pages/NaturePage/NaturePage.jsx'
 import NaturePageSkeleton from '../pages/NaturePage/NaturePageSkeleton.jsx'
 import ChatbotPage from '../pages/ChatbotPage/ChatbotPage.jsx'
 import ChatbotPageSkeleton from '../pages/ChatbotPage/ChatbotPageSkeleton.jsx'
+import AdminPage from '../pages/AdminPage/AdminPage.jsx'
 
 const routes = {
   '/sobre-mi': { Page: AboutPage, Skeleton: AboutPageSkeleton },
@@ -41,41 +49,28 @@ const routes = {
   '/cursos': { Page: CoursesPage, Skeleton: CoursesPageSkeleton },
   '/privacidad': { Page: PrivacyPage, Skeleton: PrivacyPageSkeleton },
 }
-const routePaths = Object.keys(routes)
+const routePaths = SITE_ROUTES.map(({ path }) => path)
 
-export function normalizePath(pathname) {
-  if (pathname.length > 1) return pathname.replace(/\/+$/, '') || '/'
-  return pathname
-}
+export function normalizePath(pathname) { return normalizeSitePath(pathname) }
 
 function updateMetadata(path) {
-  const metadata = pageMetadata[path]
-  if (!metadata) {
-    document.title = 'Página no encontrada | Nicolás Zamara'
-    return
-  }
-  document.title = metadata.title
-  const description = document.querySelector('meta[name="description"]')
-  if (description) description.setAttribute('content', metadata.description)
-  const socialTitle = document.querySelector('meta[property="og:title"]')
-  if (socialTitle) socialTitle.setAttribute('content', metadata.title)
-  const socialDescription = document.querySelector('meta[property="og:description"]')
-  if (socialDescription) socialDescription.setAttribute('content', metadata.description)
-  const productionHosts = ['www.nicolaszamara.com', 'nicolaszamara.com']
-  const robots = document.querySelector('meta[name="robots"]')
-  if (robots) robots.setAttribute('content', productionHosts.includes(window.location.hostname) ? 'index,follow' : 'noindex,nofollow')
+  const enabled = document.querySelector('meta[name="site-indexing-enabled"]')?.content === 'true'
+    && ['www.nicolaszamara.com', 'nicolaszamara.com'].includes(window.location.hostname)
+  applySeoMetadata(document, path, enabled)
 }
 
-function AppContent() {
+function AppContent({ location }) {
+  const hydrated = useHydrated()
+  const preferences = useAnalyticsConsent()
   const content = useSiteContent()
-  const location = useSiteNavigation(routePaths)
   const path = normalizePath(location.pathname)
   const route = routes[path] || { Page: NotFoundPage, Skeleton: NotFoundPageSkeleton }
   const ready = usePageDelay(path)
   const assistantReady = usePageDelay('global-assistant')
+  usePageAnalytics(path, ready)
+  usePageSensors(path, ready)
 
   useEffect(() => {
-    updateMetadata(path)
     if (!ready) return
     const frame = window.requestAnimationFrame(() => {
       if (!location.hash) { window.scrollTo({ top: 0, behavior: 'instant' }); return }
@@ -88,14 +83,30 @@ function AppContent() {
   return (
     <div className="site-app" data-brand={content.brand}>
       <a className="skip-link" href="#main-content">Saltar al contenido</a>
-      {ready ? <SiteHeader /> : <SiteHeaderSkeleton />}
-      {ready ? <Page /> : <Skeleton />}
-      {ready ? <SiteFooter /> : <SiteFooterSkeleton />}
-      {assistantReady ? <Chatbot hidden={path === '/chatbot'} /> : path !== '/chatbot' && createPortal(<ChatbotSkeleton />, document.body)}
+      <div className="site-app__loading-shell" data-hydrated={hydrated ? 'true' : undefined} data-ready={ready ? 'true' : undefined}>
+        {!ready && <div className="site-app__loading-skeleton"><SiteHeaderSkeleton /><Skeleton /><SiteFooterSkeleton /></div>}
+        <div className="site-app__page-content" aria-hidden={hydrated && !ready ? true : undefined}>
+          <SiteHeader currentPath={path} />
+          <Page />
+          <SiteFooter onOpenAnalytics={preferences.openPreferences} />
+        </div>
+      </div>
+      {preferences.visible && (assistantReady
+        ? <AnalyticsConsent key={preferences.consent.updatedAt || 'initial'} consent={preferences.consent} onSave={preferences.savePreferences} onClose={preferences.closePreferences} />
+        : <AnalyticsConsentSkeleton />)}
+      {assistantReady ? <Chatbot hidden={path === '/chatbot'} /> : path !== '/chatbot' && (hydrated ? createPortal(<ChatbotSkeleton />, document.body) : <ChatbotSkeleton />)}
     </div>
   )
 }
 
-export default function App() {
-  return <SiteContentProvider><ChatbotProvider><AppContent /></ChatbotProvider></SiteContentProvider>
+function AppRoutes({ initialPath }) {
+  const location = useSiteNavigation(routePaths, initialPath)
+  const path = normalizePath(location.pathname)
+  useEffect(() => { updateMetadata(path) }, [path])
+  // A separate branch unmounts public sensors, consent UI and the assistant.
+  return path === '/admin' ? <AdminPage /> : <AppContent location={location} />
+}
+
+export default function App({ initialPath = '/' }) {
+  return <HydrationProvider><SiteContentProvider><AnalyticsConsentProvider><ChatbotProvider><AppRoutes initialPath={initialPath} /></ChatbotProvider></AnalyticsConsentProvider></SiteContentProvider></HydrationProvider>
 }

@@ -27,6 +27,10 @@ export const siteSettings = {
 }
 
 export const pageMetadata = {
+  '/admin': {
+    title: 'Administración | Nicolás Zamara',
+    description: 'Acceso privado a la gestión de intereses.',
+  },
   '/sobre-mi': {
     title: 'Sobre mí | Nicolás Zamara',
     description: 'Conoce a Nicolás Zamara, su trabajo como terapeuta y su vínculo con la naturaleza.',
@@ -86,6 +90,7 @@ export const homeContent = {
 
 export const privacyCopy = {
   sections: [
+    { title: 'Preferencias de medición opcional', body: 'Puedes aceptar o rechazar por separado la analítica de navegación y los mapas de interacción desde Preferencias de privacidad, al pie de la página. Estas herramientas solo se activan cuando están habilitadas y das tu permiso. La configuración se conserva en tu navegador durante un máximo de 180 días. Google Analytics permite analizar navegación y conversiones; Microsoft Clarity permite revisar interacciones con contenido protegido. No enviamos los datos escritos en formularios ni el contenido de conversaciones a estas herramientas. Puedes cambiar tu elección en cualquier momento, sin afectar las solicitudes de contacto ni las autorizaciones para novedades.' },
     { title: 'Asistente conversacional', body: 'Si usas el asistente, tu mensaje y el historial reciente se envían a OpenAI para generar una respuesta usando la información disponible de los servicios. No almacenamos automáticamente tus mensajes ni el historial completo en nuestra base de datos. Una cookie anónima permite recuperar el estado y sus límites; guardamos contadores, intentos y respuestas del asistente. Evita incluir información clínica o datos personales sensibles.' },
     { title: 'Solicitud de contacto desde el asistente', body: 'Versión de esta autorización: 23 de octubre de 2026, contacto v3. Con tu autorización explícita guardamos el servicio de interés, tu nombre, teléfono, correo y preferencia de contacto: videollamada, teléfono o WhatsApp. El teléfono y el correo son obligatorios en las tres opciones. Usamos estos datos para contactarte por ese interés. La autorización para novedades es independiente y opcional. Estos campos no se envían al modelo de OpenAI. El registro no confirma una reserva ni una inscripción.' },
     { title: 'Finalidad de los registros', body: 'Los datos de cada formulario se usarán únicamente para responder al interés indicado, según tu preferencia de contacto, y, si lo autorizas por separado, enviar novedades relacionadas. Elegir videollamada expresa una preferencia; no confirma una cita.' },

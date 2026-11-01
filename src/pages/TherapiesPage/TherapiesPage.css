@@ -9,3 +9,4 @@
 .therapies-page__contact .action-link { flex-shrink: 0; }
 @media(max-width: 760px) { .therapies-page__intro { padding-block: 45px 35px; } .therapies-page__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px 24px; } .therapies-page__services { padding-block: 35px 45px; } .therapies-page__contact { flex-direction: column; align-items: flex-start; padding-block: 45px 55px; } }
 @media(max-width: 360px) { .therapies-page__grid { gap: 30px 16px; } }
+.therapies-page__sentinel { display: block; height: 1px; width: 100%; }

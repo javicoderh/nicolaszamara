@@ -2,3 +2,15 @@
 .skip-link { position: fixed; top: 8px; left: 8px; z-index: 10; padding: 12px 16px; transform: translateY(-150%); background: var(--color-navy); color: white; }
 .skip-link:focus { transform: translateY(0); }
 .site-app main { scroll-margin-top: 16px; }
+.site-app__loading-shell { position: relative; }
+.site-app__page-content { visibility: hidden; }
+.site-app__loading-shell[data-ready="true"] > .site-app__page-content { visibility: visible; }
+.site-app__loading-skeleton { position: absolute; top: 0; left: 0; width: 100%; }
+.site-app__loading-shell:not([data-hydrated]) > .site-app__page-content { animation: static-content-reveal 0s .8s forwards; }
+.site-app__loading-shell:not([data-hydrated]) > .site-app__loading-skeleton { animation: static-skeleton-hide 0s .8s forwards; }
+.site-app__loading-shell:not([data-hydrated]) .site-header__nav { display: flex; flex-wrap: wrap; }
+.site-app__loading-shell:not([data-hydrated]) .site-header__toggle { display: none; }
+.site-app__loading-shell:not([data-hydrated]) .site-footer__preferences { display: none; }
+.site-app > .chatbot-skeleton, .site-app > .analytics-consent-skeleton { animation: static-skeleton-hide 0s .8s forwards; }
+@keyframes static-content-reveal { to { visibility: visible; } }
+@keyframes static-skeleton-hide { to { visibility: hidden; } }

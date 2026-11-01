@@ -39,18 +39,18 @@ export default function ConsultationPage() {
           fetchPriority="high"
         />
         </div>
-        <h1>{homeContent.consultation.title}</h1>
+        <h1 data-analytics-section="consultation_intro">{homeContent.consultation.title}</h1>
       </header>
 
       <section className="consult-page__steps" aria-labelledby="consult-steps-title">
-        <h2 id="consult-steps-title">Cómo comienza</h2>
+        <h2 id="consult-steps-title" data-analytics-section="consultation_steps">Cómo comienza</h2>
         <p>{homeContent.consultation.description}</p>
         <p>{homeContent.consultation.additional}</p>
       </section>
 
       <section className="consult-page__details" aria-labelledby="consult-details-title">
         <div>
-          <h2 id="consult-details-title">Cada consulta, con claridad desde el inicio.</h2>
+          <h2 id="consult-details-title" data-analytics-section="consultation_details">Cada consulta, con claridad desde el inicio.</h2>
           <p>Puedes consultar la ubicación, accesibilidad, horarios, duración y valores al coordinar tu atención.</p>
         </div>
         {practicalDetails.length > 0 && <dl>
@@ -59,7 +59,7 @@ export default function ConsultationPage() {
       </section>
 
       <section className="consult-page__faq" aria-labelledby="consult-faq-title">
-        <h2 id="consult-faq-title">Antes de escribir</h2>
+        <h2 id="consult-faq-title" data-analytics-section="consultation_faq">Antes de escribir</h2>
         {questions.map((item) => (
           <details key={item.question}>
             <summary>{item.question}</summary>
@@ -74,11 +74,11 @@ export default function ConsultationPage() {
 
       <section className="consult-page__contact" aria-labelledby="consult-contact-title">
         <div>
-          <h2 id="consult-contact-title">¿Quieres conversar sobre disponibilidad?</h2>
+          <h2 id="consult-contact-title" data-analytics-section="consultation_contact">¿Quieres conversar sobre disponibilidad?</h2>
           <p>El contacto sirve para coordinar. No equivale a una reserva confirmada.</p>
         </div>
         {whatsappHref
-          ? <ActionLink href={whatsappHref} target="_blank" rel="noreferrer" onClick={() => trackEvent('whatsapp_click')}>Consultar disponibilidad por WhatsApp <span aria-hidden="true">↗</span></ActionLink>
+          ? <ActionLink analytics={{ element_id: 'consultation_whatsapp', placement: 'consultation_contact', service: 'consultation' }} href={whatsappHref} target="_blank" rel="noreferrer" onClick={() => trackEvent('whatsapp_click', { element_id: 'consultation_whatsapp', placement: 'consultation_contact', service: 'consultation' })}>Consultar disponibilidad por WhatsApp <span aria-hidden="true">↗</span></ActionLink>
           : <p className="consult-page__availability" role="status">El contacto por WhatsApp no está disponible en este momento.</p>}
       </section>
     </main>

@@ -15,6 +15,7 @@
 .site-footer__flowers { left: 0; width: 210px; height: auto; opacity: 1; }
 .site-footer__needles { right: 10px; width: 175px; height: auto; }
 .site-footer :focus-visible { outline-color: white; }
+.site-footer__preferences { display: block; min-height: 44px; margin: 12px auto 0; padding: 8px 12px; border: 1px solid currentColor; border-radius: 7px; background: transparent; color: white; font-size: .75rem; }
 @media(max-width: 1000px) {
   .site-footer__inner { grid-template-columns: minmax(0, 180px) minmax(0, 1fr); gap: 26px; }
   .site-footer__brand { --brand-mark-width: 180px; }

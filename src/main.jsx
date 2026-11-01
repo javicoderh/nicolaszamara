@@ -1,10 +1,13 @@
 import React from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
 import App from './app/App.jsx'
 import './index.css'
 
-createRoot(document.getElementById('root')).render(
+const view = (
   <React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>
 )
+const root = document.getElementById('root')
+if (root.hasChildNodes()) hydrateRoot(root, view)
+else createRoot(root).render(view)

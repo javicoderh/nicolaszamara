@@ -1,0 +1,4 @@
+.admin-interest-modal-skeleton { display: grid; gap: 20px; padding-block: 20px; min-height: 360px; }
+.admin-interest-modal-skeleton span { height: 24px; border-radius: 8px; background: var(--color-surface-strong); }
+.admin-interest-modal-skeleton span:nth-child(even) { width: 72%; }
+.admin-interest-modal-skeleton--compact { min-height: 80px; padding-block: 12px; gap: 12px; }

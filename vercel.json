@@ -10,6 +10,13 @@
     }
   },
   "rewrites": [
-    { "source": "/((?!api(?:/|$)).*)", "destination": "/index.html" }
+    { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/consulta", "destination": "/consulta/index.html" },
+    { "source": "/terapias", "destination": "/terapias/index.html" },
+    { "source": "/cursos", "destination": "/cursos/index.html" },
+    { "source": "/naturaleza", "destination": "/naturaleza/index.html" },
+    { "source": "/sobre-mi", "destination": "/sobre-mi/index.html" },
+    { "source": "/chatbot", "destination": "/chatbot/index.html" },
+    { "source": "/privacidad", "destination": "/privacidad/index.html" }
   ]
 }

@@ -1,5 +1,23 @@
 import { afterEach, expect, it, vi } from 'vitest'
 import { trackHotmartClick } from './hotmartTrackingService.js'
+import { analyticsAllowed } from './analyticsPermission.js'
+vi.mock('./analyticsPermission.js', () => ({ analyticsAllowed: vi.fn(() => true) }))
+
+it('does not send or identify a browser without consent', async () => {
+  vi.mocked(analyticsAllowed).mockReturnValueOnce(false)
+  const fetchMock = vi.fn()
+  vi.stubGlobal('fetch', fetchMock)
+  expect(await trackHotmartClick('home')).toBe(false)
+  expect(fetchMock).not.toHaveBeenCalled()
+})
+
+it('drops a queued click if permission is revoked before delivery', async () => {
+  vi.mocked(analyticsAllowed).mockReturnValueOnce(true).mockReturnValueOnce(false).mockReturnValueOnce(false)
+  const fetchMock = vi.fn()
+  vi.stubGlobal('fetch', fetchMock)
+  expect(await trackHotmartClick('home')).toBe(false)
+  expect(fetchMock).not.toHaveBeenCalled()
+})
 
 afterEach(() => { vi.unstubAllGlobals(); window.history.replaceState({}, '', '/') })
 

@@ -2,5 +2,5 @@ import InterestFormSkeleton from '../../components/InterestForm/InterestFormSkel
 import './NaturePageSkeleton.css'
 
 export default function NaturePageSkeleton() {
-  return <main id="main-content" className="nature-skeleton" aria-label="Cargando naturaleza" aria-busy="true"><div className="nature-skeleton__hero" aria-hidden="true"><span /><span /></div><div className="nature-skeleton__form page-wrap"><InterestFormSkeleton /></div></main>
+  return <main className="nature-skeleton" aria-label="Cargando naturaleza" aria-busy="true"><div className="nature-skeleton__hero" aria-hidden="true"><span /><span /></div><div className="nature-skeleton__form page-wrap"><InterestFormSkeleton /></div></main>
 }

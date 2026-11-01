@@ -8,10 +8,11 @@ export default function TherapiesPage() {
   return (
     <main id="main-content" className="therapies-page">
       <header className="therapies-page__intro page-wrap">
-        <h1>Terapias</h1>
+        <h1 data-analytics-section="therapies_intro">Terapias</h1>
         <p>Conoce los servicios de la consulta. Podemos conversar sobre lo que necesitas y revisar las alternativas de forma individual.</p>
       </header>
       <section className="therapies-page__services" aria-label="Servicios de terapias">
+        <span className="therapies-page__sentinel" data-analytics-section="therapies_grid" aria-hidden="true" />
         <div className="therapies-page__grid page-wrap">
           {therapies.map((therapy) => <TherapyCard key={therapy.id} {...therapy} />)}
         </div>
@@ -21,7 +22,7 @@ export default function TherapiesPage() {
           <h2 id="therapies-contact-title">Comencemos por una conversación.</h2>
           <p>Conoce cómo es la atención y cómo consultar disponibilidad.</p>
         </div>
-        <ActionLink href="/consulta">Conocer la consulta <span aria-hidden="true">→</span></ActionLink>
+        <ActionLink analytics={{ element_id: 'therapies_consultation', placement: 'therapies_grid', service: 'therapies' }} href="/consulta">Conocer la consulta <span aria-hidden="true">→</span></ActionLink>
       </section>
     </main>
   )

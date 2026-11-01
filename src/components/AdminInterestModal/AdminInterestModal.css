@@ -1,0 +1,19 @@
+.admin-interest-modal { width: min(720px, calc(100% - 32px)); max-height: 90dvh; border: 1px solid var(--color-line); border-radius: 18px; padding: 0; color: var(--color-ink); background: #faf9f6; }
+.admin-interest-modal::backdrop { background: #05234b99; backdrop-filter: blur(3px); }
+.admin-interest-modal__content { padding: clamp(20px, 4vw, 36px); }
+.admin-interest-modal header { display: flex; justify-content: space-between; align-items: start; gap: 20px; }
+.admin-interest-modal header p { text-transform: uppercase; letter-spacing: .12em; font-size: .7rem; color: var(--color-sage-ink); margin: 0; }
+.admin-interest-modal h2 { font-size: 2.4rem; color: var(--color-navy); margin: 6px 0; }
+.admin-interest-modal button { min-width: 44px; min-height: 44px; border: 1px solid var(--color-line); background: white; border-radius: 8px; }
+.admin-interest-modal header button { font-size: 1.7rem; }
+.admin-interest-modal__timezone { color: var(--color-muted); font-size: .8rem; }
+.admin-interest-modal__reading { margin-block: 20px; padding: 18px; border-radius: 10px; background: #e5ebe1; }
+.admin-interest-modal__reading p { margin-top: 0; }
+.admin-interest-modal__reading button { padding: 10px 18px; color: white; background: var(--color-sage-ink); border: 0; }
+.admin-interest-modal__reading button:disabled { opacity: .65; cursor: default; }
+.admin-interest-modal__reading [role=alert] { margin-top: 12px; color: #8c2929; }
+.admin-interest-modal dl { margin-bottom: 0; }
+.admin-interest-modal dl > div { display: grid; grid-template-columns: 190px 1fr; gap: 16px; border-top: 1px solid #d9ddd7; padding-block: 12px; }
+.admin-interest-modal dt { font-weight: 600; font-size: .8rem; }
+.admin-interest-modal dd { margin: 0; overflow-wrap: anywhere; white-space: pre-wrap; }
+@media(max-width: 550px) { .admin-interest-modal dl > div { grid-template-columns: 1fr; gap: 4px; } }

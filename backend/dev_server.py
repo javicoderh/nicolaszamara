@@ -6,10 +6,13 @@ from api.chat import handler as ChatHandler
 from api.interests import handler as InterestHandler
 from api.chat_feedback import handler as FeedbackHandler
 from api.hotmart_click import handler as HotmartClickHandler
+from api.admin import handler as AdminHandler
 
 
 class DevApiHandler(InterestHandler):
     def do_POST(self):
+        if self.path.split('?', 1)[0].rstrip('/') == '/api/admin':
+            return AdminHandler.do_POST(self)
         if self.path.split('?', 1)[0].rstrip('/') == '/api/hotmart_click':
             return HotmartClickHandler.do_POST(self)
         if self.path.split('?', 1)[0].rstrip('/') == '/api/chat_feedback':
@@ -19,6 +22,8 @@ class DevApiHandler(InterestHandler):
         return super().do_POST()
 
     def do_GET(self):
+        if self.path.split('?', 1)[0].rstrip('/') == '/api/health':
+            return self.reply(200, {'status': 'ready'})
         if self.path.split('?', 1)[0].rstrip('/') == '/api/chat':
             return ChatHandler.do_GET(self)
         return super().do_GET()
@@ -26,5 +31,5 @@ class DevApiHandler(InterestHandler):
 
 if __name__ == "__main__":
     load_local_environment()
-    print("API local: http://127.0.0.1:3001/api/interests y /api/chat")
+    print("API local: http://127.0.0.1:3001 (/api/admin, /api/interests, /api/chat y /api/hotmart_click)")
     ThreadingHTTPServer(("127.0.0.1", 3001), DevApiHandler).serve_forever()
