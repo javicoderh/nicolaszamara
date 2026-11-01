@@ -15,5 +15,9 @@ dist
 docs
 database
 tests
-scripts
+# Build requires scripts/generate_seo.mjs and scripts/prerender.mjs.
+# Keep local development and administrative Python tools out of deployments.
+scripts/*.py
+scripts/dev.mjs
+scripts/*.test.js
 chatbot testing
