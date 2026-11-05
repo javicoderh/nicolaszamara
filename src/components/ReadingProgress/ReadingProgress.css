@@ -1,0 +1,1 @@
+.reading-progress{height:2px;position:sticky;top:0;z-index:4;pointer-events:none}.reading-progress>span{display:block;height:2px;background:var(--color-sage-dark);transform-origin:left;width:100%}

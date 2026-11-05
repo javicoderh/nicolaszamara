@@ -112,6 +112,7 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="home-blog page-wrap" aria-labelledby="home-blog-title"><h2 id="home-blog-title">Hay temas que merecen más tiempo.</h2><p>Lecturas para continuar explorando naturaleza, terapias y bienestar.</p><ActionLink href="/blog" variant="text">Para profundizar: visita el blog <span aria-hidden="true">→</span></ActionLink></section>
       <section className="home-interest page-wrap" id="interes-naturaleza" aria-label="Registro de interés en naturaleza">
         <InterestForm kind="nature" />
       </section>

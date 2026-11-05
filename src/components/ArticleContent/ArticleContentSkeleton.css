@@ -1,0 +1,1 @@
+.article-content-skeleton{padding:40px;display:grid;gap:24px}.article-content-skeleton span,.article-content-skeleton div{background:var(--color-surface-strong);height:32px;animation:article-pulse 1.3s ease-in-out infinite alternate}.article-content-skeleton span:nth-child(2){height:90px}.article-content-skeleton div{height:300px}@keyframes article-pulse{to{opacity:.55}}

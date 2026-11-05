@@ -12,6 +12,7 @@ const navigation = [
   { label: 'Consulta', href: '/consulta' },
   { label: 'Cursos', href: '/cursos' },
   { label: 'Naturaleza', href: '/naturaleza' },
+  { label: 'Blog', href: '/blog' },
   { label: 'Sobre mí', href: '/sobre-mi' },
 ]
 

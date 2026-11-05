@@ -1,4 +1,4 @@
 .site-header-skeleton { min-height: 178px; padding: 10px 24px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 19px; background: var(--color-navy); color: white; }
 .site-header-skeleton__navigation { width: min(660px, 80%); height: 20px; border-radius: 4px; background: #ffffff24; animation: header-pulse 1.3s ease-in-out infinite alternate; }
 @keyframes header-pulse { to { opacity: .5; } }
-@media(max-width:760px) { .site-header-skeleton { min-height: 120px; padding: 14px 20px; flex-direction: row; justify-content: space-between; gap: 12px; } .site-header-skeleton .brand-mark-skeleton { width: 220px; height: 76px; } .site-header-skeleton__navigation { width: 50px; height: 20px; } }
+@media(max-width:960px) { .site-header-skeleton { min-height: 120px; padding: 14px 20px; flex-direction: row; justify-content: space-between; gap: 12px; } .site-header-skeleton .brand-mark-skeleton { width: 220px; height: 76px; } .site-header-skeleton__navigation { width: 50px; height: 20px; } }

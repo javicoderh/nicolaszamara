@@ -11,7 +11,7 @@ describe('analytics contract', () => {
   const click = { element_id: 'hero_nature', placement: 'home_hero', service: 'nature', destination_path: '/naturaleza' }
   it('accepts a registered action without sending anything', () => {
     expect(validateAnalyticsEvent('cta_click', click)).toBe(true)
-    expect(Object.keys(ANALYTICS_EVENTS)).toHaveLength(17)
+    expect(Object.keys(ANALYTICS_EVENTS)).toHaveLength(24)
     expect(Object.keys(LEGACY_ANALYTICS_EVENTS)).toHaveLength(6)
   })
   it.each([

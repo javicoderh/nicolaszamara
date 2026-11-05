@@ -1,4 +1,4 @@
-.admin-interest-modal { width: min(720px, calc(100% - 32px)); max-height: 90dvh; border: 1px solid var(--color-line); border-radius: 18px; padding: 0; color: var(--color-ink); background: #faf9f6; }
+.admin-interest-modal { color: var(--color-ink); }
 .admin-interest-modal::backdrop { background: #05234b99; backdrop-filter: blur(3px); }
 .admin-interest-modal__content { padding: clamp(20px, 4vw, 36px); }
 .admin-interest-modal header { display: flex; justify-content: space-between; align-items: start; gap: 20px; }

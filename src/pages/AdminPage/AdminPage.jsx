@@ -1,4 +1,5 @@
-import { useCallback, useState } from 'react'
+import AdminIcon from '../../components/AdminIcon/AdminIcon.jsx'
+import { lazy, Suspense, useCallback, useState } from 'react'
 import { useAdminQuery } from '../../hooks/useAdminQuery/useAdminQuery.js'
 import { useDelayedOperation } from '../../hooks/useDelayedOperation/useDelayedOperation.js'
 import { getAdminSession, adminRequest, adminErrorMessage } from '../../services/adminService.js'
@@ -6,12 +7,14 @@ import AdminLogin from '../../components/AdminLogin/AdminLogin.jsx'
 import AdminDashboard from '../../components/AdminDashboard/AdminDashboard.jsx'
 import AdminPageSkeleton from './AdminPageSkeleton.jsx'
 import './AdminPage.css'
+const AdminBlog = lazy(() => import('../../components/AdminBlog/AdminBlog.jsx'))
 
 export default function AdminPage({ loadSession = getAdminSession }) {
   const session = useAdminQuery(loadSession)
   const [account, setAccount] = useState(undefined)
   const [notice, setNotice] = useState('')
   const [error, setError] = useState(null)
+  const [section, setSection] = useState('interests')
   const remote = useDelayedOperation(15000)
   const expired = useCallback(() => { setAccount(null); setNotice('Tu sesión terminó. Vuelve a ingresar.') }, [])
   const passwordChanged = useCallback(() => { setAccount(null); setNotice('Contraseña actualizada. Ingresa con tu nueva contraseña.') }, [])
@@ -28,8 +31,9 @@ export default function AdminPage({ loadSession = getAdminSession }) {
   return <main className="admin-page" id="main-content" data-clarity-mask="true">
     <header className="admin-page__header"><a href="/">Nicolás Zamara <span>Administración</span></a>{username && <div><span>{username}</span><button type="button" onClick={logout} disabled={remote.pending}>{remote.pending ? 'Cerrando sesión…' : 'Cerrar sesión'}</button></div>}</header>
     <div className="admin-page__body">
+      {username && <nav aria-label="Administración"><button onClick={() => setSection('interests')} aria-pressed={section === 'interests'}><AdminIcon name="inbox"/> Intereses</button><button onClick={() => setSection('blog')} aria-pressed={section === 'blog'}><AdminIcon name="article"/> Blog</button></nav>}
       {checking ? <AdminPageSkeleton /> : failed ? <section role="alert"><p>{adminErrorMessage(session.error)}</p><button type="button" onClick={session.reload}>Reintentar acceso</button></section>
-        : username ? <AdminDashboard onExpired={expired} onPasswordChanged={passwordChanged} />
+        : username ? section === 'blog' ? <Suspense fallback={<AdminPageSkeleton />}><AdminBlog onExpired={expired} /></Suspense> : <AdminDashboard onExpired={expired} onPasswordChanged={passwordChanged} />
           : <AdminLogin onAuthenticated={setAccount} notice={notice} />}
       {error && <p role="alert">{adminErrorMessage(error)}</p>}
       {remote.pending && <div className="admin-page__logout" role="status" aria-label="Cerrando sesión" aria-busy="true"><AdminPageSkeleton /></div>}

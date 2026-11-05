@@ -7,7 +7,7 @@
     "dev": "node scripts/dev.mjs",
     "dev:frontend": "vite",
     "dev:api": "node scripts/dev.mjs --api-only",
-    "build": "vite build && node scripts/generate_seo.mjs && vite build --ssr src/entry-server.jsx --outDir .preview/marketing-ssr && node scripts/prerender.mjs",
+    "build": "vite build && node scripts/generate_seo.mjs && vite build --ssr src/entry-server.jsx --outDir .preview/marketing-ssr && node scripts/prerender.mjs && node scripts/prepare_blog_runtime.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest"

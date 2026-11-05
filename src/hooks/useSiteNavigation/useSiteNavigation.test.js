@@ -16,7 +16,7 @@ function click(href, props = {}, event = {}) {
 it('navigates internal routes and anchors and synchronizes back/forward', () => {
   const { result } = renderHook(() => useSiteNavigation(paths))
   act(() => { expect(click('/cursos#interes-online')).toBe(true) })
-  expect(result.current).toEqual({ pathname: '/cursos', hash: '#interes-online' })
+  expect(result.current).toMatchObject({ pathname: '/cursos', hash: '#interes-online', search: '' })
   act(() => { window.history.replaceState({}, '', '/chatbot'); window.dispatchEvent(new PopStateEvent('popstate')) })
   expect(result.current.pathname).toBe('/chatbot')
 })
@@ -45,4 +45,14 @@ it('removes global handlers when unmounted', () => {
   const { unmount } = renderHook(() => useSiteNavigation(paths))
   unmount()
   expect(remove).toHaveBeenCalledWith('click', expect.any(Function))
+})
+it('opens a reloaded article as a standalone page even when history retained modal state',()=>{
+ window.history.replaceState({blogBackground:'/blog?category=naturaleza',blogDepth:2,scroll:600,other:'preserved'},'','/blog/un-bosque')
+ const {result}=renderHook(()=>useSiteNavigation(paths))
+ expect(result.current.state).toEqual({other:'preserved'});expect(window.history.state.blogBackground).toBeUndefined()
+})
+it('preserves background state on subsequent back and forward navigation',()=>{
+ const {result}=renderHook(()=>useSiteNavigation(paths))
+ act(()=>{window.history.pushState({blogBackground:'/blog',blogDepth:1},'','/blog/un-bosque');window.dispatchEvent(new PopStateEvent('popstate'))})
+ expect(result.current.state.blogBackground).toBe('/blog')
 })

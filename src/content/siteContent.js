@@ -27,6 +27,7 @@ export const siteSettings = {
 }
 
 export const pageMetadata = {
+  '/blog': { title: 'Para profundizar | Blog de Nicolás Zamara', description: 'Lecturas sobre naturaleza, terapias, Flores de Bach y formación para continuar explorando.' },
   '/admin': {
     title: 'Administración | Nicolás Zamara',
     description: 'Acceso privado a la gestión de intereses.',

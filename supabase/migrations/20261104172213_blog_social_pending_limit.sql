@@ -1,0 +1,46 @@
+create or replace function public.blog_engagement(p_operation text,p_article_id uuid,p_visitor_hash text default null,p_values jsonb default '{}')
+returns jsonb language plpgsql security invoker set search_path='' as $$
+declare rows jsonb; own_rows jsonb; existing private.blog_comments%rowtype; page integer; total bigint;
+begin
+ if not exists(select 1 from public.blog_publications where id=p_article_id) then return jsonb_build_object('status','not_found'); end if;
+ if p_operation='read' then
+   page:=coalesce((p_values->>'page')::integer,1);
+   if page not between 1 and 10000 then return jsonb_build_object('status','invalid'); end if;
+   select count(*) into total from private.blog_comments where article_id=p_article_id and state='approved';
+   select coalesce(jsonb_agg(x.doc order by x.created_at desc,x.id),'[]') into rows from
+    (select id,created_at,jsonb_build_object('id',id,'name',display_name,'body',body,'createdAt',created_at,'mine',coalesce(visitor_hash=p_visitor_hash,false)) doc
+     from private.blog_comments where article_id=p_article_id and state='approved' order by created_at desc,id limit 20 offset ((page-1)*20)) x;
+   select coalesce(jsonb_agg(jsonb_build_object('id',id,'name',display_name,'body',body,'createdAt',created_at,'state',state) order by created_at desc),'[]') into own_rows
+     from (select id,display_name,body,created_at,state from private.blog_comments
+       where article_id=p_article_id and visitor_hash=p_visitor_hash and state='pending' order by created_at desc,id limit 20) pending;
+   return jsonb_build_object('status','ready','likes',(select count(*) from private.blog_likes where article_id=p_article_id),
+    'liked',exists(select 1 from private.blog_likes where article_id=p_article_id and visitor_hash=p_visitor_hash),'comments',rows,'myPending',own_rows,'page',page,'hasMore',page*20<total,'total',total);
+ end if;
+ if p_visitor_hash is null or p_visitor_hash !~ '^[0-9a-f]{64}$' then return jsonb_build_object('status','invalid'); end if;
+ perform pg_advisory_xact_lock(hashtextextended(p_visitor_hash,7384913));
+ insert into private.blog_social_limits(visitor_hash) values(p_visitor_hash) on conflict do nothing;
+ update private.blog_social_limits set requests=0,started_at=now() where visitor_hash=p_visitor_hash and started_at<now()-interval '1 hour';
+ update private.blog_social_limits set requests=requests+1 where visitor_hash=p_visitor_hash and requests<200;
+ if not found then return jsonb_build_object('status','rate_limited'); end if;
+ if p_operation='like' then
+   if jsonb_typeof(p_values->'liked')<>'boolean' then return jsonb_build_object('status','invalid'); end if;
+   if (p_values->>'liked')::boolean then insert into private.blog_likes(article_id,visitor_hash) values(p_article_id,p_visitor_hash) on conflict do nothing;
+   else delete from private.blog_likes where article_id=p_article_id and visitor_hash=p_visitor_hash; end if;
+   return jsonb_build_object('status','ready','likes',(select count(*) from private.blog_likes where article_id=p_article_id),
+     'liked',exists(select 1 from private.blog_likes where article_id=p_article_id and visitor_hash=p_visitor_hash));
+ elsif p_operation='comment' then
+   select * into existing from private.blog_comments where id=(p_values->>'id')::uuid;
+   if found then
+     if existing.article_id<>p_article_id or existing.visitor_hash<>p_visitor_hash or existing.body<>p_values->>'body' or existing.display_name<>p_values->>'name' then return jsonb_build_object('status','conflict'); end if;
+     return jsonb_build_object('status','ready','id',existing.id,'state',existing.state);
+   end if;
+   if (select count(*) from private.blog_comments where visitor_hash=p_visitor_hash and created_at>now()-interval '1 hour')>=5 or
+     exists(select 1 from private.blog_comments where visitor_hash=p_visitor_hash and created_at>now()-interval '30 seconds') then return jsonb_build_object('status','rate_limited'); end if;
+   insert into private.blog_comments(id,article_id,visitor_hash,display_name,body) values((p_values->>'id')::uuid,p_article_id,p_visitor_hash,p_values->>'name',p_values->>'body') returning * into existing;
+   return jsonb_build_object('status','ready','id',existing.id,'state','pending');
+ elsif p_operation='comment_delete' then
+   delete from private.blog_comments where id=(p_values->>'id')::uuid and article_id=p_article_id and visitor_hash=p_visitor_hash;
+   return jsonb_build_object('status','ready');
+ end if;
+ return jsonb_build_object('status','invalid');
+end $$;

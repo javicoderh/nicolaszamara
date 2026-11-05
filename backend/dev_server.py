@@ -11,6 +11,15 @@ from api.admin import handler as AdminHandler
 
 class DevApiHandler(InterestHandler):
     def do_POST(self):
+        if self.path.split('?',1)[0].rstrip('/')=='/api/blog_engagement':
+            from api.blog_engagement import handler as SocialHandler
+            return SocialHandler.do_POST(self)
+        if self.path.split('?', 1)[0].rstrip('/') == '/api/admin/media':
+            from api.blog_media import handler as MediaHandler
+            return MediaHandler.do_POST(self)
+        if self.path.split('?', 1)[0].rstrip('/') == '/api/blog_worker':
+            from api.blog_worker import handler as WorkerHandler
+            return WorkerHandler.do_POST(self)
         if self.path.split('?', 1)[0].rstrip('/') == '/api/admin':
             return AdminHandler.do_POST(self)
         if self.path.split('?', 1)[0].rstrip('/') == '/api/hotmart_click':
@@ -22,8 +31,27 @@ class DevApiHandler(InterestHandler):
         return super().do_POST()
 
     def do_GET(self):
+        if self.path.split('?', 1)[0].rstrip('/') == '/api/admin/media':
+            from api.blog_media import handler as MediaHandler
+            return MediaHandler.do_GET(self)
+        if self.path.split('?',1)[0].rstrip('/')=='/api/blog_engagement':
+            from api.blog_engagement import handler as SocialHandler
+            return SocialHandler.do_GET(self)
+        if self.path.split('?', 1)[0].startswith('/blog-media/'):
+            from api.blog_media import handler as MediaHandler
+            return MediaHandler.do_GET(self)
+        if self.path.split('?', 1)[0].rstrip('/') == '/api/blog':
+            from urllib.parse import urlsplit, parse_qs
+            from backend.blog_public import read_blog
+            params = parse_qs(urlsplit(self.path).query)
+            try:
+                result = read_blog(params.get('slug', [None])[0], params.get('category', [None])[0], int(params.get('page', ['1'])[0]), params.get('mode', [None])[0])
+            except ValueError:
+                result = {'status': 'invalid'}
+            return self.reply({'ready': 200, 'redirect': 200, 'not_found': 404, 'invalid': 400}.get(result['status'], 503), result)
         if self.path.split('?', 1)[0].rstrip('/') == '/api/health':
-            return self.reply(200, {'status': 'ready'})
+            from backend.blog_config import generation_ready
+            return self.reply(200, {'status': 'ready', 'blogGenerationEnabled': generation_ready()})
         if self.path.split('?', 1)[0].rstrip('/') == '/api/chat':
             return ChatHandler.do_GET(self)
         return super().do_GET()

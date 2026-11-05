@@ -10,19 +10,23 @@ from backend.chat_identity import visitor_from_cookie
 class handler(BaseHTTPRequestHandler):
     def reply(self, status, body):
         encoded = json.dumps(body, ensure_ascii=False).encode("utf-8")
-        self.send_response(status)
-        self.send_header("Content-Type", "application/json; charset=utf-8")
-        self.send_header("Cache-Control", "no-store")
-        self.send_header("X-Content-Type-Options", "nosniff")
-        self.send_header("Content-Length", str(len(encoded)))
-        if getattr(self, 'setter_cookie', None):
-            self.send_header('Set-Cookie', self.setter_cookie)
-        if status == 429:
-            self.send_header("Retry-After", "60")
-        if status == 405:
-            self.send_header("Allow", "POST")
-        self.end_headers()
-        self.wfile.write(encoded)
+        try:
+            self.send_response(status)
+            self.send_header("Content-Type", "application/json; charset=utf-8")
+            self.send_header("Cache-Control", "no-store")
+            self.send_header("X-Content-Type-Options", "nosniff")
+            self.send_header("Content-Length", str(len(encoded)))
+            if getattr(self, 'setter_cookie', None):
+                self.send_header('Set-Cookie', self.setter_cookie)
+            if status == 429:
+                self.send_header("Retry-After", "60")
+            if status == 405:
+                self.send_header("Allow", "POST")
+            self.end_headers()
+            self.wfile.write(encoded)
+        except (BrokenPipeError, ConnectionResetError, ConnectionAbortedError):
+            # The operation already finished; a closed client must not rerun it.
+            self.close_connection = True
 
     def do_POST(self):
         if self.path.split('?', 1)[0].rstrip('/') != '/api/interests':

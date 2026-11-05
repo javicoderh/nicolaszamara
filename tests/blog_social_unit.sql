@@ -1,0 +1,31 @@
+do $$
+declare aid uuid:=gen_random_uuid();cid uuid:=gen_random_uuid();othercid uuid:=gen_random_uuid();h1 text:=repeat('a',64);h2 text:=repeat('b',64);result jsonb;
+begin
+ perform public.blog_admin('create',jsonb_build_object('id',aid,'document','{"slug":"social-unit-check","title":"Control social","category":"naturaleza","cover":"a","coverAlt":"Apertura","bodyImage":{"src":"b","alt":"Interior"},"document":{"version":1,"blocks":[]}}'::jsonb),null,true);
+ if public.blog_engagement('read',aid)->>'status'<>'not_found' then raise exception 'draft social exposed'; end if;
+ perform public.blog_admin('publish',jsonb_build_object('id',aid,'version',1),null,true);
+ perform public.blog_engagement('like',aid,h1,'{"liked":true}');perform public.blog_engagement('like',aid,h1,'{"liked":true}');
+ if (public.blog_engagement('read',aid,h1)->>'likes')::integer<>1 then raise exception 'duplicate like counted'; end if;
+ perform public.blog_engagement('like',aid,h2,'{"liked":true}');perform public.blog_engagement('like',aid,h1,'{"liked":false}');
+ if (public.blog_engagement('read',aid,h1)->>'likes')::integer<>1 or (public.blog_engagement('read',aid,h1)->>'liked')::boolean then raise exception 'unlike failed'; end if;
+ perform public.blog_engagement('comment',aid,h1,jsonb_build_object('id',cid,'name','Lector de prueba','body','Observacion de control'));
+ perform public.blog_engagement('comment',aid,h1,jsonb_build_object('id',cid,'name','Lector de prueba','body','Observacion de control'));
+ result:=public.blog_engagement('read',aid,h2);
+ if jsonb_array_length(result->'comments')<>0 or jsonb_array_length(result->'myPending')<>0 then raise exception 'pending comment exposed'; end if;
+ if jsonb_array_length(public.blog_engagement('read',aid,h1)->'myPending')<>1 then raise exception 'author cannot inspect pending comment'; end if;
+ if public.blog_engagement('comment',aid,h1,jsonb_build_object('id',othercid,'name','Lector','body','Otra observacion'))->>'status'<>'rate_limited' then raise exception 'comment rate limit missing'; end if;
+ if public.blog_admin('comment_moderate',jsonb_build_object('id',cid,'state','approved'),null,false)->>'status'<>'unauthorized' then raise exception 'anonymous moderation'; end if;
+ perform public.blog_admin('comment_moderate',jsonb_build_object('id',cid,'state','approved'),null,true);
+ result:=public.blog_engagement('read',aid,h2);
+ if jsonb_array_length(result->'comments')<>1 or result::text like '%visitor_hash%' then raise exception 'public comment projection invalid'; end if;
+ perform public.blog_engagement('comment_delete',aid,h2,jsonb_build_object('id',cid));
+ if jsonb_array_length(public.blog_engagement('read',aid,h2)->'comments')<>1 then raise exception 'other visitor deleted comment'; end if;
+ perform public.blog_engagement('comment_delete',aid,h1,jsonb_build_object('id',cid));
+ if jsonb_array_length(public.blog_engagement('read',aid,h2)->'comments')<>0 then raise exception 'owner deletion failed'; end if;
+ insert into private.blog_comments(id,article_id,visitor_hash,display_name,body) select gen_random_uuid(),aid,h1,'Lector','Control de paginacion' from generate_series(1,25);
+ if jsonb_array_length(public.blog_engagement('read',aid,h1)->'myPending')<>20 then raise exception 'unbounded private pending projection'; end if;
+ perform public.blog_admin('archive',jsonb_build_object('id',aid,'version',1),null,true);
+ if public.blog_engagement('like',aid,h1,'{"liked":true}')->>'status'<>'not_found' then raise exception 'archived reaction accepted'; end if;
+ if has_function_privilege('anon','public.blog_engagement(text,uuid,text,jsonb)','execute') or has_table_privilege('anon','private.blog_comments','select') then raise exception 'social data permissions'; end if;
+end $$;
+select 'blog_social_unit_passed' as result;

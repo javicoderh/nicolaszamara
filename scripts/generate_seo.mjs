@@ -5,6 +5,8 @@ import { htmlWithSeo, sitemapXml } from '../src/services/seoService.js'
 
 const output = resolve('dist')
 const template = await readFile(join(output, 'index.html'), 'utf8')
+await mkdir(resolve('server/generated'), { recursive: true })
+await writeFile(resolve('server/generated/template.html'), template)
 // Production indexation requires an explicit opt-in as well as Vercel's real
 // deployment environment. A local or preview build never turns it on by hostname.
 const indexingEnabled = process.env.VERCEL_ENV === 'production' && process.env.SEO_ALLOW_INDEXING === 'true'
@@ -15,5 +17,5 @@ for (const { path } of SITE_ROUTES) {
 }
 await writeFile(join(output, '404.html'), htmlWithSeo(template, '/404', { indexingEnabled: false }))
 await writeFile(join(output, 'sitemap.xml'), sitemapXml(indexingEnabled))
-await writeFile(join(output, 'robots.txt'), `User-agent: *\nAllow: /\n${indexingEnabled ? `Sitemap: ${SITE_ORIGIN}/sitemap.xml\n` : ''}`)
+await writeFile(join(output, 'robots.txt'), `User-agent: *\nAllow: /\n${indexingEnabled ? `Sitemap: ${SITE_ORIGIN}/sitemap.xml\nSitemap: ${SITE_ORIGIN}/blog-sitemap.xml\n` : ''}`)
 console.log(`SEO: ${SITE_ROUTES.length} routes generated; indexing ${indexingEnabled ? 'enabled' : 'disabled'}.`)

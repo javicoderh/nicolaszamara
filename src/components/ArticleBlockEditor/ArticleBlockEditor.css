@@ -1,0 +1,4 @@
+.article-block-editor>section{padding:24px;margin-block:24px;border:1px solid var(--color-line);border-radius:12px}.article-block-editor__actions{display:flex;flex-wrap:wrap;gap:8px}.article-block-editor textarea{min-height:100px;resize:vertical}
+.article-block-editor__import{padding:20px;border:1px solid var(--color-line);border-radius:12px;margin-block:20px}
+.article-block-editor__import button{margin:8px 8px 0 0}
+.article-block-editor__import [role=alert]{color:#8c2929}

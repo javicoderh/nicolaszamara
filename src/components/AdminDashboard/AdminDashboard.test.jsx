@@ -16,7 +16,7 @@ it('reserves summary and list space immediately', () => {
 })
 it('shows totals, paginates by cursor, applies calendar filters and opens a detail', async () => {
   const load = vi.fn().mockResolvedValue(data)
-  render(<AdminDashboard load={load} onExpired={vi.fn()} onPasswordChanged={vi.fn()} />)
+  renderExpanded(<AdminDashboard load={load} onExpired={vi.fn()} onPasswordChanged={vi.fn()} />)
   expect(screen.getByLabelText('Cargando intereses')).toBeInTheDocument()
   await act(async () => vi.advanceTimersByTimeAsync(800))
   expect(screen.getByText('45')).toBeInTheDocument()
@@ -35,15 +35,15 @@ it('shows totals, paginates by cursor, applies calendar filters and opens a deta
   await act(async () => vi.advanceTimersByTimeAsync(800))
   expect(JSON.parse(load.mock.calls.at(-1)[1])).toEqual({ filters: { mode: 'month', month: '2026-11', interest: 'nature', reading: 'unread' }, cursor: null })
   fireEvent.click(screen.getByRole('button', { name: 'Ver detalle de Persona de prueba' }))
-  expect(screen.getByRole('dialog')).toHaveTextContent('unit-id')
+  expect(screen.getByRole('dialog', { name: 'Detalle simulado' })).toHaveTextContent('unit-id')
   fireEvent.click(screen.getByRole('button', { name: 'Cerrar' }))
-  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  expect(screen.queryByRole('dialog', { name: 'Detalle simulado' })).not.toBeInTheDocument()
   fireEvent.click(screen.getByRole('button', { name: 'Cambiar contraseña' }))
   expect(screen.getByText('Formulario de contraseña simulado')).toBeInTheDocument()
 })
 it('supports day and inclusive range filters and renders an empty result', async () => {
   const load = vi.fn().mockResolvedValue({ ...data, items: [], next_cursor: null })
-  render(<AdminDashboard load={load} onExpired={vi.fn()} onPasswordChanged={vi.fn()} />)
+  renderExpanded(<AdminDashboard load={load} onExpired={vi.fn()} onPasswordChanged={vi.fn()} />)
   await act(async () => vi.advanceTimersByTimeAsync(800))
   expect(screen.getByRole('status')).toHaveTextContent('No hay intereses')
   fireEvent.change(screen.getByLabelText('Período'), { target: { value: 'day' } })
@@ -60,7 +60,7 @@ it('supports day and inclusive range filters and renders an empty result', async
 })
 it('shows delayed errors, supports retry and reports expiry', async () => {
   const load = vi.fn().mockRejectedValueOnce(new Error('network')).mockRejectedValueOnce(new AdminError('unauthorized')), expired = vi.fn()
-  render(<AdminDashboard load={load} onExpired={expired} onPasswordChanged={vi.fn()} />)
+  renderExpanded(<AdminDashboard load={load} onExpired={expired} onPasswordChanged={vi.fn()} />)
   await act(async () => vi.advanceTimersByTimeAsync(800))
   expect(screen.getByRole('alert')).toHaveTextContent('No pudimos')
   fireEvent.click(screen.getByRole('button', { name: 'Reintentar carga' }))
@@ -69,7 +69,7 @@ it('shows delayed errors, supports retry and reports expiry', async () => {
 })
 it('starts with unread interests, refreshes after a read and permits read/all filters', async () => {
   const load = vi.fn().mockResolvedValue(data)
-  render(<AdminDashboard load={load} onExpired={vi.fn()} onPasswordChanged={vi.fn()} />)
+  renderExpanded(<AdminDashboard load={load} onExpired={vi.fn()} onPasswordChanged={vi.fn()} />)
   await act(async () => vi.advanceTimersByTimeAsync(800))
   expect(JSON.parse(load.mock.calls[0][1]).filters.reading).toBe('unread')
   fireEvent.click(screen.getByRole('button', { name: 'Siguiente' }))
@@ -88,4 +88,25 @@ it('starts with unread interests, refreshes after a read and permits read/all fi
     await act(async () => vi.advanceTimersByTimeAsync(800))
     expect(JSON.parse(load.mock.calls.at(-1)[1]).filters.reading).toBe(reading)
   }
+})
+
+function renderExpanded(element) {
+  const view = render(element)
+  view.container.querySelectorAll('[data-module-trigger]').forEach(button => fireEvent.click(button))
+  return view
+}
+
+it('starts folded with visible shortcuts and preserves filters when sections are folded', async () => {
+  const load = vi.fn().mockResolvedValue(data)
+  const view = render(<AdminDashboard load={load} onExpired={vi.fn()} onPasswordChanged={vi.fn()} />)
+  await act(async () => vi.advanceTimersByTimeAsync(800))
+  expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
+  fireEvent.click(screen.getByRole('button', { name: 'Filtrar intereses' }))
+  expect(screen.getByRole('dialog', {name:'Filtros'})).toBeInTheDocument()
+  fireEvent.change(screen.getByLabelText('Servicio'), { target: { value: 'nature' } })
+  fireEvent.click(screen.getByRole('button', {name:'Cerrar ventana'}))
+  fireEvent.click(screen.getByRole('button', { name: 'Filtrar intereses' }))
+  expect(screen.getByLabelText('Servicio')).toHaveValue('nature')
+  fireEvent.click(screen.getByRole('button', { name: 'Ver solicitudes' }))
+  expect(screen.getByText('Persona de prueba')).toBeVisible()
 })

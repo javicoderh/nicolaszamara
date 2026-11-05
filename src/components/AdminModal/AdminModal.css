@@ -1,0 +1,13 @@
+.admin-modal{width:min(1160px,calc(100% - 32px));max-width:none;max-height:calc(100dvh - 32px);padding:0;border:1px solid var(--color-line);border-radius:16px;background:#faf9f6;color:var(--color-ink);overflow:auto;overscroll-behavior:contain}
+.admin-modal::backdrop{background:#05234b99;backdrop-filter:blur(3px)}
+.admin-modal[open]{animation:admin-modal-enter 180ms ease-out}
+.admin-modal__surface{min-width:0}
+.admin-modal__header{position:sticky;top:0;z-index:5;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:16px 24px;background:#faf9f6;border-bottom:1px solid var(--color-line)}
+.admin-modal__header h2{font-family:var(--font-display);font-size:clamp(1.8rem,3vw,2.4rem);line-height:1.2;margin:0;color:var(--color-navy)}
+.admin-modal__header button{flex-shrink:0;min-height:44px;padding:8px 16px;border:1px solid var(--color-line);border-radius:8px;background:white;color:var(--color-navy);cursor:pointer}
+.admin-modal__header button:focus-visible{outline:3px solid var(--color-sage-dark);outline-offset:2px}
+.admin-modal__content{padding:24px;max-width:none!important;min-width:0;overflow-wrap:anywhere}
+.admin-modal__content pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.8rem}
+@keyframes admin-modal-enter{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(prefers-reduced-motion:reduce){.admin-modal[open]{animation:none}}
+@media(max-width:640px){.admin-modal{width:calc(100% - 16px);max-height:calc(100dvh - 16px);border-radius:12px}.admin-modal__header{padding:12px 16px}.admin-modal__content{padding:16px}}

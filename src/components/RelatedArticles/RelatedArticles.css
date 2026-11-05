@@ -1,0 +1,1 @@
+.related-articles{width:min(68ch,calc(100% - 64px));margin:0 auto;padding:0 0 40px}.related-articles h2{font-size:2rem;color:var(--color-navy)}.related-articles a{display:block;margin-block:16px}.related-articles button{min-height:44px}@media(max-width:640px){.related-articles{width:calc(100% - 40px)}}

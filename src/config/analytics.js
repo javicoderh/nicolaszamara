@@ -24,6 +24,7 @@ const service = member(['consultation', 'therapies', 'course', 'online', 'nature
 const formKind = member(['consultation', 'online', 'nature', 'chat_contact'])
 const errorCode = member(['required', 'format', 'too_long', 'consent_required', 'rate_limited', 'timeout', 'network', 'unavailable'])
 const fieldId = member(['name', 'email', 'phone', 'contact_preference', 'city', 'country', 'privacy_consent', 'form'])
+const articleId=value=>typeof value==='string'&&/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/.test(value)
 
 export const ANALYTICS_SECTIONS = Object.freeze([
   'home_hero', 'home_areas', 'home_consultation', 'home_course', 'home_about', 'home_nature', 'home_nature_form',
@@ -74,6 +75,13 @@ function safeLocation(value, referrer = false) {
 const cta = { element_id: elementId, placement, service }
 const form = { form_kind: formKind, placement }
 const eventDefinitions = {
+  blog_article_view:{article_id:articleId},
+  blog_read_complete:{article_id:articleId},
+  blog_share:{article_id:articleId},
+  blog_reel:{article_id:articleId},
+  blog_related:{article_id:articleId},
+  blog_cta:{article_id:articleId},
+  blog_filter:{category:member(['all','naturaleza','terapias','flores-de-bach','formacion','other'])},
   page_view: { page_title: member([...Object.entries(pageMetadata).filter(([path]) => path !== '/admin').map(([, { title }]) => title), 'Página no encontrada | Nicolás Zamara']), page_location: safeLocation, page_referrer: (value) => safeLocation(value, true) },
   section_view: { section_id: member(ANALYTICS_SECTIONS) },
   cta_view: cta,

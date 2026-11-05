@@ -1,0 +1,154 @@
+{
+  "slug": "muestra-larga-de-validacion",
+  "title": "Muestra larga de validacion",
+  "summary": "Documento sintetico para comprobar limites del editor.",
+  "author": "Equipo de prueba",
+  "category": "naturaleza",
+  "focusKeyword": "pausa en naturaleza",
+  "seoTitle": "Una pausa en la naturaleza: mirar con otro ritmo",
+  "metaDescription": "Una invitación a observar el entorno con calma y a conocer, con sus límites, dos investigaciones sobre experiencias en espacios naturales.",
+  "sources": [
+    "https://example.org/referencia-a",
+    "https://example.org/referencia-b"
+  ],
+  "internalTags": [
+    "naturaleza-cotidiana",
+    "lectura-breve",
+    "storytelling"
+  ],
+  "crawlPolicy": "noindex",
+  "document": {
+    "version": 1,
+    "blocks": [
+      {
+        "type": "paragraph",
+        "text": "Imagina esta escena: alguien sale a caminar después de una mañana llena de pendientes. Todavía lleva en la cabeza una conversación inconclusa. Al doblar una esquina encuentra un árbol cuya sombra alcanza la vereda. Se detiene. Entre las ramas se mueve una luz que cambia de lugar sin anunciarse. La escena es imaginada; quizá te invite a recordar algún rincón conocido."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "Encontrar un lugar cercano"
+      },
+      {
+        "type": "paragraph",
+        "text": "Una pausa en la naturaleza puede comenzar con algo pequeño: un banco junto a unas plantas, una plaza tranquila o un sendero accesible. Puedes elegir un lugar que te resulte cómodo y dedicarle atención a sus detalles. El color de una hoja, la distancia entre dos sonidos, la textura de una corteza observada de cerca. El paisaje ofrece una ocasión para mirar."
+      },
+      {
+        "type": "paragraph",
+        "text": "Durante ese rato, el teléfono puede quedar guardado si las circunstancias lo permiten. Tal vez prefieras caminar acompañado o sentarte. La invitación admite distintas posibilidades y ritmos. Hay días en que una vuelta breve cabe mejor en la vida cotidiana; otros permiten quedarse un poco más. Cada persona conoce sus condiciones y puede ajustar el recorrido a ellas."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "Lo que las investigaciones permiten decir"
+      },
+      {
+        "type": "paragraph",
+        "text": "Hunter y sus colegas estudiaron experiencias en espacios naturales dentro de la vida diaria y midieron biomarcadores salivales. Encontraron una asociación entre esas experiencias y cambios en el cortisol, considerando su variación a lo largo del día. El trabajo ayuda a formular preguntas sobre el contacto cotidiano con la naturaleza. Sus resultados corresponden a una muestra y a un diseño concretos; no garantizan una respuesta individual."
+      },
+      {
+        "type": "paragraph",
+        "text": "En otro estudio, Bratman y sus colegas compararon caminatas de noventa minutos en un entorno natural y uno urbano. En participantes sanos observaron diferencias en medidas de rumiación y actividad cerebral. El resumen del artículo describe ese resultado específico. Convertirlo en una promesa de tratamiento iría más allá de lo investigado. Ambos trabajos pueden leerse en las referencias para conocer su alcance."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "Llevarse una observación"
+      },
+      {
+        "type": "paragraph",
+        "text": "Puede que mañana vuelvas y encuentres otro color en el mismo árbol. Esa variación pequeña basta para empezar una nueva conversación. El lugar sigue allí, mientras cambian la estación, la luz y tu manera de acercarte. Hay algo valioso en reconocer un sitio y permitir que siga sorprendiéndote."
+      },
+      {
+        "type": "paragraph",
+        "text": "Al regresar, puedes conservar un detalle del paseo: una sombra, una forma, un sonido. También puedes dejar la experiencia sin una conclusión. Dedicar tiempo a observar abre una relación concreta con el lugar que habitamos. Si te apetece compartirla, piensa en una imagen sencilla: ¿qué rincón cercano elegirías hoy para hacer una pausa?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Imagina esta escena: alguien sale a caminar después de una mañana llena de pendientes. Todavía lleva en la cabeza una conversación inconclusa. Al doblar una esquina encuentra un árbol cuya sombra alcanza la vereda. Se detiene. Entre las ramas se mueve una luz que cambia de lugar sin anunciarse. La escena es imaginada; quizá te invite a recordar algún rincón conocido."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "Encontrar un lugar cercano"
+      },
+      {
+        "type": "paragraph",
+        "text": "Una pausa en la naturaleza puede comenzar con algo pequeño: un banco junto a unas plantas, una plaza tranquila o un sendero accesible. Puedes elegir un lugar que te resulte cómodo y dedicarle atención a sus detalles. El color de una hoja, la distancia entre dos sonidos, la textura de una corteza observada de cerca. El paisaje ofrece una ocasión para mirar."
+      },
+      {
+        "type": "paragraph",
+        "text": "Durante ese rato, el teléfono puede quedar guardado si las circunstancias lo permiten. Tal vez prefieras caminar acompañado o sentarte. La invitación admite distintas posibilidades y ritmos. Hay días en que una vuelta breve cabe mejor en la vida cotidiana; otros permiten quedarse un poco más. Cada persona conoce sus condiciones y puede ajustar el recorrido a ellas."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "Lo que las investigaciones permiten decir"
+      },
+      {
+        "type": "paragraph",
+        "text": "Hunter y sus colegas estudiaron experiencias en espacios naturales dentro de la vida diaria y midieron biomarcadores salivales. Encontraron una asociación entre esas experiencias y cambios en el cortisol, considerando su variación a lo largo del día. El trabajo ayuda a formular preguntas sobre el contacto cotidiano con la naturaleza. Sus resultados corresponden a una muestra y a un diseño concretos; no garantizan una respuesta individual."
+      },
+      {
+        "type": "paragraph",
+        "text": "En otro estudio, Bratman y sus colegas compararon caminatas de noventa minutos en un entorno natural y uno urbano. En participantes sanos observaron diferencias en medidas de rumiación y actividad cerebral. El resumen del artículo describe ese resultado específico. Convertirlo en una promesa de tratamiento iría más allá de lo investigado. Ambos trabajos pueden leerse en las referencias para conocer su alcance."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "Llevarse una observación"
+      },
+      {
+        "type": "paragraph",
+        "text": "Puede que mañana vuelvas y encuentres otro color en el mismo árbol. Esa variación pequeña basta para empezar una nueva conversación. El lugar sigue allí, mientras cambian la estación, la luz y tu manera de acercarte. Hay algo valioso en reconocer un sitio y permitir que siga sorprendiéndote."
+      },
+      {
+        "type": "paragraph",
+        "text": "Al regresar, puedes conservar un detalle del paseo: una sombra, una forma, un sonido. También puedes dejar la experiencia sin una conclusión. Dedicar tiempo a observar abre una relación concreta con el lugar que habitamos. Si te apetece compartirla, piensa en una imagen sencilla: ¿qué rincón cercano elegirías hoy para hacer una pausa?"
+      },
+      {
+        "type": "paragraph",
+        "text": "Imagina esta escena: alguien sale a caminar después de una mañana llena de pendientes. Todavía lleva en la cabeza una conversación inconclusa. Al doblar una esquina encuentra un árbol cuya sombra alcanza la vereda. Se detiene. Entre las ramas se mueve una luz que cambia de lugar sin anunciarse. La escena es imaginada; quizá te invite a recordar algún rincón conocido."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "Encontrar un lugar cercano"
+      },
+      {
+        "type": "paragraph",
+        "text": "Una pausa en la naturaleza puede comenzar con algo pequeño: un banco junto a unas plantas, una plaza tranquila o un sendero accesible. Puedes elegir un lugar que te resulte cómodo y dedicarle atención a sus detalles. El color de una hoja, la distancia entre dos sonidos, la textura de una corteza observada de cerca. El paisaje ofrece una ocasión para mirar."
+      },
+      {
+        "type": "paragraph",
+        "text": "Durante ese rato, el teléfono puede quedar guardado si las circunstancias lo permiten. Tal vez prefieras caminar acompañado o sentarte. La invitación admite distintas posibilidades y ritmos. Hay días en que una vuelta breve cabe mejor en la vida cotidiana; otros permiten quedarse un poco más. Cada persona conoce sus condiciones y puede ajustar el recorrido a ellas."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "Lo que las investigaciones permiten decir"
+      },
+      {
+        "type": "paragraph",
+        "text": "Hunter y sus colegas estudiaron experiencias en espacios naturales dentro de la vida diaria y midieron biomarcadores salivales. Encontraron una asociación entre esas experiencias y cambios en el cortisol, considerando su variación a lo largo del día. El trabajo ayuda a formular preguntas sobre el contacto cotidiano con la naturaleza. Sus resultados corresponden a una muestra y a un diseño concretos; no garantizan una respuesta individual."
+      },
+      {
+        "type": "paragraph",
+        "text": "En otro estudio, Bratman y sus colegas compararon caminatas de noventa minutos en un entorno natural y uno urbano. En participantes sanos observaron diferencias en medidas de rumiación y actividad cerebral. El resumen del artículo describe ese resultado específico. Convertirlo en una promesa de tratamiento iría más allá de lo investigado. Ambos trabajos pueden leerse en las referencias para conocer su alcance."
+      },
+      {
+        "type": "heading",
+        "level": 2,
+        "text": "Llevarse una observación"
+      },
+      {
+        "type": "paragraph",
+        "text": "Puede que mañana vuelvas y encuentres otro color en el mismo árbol. Esa variación pequeña basta para empezar una nueva conversación. El lugar sigue allí, mientras cambian la estación, la luz y tu manera de acercarte. Hay algo valioso en reconocer un sitio y permitir que siga sorprendiéndote."
+      },
+      {
+        "type": "paragraph",
+        "text": "Al regresar, puedes conservar un detalle del paseo: una sombra, una forma, un sonido. También puedes dejar la experiencia sin una conclusión. Dedicar tiempo a observar abre una relación concreta con el lugar que habitamos. Si te apetece compartirla, piensa en una imagen sencilla: ¿qué rincón cercano elegirías hoy para hacer una pausa?"
+      }
+    ]
+  }
+}

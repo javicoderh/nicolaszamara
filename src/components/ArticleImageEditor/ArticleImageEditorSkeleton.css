@@ -1,0 +1,5 @@
+.article-image-editor-skeleton { display: grid; gap: 16px; padding-block: 16px; }
+.article-image-editor-skeleton div,.article-image-editor-skeleton span { background: var(--color-surface-strong); border-radius: 8px; animation: editorial-image-pulse 1.3s ease-in-out infinite alternate; }
+.article-image-editor-skeleton div { min-height: 200px; }.article-image-editor-skeleton span { min-height: 24px; }
+@keyframes editorial-image-pulse { to { opacity: .55; } }
+@media(prefers-reduced-motion:reduce) { .article-image-editor-skeleton div,.article-image-editor-skeleton span { animation: none; } }

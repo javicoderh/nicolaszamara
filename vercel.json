@@ -3,6 +3,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "functions": {
+    "api/blog.js": { "includeFiles": "server/generated/**" },
     "api/**/*.py": {
       "maxDuration": 45,
       "includeFiles": "config/**",
@@ -10,6 +11,11 @@
     }
   },
   "rewrites": [
+    { "source": "/blog-sitemap.xml", "destination": "/api/blog?path=/blog-sitemap.xml" },
+    { "source": "/api/admin/media", "destination": "/api/blog_media" },
+    { "source": "/blog-media/:id", "destination": "/api/blog_media?id=:id" },
+    { "source": "/blog", "destination": "/api/blog?path=/blog" },
+    { "source": "/blog/:slug", "destination": "/api/blog?path=/blog/:slug" },
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/consulta", "destination": "/consulta/index.html" },
     { "source": "/terapias", "destination": "/terapias/index.html" },

@@ -1,0 +1,2 @@
+.blog-category-filter{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:40px}.blog-category-filter a,.blog-category-filter button{min-height:44px;padding:10px 20px;background:transparent;border:1px solid var(--color-line);border-radius:24px;color:var(--color-navy);text-decoration:none}.blog-category-filter a[aria-current=page]{background:var(--color-navy);color:white}@media(max-width:640px){.blog-category-filter{gap:8px}.blog-category-filter a{padding:8px 14px}}
+.blog-category-filter a{max-width:100%;overflow-wrap:anywhere}

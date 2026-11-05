@@ -5,7 +5,7 @@ import './index.css'
 
 const view = (
   <React.StrictMode>
-    <App />
+    <App initialBlog={JSON.parse(document.getElementById('blog-snapshot')?.textContent || 'null')} />
   </React.StrictMode>
 )
 const root = document.getElementById('root')

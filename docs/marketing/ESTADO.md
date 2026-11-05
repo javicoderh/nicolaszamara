@@ -2,9 +2,23 @@
 
 ## Reanudar aquí
 
-**Estado: EN PAUSA por solicitud del usuario, después de terminar M11. No iniciar M12 ni otros lotes hasta que el usuario pida continuar.**
+**Estado vigente, 2026-11-01: reanudado por el usuario en M13. M12 (conexión de Hotmart) queda para el final por instrucción expresa. M13 tiene código, exportación y RPC verificados; quedan pendientes la hoja privada y la conciliación con fuente comercial real.**
 
-Al reanudar: leer este archivo, [M11_IMPORTACION.md](M11_IMPORTACION.md), M12 del [plan](../PLAN_SEO_ANALYTICS_CONVERSION.md) y el [contrato](../CONTRATOS_MEDICION_MARKETING.md). Revisar `git status --short`: hay cambios acumulados sin commit. M12 es el siguiente lote de código; confirmar el contrato real de Hotmart antes de conectar su recepción. No activar servicios por inferencia.
+Al continuar: leer [CONCILIACION.md](CONCILIACION.md), M13/M14 del [plan](../PLAN_SEO_ANALYTICS_CONVERSION.md) y el [contrato](../CONTRATOS_MEDICION_MARKETING.md). Revisar `git status --short`: los cambios anteriores se subieron; los archivos nuevos de M13 permanecen locales. No retomar M12 por orden numérico ni activar proveedores por inferencia.
+
+## Actualización vigente: despliegue y M13
+
+- Los cambios acumulados se publicaron en Git como `f042af9`; `d4b1c81` corrigió `.vercelignore` para conservar scripts de SEO/prerender. El despliegue productivo se comprobó Ready y ligado a los dominios oficiales. El registro anterior de «no se desplegó» es histórico.
+- `/admin` está implementado y desplegado: acceso privado, filtros, detalle, cambio de contraseña y lectura de intereses. Es gestión operativa, no reemplaza el tablero de marketing de M14.
+- M13 implementa fórmulas exactas, snapshots agregados, cobertura explícita, datasets separados y CLI offline/base. N/D conserva su motivo; no se convierten monedas ni se unen identidades de analítica y contactos.
+- RPC de solo lectura aplicada: `20261101201452_marketing_report_snapshot`. Solo service_role; no se ampliaron permisos públicos. El flag nuevo `MARKETING_REPORTS_ENABLED` queda false por defecto e independiente de escrituras.
+- Verificación: 24 pruebas nuevas; suite Python completa de 131 pruebas y build aprobados; SQL `marketing_report_unit_passed` con rollback. Seguridad sin WARN/ERROR. Ver método y límites en [CONCILIACION.md](CONCILIACION.md).
+- Exportación real de solo lectura, 2026-10-01 a 2026-11-01: sin ingresos/campañas cargados; seis agregados de intereses. Archivos en `reports/`, ignorados por Git/Vercel y bloqueados para lectura de archivos desde Vite. El ejemplo separado es ficticio.
+- Google Drive no completó autenticación en dos intentos consecutivos. M13.6 conserva pendiente importar a hoja privada y comprobar permisos. M13.7 tiene conciliación sintética reproducible, pero la comercial real requiere su fuente; no se inventaron ventas ni se hicieron compras.
+- Los importes importados no acreditan cobertura total. La RPC informa partial/missing; únicamente una declaración explícita de conciliación del período puede completar ledger/gasto en un reporte.
+- Próximo lote de código: M14, avanzando solo las partes independientes de cuentas externas. M07/M10 y fuentes GA4/Search Console/Looker conservan dependencias externas. M12 se retomará al final según instrucción del usuario.
+
+## Registro histórico hasta M11
 
 ## Alcance autorizado
 
@@ -99,7 +113,7 @@ M00 queda parcial por dependencias externas. El plan permite avanzar los módulo
 - El fallo SSR del registro previo queda resuelto. No se ha verificado visualmente ni publicado en Vercel; no declarar completa la validación HTTP/remota.
 - Los skeletons de página ya no duplican `id=main-content`. El HTML estático contiene contenido reservado y CSS de revelado sin JS; formularios estáticos deshabilitados para impedir envío GET de datos personales.
 
-## Cierre de M11 y pausa (registro vigente)
+## Cierre de M11 y pausa (registro histórico; superado por la reanudación de M13)
 
 - [x] M11.1–M11.9: libro monetario privado, validadores, importador CLI, plantillas CSV y pruebas terminados. Detalles en [M11_IMPORTACION.md](M11_IMPORTACION.md).
 - Migración remota aplicada: `20261029232155_marketing_ledger`; copia local en `supabase/migrations/`. Seis tablas con RLS y acceso exclusivo de servidor; RPC de importación atómica. No ejecutar db push sin conciliar las migraciones históricas de `database/`.

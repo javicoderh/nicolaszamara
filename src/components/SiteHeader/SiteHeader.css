@@ -8,7 +8,7 @@
 .site-header__nav .site-header__cta { font-size: .78rem; min-height: 40px; padding-inline: 18px; background: var(--color-sage-dark); }
 .site-header :focus-visible { outline-color: white; }
 .site-header__toggle { display: none; }
-@media(max-width: 760px) {
+@media(max-width: 960px) {
   .site-header { min-height: 120px; padding: 14px 20px; flex-direction: row; justify-content: space-between; gap: 12px; }
   .site-header__brand { padding-inline: 0; min-width: 0; --brand-mark-width: min(300px, 62vw); }
   .site-header__toggle { display: inline-flex; align-items: center; gap: 9px; padding: 12px 0 12px 10px; border: 0; background: transparent; color: white; font-size: .78rem; }

@@ -1,3 +1,5 @@
+import AdminIcon from '../AdminIcon/AdminIcon.jsx'
+import AdminModule, { openAdminModule } from '../AdminModule/AdminModule.jsx'
 import { useEffect, useState } from 'react'
 import { useAdminQuery } from '../../hooks/useAdminQuery/useAdminQuery.js'
 import { getAdminInterests, adminErrorMessage } from '../../services/adminService.js'
@@ -12,7 +14,6 @@ export default function AdminDashboard({ onExpired, onPasswordChanged, load = ge
   const [filters, setFilters] = useState({ mode: 'all', interest: '', reading: 'unread' })
   const [cursors, setCursors] = useState([null])
   const [selected, setSelected] = useState(null)
-  const [passwordOpen, setPasswordOpen] = useState(false)
   const key = JSON.stringify({ filters, cursor: cursors.at(-1) })
   const query = useAdminQuery(load, key)
   useEffect(() => { if (query.error?.status === 'unauthorized') onExpired() }, [query.error, onExpired])
@@ -32,11 +33,16 @@ export default function AdminDashboard({ onExpired, onPasswordChanged, load = ge
     if (JSON.stringify(next) === JSON.stringify(filters) && cursors.length === 1) query.reload()
   }
   const data = query.data
-  return <div className="admin-dashboard">
+  return <div className="admin-dashboard admin-dashboard--workspace">
     <section className="admin-dashboard__intro"><div><p className="admin-dashboard__eyebrow">Vista general</p><h1>Intereses recibidos</h1><p>Revisa cada solicitud y encuentra el momento para responder.</p></div>
-      <button type="button" aria-expanded={passwordOpen} onClick={() => setPasswordOpen((value) => !value)}>Cambiar contraseña</button></section>
-    {passwordOpen && <AdminPasswordForm onChanged={onPasswordChanged} onExpired={onExpired} />}
-    <form className="admin-dashboard__filters" onSubmit={apply} aria-label="Filtrar intereses">
+      <button type="button" onClick={() => openAdminModule('interests-account')}><AdminIcon name="lock"/> Cambiar contraseña</button></section>
+    <nav className="admin-dashboard__shortcuts" aria-label="Accesos de intereses">
+      <button type="button" onClick={() => openAdminModule('interests-requests')}><AdminIcon name="inbox"/> Ver solicitudes</button>
+      <button type="button" onClick={() => openAdminModule('interests-filters')}><AdminIcon name="filter"/> Filtrar intereses</button>
+      <button type="button" disabled={query.pending} onClick={() => { openAdminModule('interests-requests'); setCursors([null]); query.reload() }}><AdminIcon name="refresh"/> Actualizar solicitudes</button>
+    </nav>
+    <AdminModule variant="interests" id="interests-account" title="Cuenta y seguridad" description="Actualiza tu contraseña de acceso."><AdminPasswordForm onChanged={onPasswordChanged} onExpired={onExpired} /></AdminModule>
+    <AdminModule variant="interests" id="interests-filters" title="Filtros" description="Busca por fecha, servicio y estado de lectura."><form className="admin-dashboard__filters" onSubmit={apply} aria-label="Filtrar intereses">
       <label>Período<select name="mode" value={mode} onChange={(event) => setMode(event.target.value)}>
         <option value="all">Todo el historial</option><option value="day">Un día</option><option value="month">Un mes</option><option value="range">Rango de fechas</option>
       </select></label>
@@ -48,7 +54,8 @@ export default function AdminDashboard({ onExpired, onPasswordChanged, load = ge
       <button type="submit" disabled={query.pending}>Aplicar filtros</button>
       <button type="button" onClick={() => { setCursors([null]); query.reload() }} disabled={query.pending}>Actualizar</button>
       <p>Fechas en America/Santiago. Los rangos incluyen ambos días.</p>
-    </form>
+    </form></AdminModule>
+    <AdminModule variant="interests" id="interests-requests" title="Solicitudes y resumen" description="Revisa los contactos, sus detalles y las páginas de resultados.">
     {query.pending && <AdminDashboardSkeleton />}
     {query.error && <div className="admin-dashboard__error" role="alert"><p>{adminErrorMessage(query.error)}</p><button type="button" onClick={query.reload}>Reintentar carga</button></div>}
     {data && !query.pending && <>
@@ -67,6 +74,7 @@ export default function AdminDashboard({ onExpired, onPasswordChanged, load = ge
         <button type="button" disabled={!data.next_cursor} onClick={() => setCursors((values) => [...values, data.next_cursor])}>Siguiente</button>
       </nav>
     </>}
+    </AdminModule>
     {selected && <AdminInterestModal key={selected} id={selected} onClose={() => setSelected(null)} onExpired={onExpired} onRead={() => { setCursors([null]); query.reload() }} />}
   </div>
 }

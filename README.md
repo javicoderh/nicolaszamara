@@ -23,6 +23,7 @@ Repositorio: [javicoderh/nicolaszamara](https://github.com/javicoderh/nicolaszam
 - [SEO y compilación](#seo-y-compilación)
 - [Base de datos y migraciones](#base-de-datos-y-migraciones)
 - [Importación monetaria CSV](#importación-monetaria-csv)
+- [Métricas y exportación de reportes](#métricas-y-exportación-de-reportes)
 - [Pruebas y verificaciones](#pruebas-y-verificaciones)
 - [Despliegue y pendientes](#despliegue-y-pendientes)
 - [Documentación](#documentación)
@@ -120,6 +121,7 @@ Estas variables pertenecen a Python o al entorno del servidor. **Nunca usar el p
 | `OPENAI_REQUEST_TIMEOUT_SECONDS` | 15 segundos por defecto; rango admitido de 5 a 25. |
 | `CHAT_TEST_METRICS` | Control opcional para exponer configuración de pruebas aisladas del setter. |
 | `MARKETING_LEDGER_ENABLED` | Escritura monetaria, desactivada por defecto; exige esquema y credenciales de servidor. |
+| `MARKETING_REPORTS_ENABLED` | Lectura agregada para exportaciones administrativas; false por defecto, independiente de importaciones. |
 
 [backend/local_environment.py](backend/local_environment.py) lee solo las variables de servidor admitidas, primero `.env.local` y después `.env`, sin sobrescribir las del proceso. No interpreta los archivos como scripts de shell. El servidor local y las herramientas que invocan ese cargador usan esta precedencia; Vercel usa las variables configuradas para su entorno.
 
@@ -357,7 +359,7 @@ La configuración pública actual apunta a `vsbolndzzkrhadprdlto`. Cambiar de pr
 | Libro monetario | Tablas privadas, RLS y RPC exclusiva de servidor. |
 | Administradores y sesiones | Hashes y sesiones privados; consultas de intereses solo mediante API autenticada y RPC de servidor. |
 
-`database/` conserva scripts históricos y ampliaciones. `supabase/migrations/` contiene `20261029232155_marketing_ledger`, `20261101191608_admin_dashboard` y `20261101193950_admin_interest_reads`, pero **no representa el historial completo de la base**. Antes de aplicar cambios o usar db push, conciliar scripts e historial remoto. No recrear tablas ni ejecutar los SQL por orden alfabético.
+`database/` conserva scripts históricos y ampliaciones. `supabase/migrations/` contiene libro monetario, administración, lectura de intereses y `20261101201452_marketing_report_snapshot`, pero **no representa el historial completo de la base**. Antes de aplicar cambios o usar db push, conciliar scripts e historial remoto. No recrear tablas ni ejecutar los SQL por orden alfabético.
 
 [database/README.md](database/README.md) documenta la evolución y conserva apartados históricos. Para contactos nuevos prevalecen el contrato v3 y el código vigente. Las verificaciones SQL de tests/ requieren esquema y entorno autorizados y no se ejecutan mediante npm test ni unittest discover.
 
@@ -382,6 +384,22 @@ Reglas:
 - Campañas del catálogo aprobado; sin evidencia, atribución unknown, sin reconstrucción con datos personales.
 
 Escribir exige `--apply`, `MARKETING_LEDGER_ENABLED=true`, credenciales de servidor y esquema verificado. El dry-run valida el archivo; conflictos con históricos y saldos se verifican al aplicar. La evidencia de M11 usa datos sintéticos revertidos, sin importaciones comerciales reales. Detalles: [M11_IMPORTACION.md](docs/marketing/M11_IMPORTACION.md).
+
+## Métricas y exportación de reportes
+
+M13 implementa cálculos y exportación administrativa de agregados. La conexión de Hotmart se aplazó al final por instrucción del usuario. El exportador separa ingresos, campañas, embudo, calidad y cohortes; calcula importes con enteros/Decimal, conserva monedas y fuentes separadas y usa N/D cuando falta evidencia.
+
+Ejemplo completamente ficticio, sin acceso a credenciales ni base:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.export_marketing_report --input tests/fixtures/marketing/report_synthetic.json --output reports/ejemplo-m13
+```
+
+La lectura de base usa una RPC exclusiva de servidor y exige `MARKETING_REPORTS_ENABLED=true` en el proceso. No habilita escrituras ni publica una descarga en `/admin`. Los datos comerciales individuales, contactos, identificadores de navegador y referencias de transacción no se exportan.
+
+Los archivos se escriben en un directorio nuevo sin sobrescribir reportes anteriores. `reports/` está excluido de Git/Vercel y de la lectura de archivos de Vite. Los snapshots de la base indican las importaciones como incompletas hasta contar con una declaración explícita de conciliación; no se asume que ausencia de gasto equivale a gasto cero.
+
+La hoja privada de Google conserva pendiente su creación/importación por autenticación del conector. La conciliación monetaria real y las fuentes GA4/Search Console también requieren datos externos. El código y la conciliación sintética están verificados; no se da por completado el tablero de M14. Contrato, fórmulas, comandos y evidencias: [docs/marketing/CONCILIACION.md](docs/marketing/CONCILIACION.md).
 
 ## Pruebas y verificaciones
 
@@ -421,7 +439,7 @@ Verificación del 1 de noviembre de 2026, después de implementar administració
 | Comprobación | Resultado |
 | --- | --- |
 | Vitest | 267 pruebas aprobadas en 70 archivos. |
-| Python | 103 pruebas aprobadas. |
+| Python | 131 pruebas aprobadas, incluidas 24 de reportes M13. |
 | Build | Cliente, SSR y nueve rutas/404 correctos; indexación desactivada. |
 | Administración SQL | Sesiones, permisos, cambio de contraseña y resumen verificados con rollback de datos sintéticos. |
 | Acceso administrativo real | Inicio, consulta del resumen y cierre correctos desde Python; sin modificar intereses. |
@@ -441,7 +459,7 @@ Pendientes documentados:
 - Comprobar activación y recepción de avisos en el destino vigente de FormSubmit.
 - Confirmar dominio y validar prerenderizado en dispositivos y HTTP en el alojamiento real.
 - Configurar cuentas e IDs y completar GA4, Clarity, Search Console y Looker antes de activarlos.
-- Completar M07, M10 y M12–M16, además de verificaciones externas de módulos implementados. La bitácora de marketing conserva una pausa al cierre de M11.
+- Completar M07, M10, M14–M16 y verificaciones externas de M13. M12/Hotmart queda para el final por instrucción del usuario; la pausa de M11 se levantó para implementar M13.
 - Medir al menos 30 escenarios por consumo externo con registros reproducibles.
 
 Problemas de código identificados y todavía sin corregir:
@@ -465,5 +483,8 @@ Las pruebas aprobadas no cierran estos pendientes. Esta actualización documenta
 | Persistencia y origen | [base de datos](database/README.md), [origen y Hotmart](docs/ORIGEN_INTERESES_Y_HOTMART.md). |
 | Marketing y SEO | [estado por lotes](docs/marketing/ESTADO.md), [plan](docs/PLAN_SEO_ANALYTICS_CONVERSION.md), [contratos y KPI](docs/CONTRATOS_MEDICION_MARKETING.md), [guía de ejecución](docs/GUIA_EJECUCION_MODELOS_MARKETING.md). |
 | Libro monetario | [M11 e importación](docs/marketing/M11_IMPORTACION.md), [plantillas](config/marketing/import-templates/). |
+| Métricas y reportes | [M13, fórmulas y conciliación](docs/marketing/CONCILIACION.md). |
 
 Planes y bitácoras conservan contexto histórico. Contrastar los contratos anteriores con código, configuración y actualización más reciente de cada guía. Una casilla de planificación no demuestra despliegue ni operación real.
+
+El blog se documenta en [operación editorial](docs/blog/OPERACION.md), [arquitectura](docs/blog/ARQUITECTURA.md), [checkpoint](docs/blog/ESTADO.md) y [plan con casillas](docs/PLAN_IMPLEMENTACION_BLOG.md). La generación del dashboard hereda `OPENAI_API_KEY` del chatbot; mantiene modelo, presupuestos y worker propios. El recorrido de Codex no utiliza una API de inferencia. Los artículos se entregan como borradores y sus dos fotografías se añaden desde administración.

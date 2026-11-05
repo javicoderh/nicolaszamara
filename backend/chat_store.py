@@ -1,6 +1,8 @@
 """Server-only RPC adapter. Never falls back to process memory."""
 import json
 import os
+import socket
+import ssl
 from decimal import Decimal, InvalidOperation, ROUND_CEILING
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
@@ -14,7 +16,7 @@ class StoreUnavailable(Exception):
     pass
 
 
-def rpc(name, arguments):
+def rpc(name, arguments, *, max_response_bytes=65536):
     key = os.environ.get("SUPABASE_SECRET_KEY", "").strip()
     if not key:
         raise StoreUnavailable("not_configured")
@@ -25,12 +27,27 @@ def rpc(name, arguments):
                       data=json.dumps(arguments).encode(), method="POST", headers=headers)
     try:
         with urlopen(request, timeout=5) as response:
-            value = json.loads(response.read(65536))
+            body = response.read(max_response_bytes + 1)
+            if len(body) > max_response_bytes:
+                raise StoreUnavailable('rpc_response_too_large')
+            value = json.loads(body)
             if response.status != 200 or not isinstance(value, dict):
                 raise StoreUnavailable()
             return value
-    except (HTTPError, URLError, OSError, ValueError, TypeError):
-        raise StoreUnavailable() from None
+    except HTTPError as error:
+        raise StoreUnavailable(f'rpc_http_{error.code}') from None
+    except (URLError, OSError) as error:
+        reason = getattr(error, 'reason', error)
+        code = ('rpc_timeout' if isinstance(reason, TimeoutError) else
+                'rpc_tls_certificate' if isinstance(reason, ssl.SSLCertVerificationError) else
+                'rpc_tls_failed' if isinstance(reason, ssl.SSLError) else
+                'rpc_dns_failed' if isinstance(reason, socket.gaierror) else
+                'rpc_connection_refused' if isinstance(reason, ConnectionRefusedError) else
+                'rpc_connection_closed' if isinstance(reason, (ConnectionResetError, ConnectionAbortedError)) else
+                'rpc_connection_blocked' if isinstance(reason, PermissionError) else 'rpc_connection_failed')
+        raise StoreUnavailable(code) from None
+    except (ValueError, TypeError):
+        raise StoreUnavailable('rpc_invalid_response') from None
 
 
 def budget_limits():

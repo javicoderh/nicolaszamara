@@ -1,4 +1,5 @@
 node_modules/
+server/generated/
 dist/
 .env
 .env.*
@@ -11,3 +12,4 @@ __pycache__/
 .preview/
 .venv/
 supabase/.temp/
+reports/

@@ -38,8 +38,11 @@ import NaturePageSkeleton from '../pages/NaturePage/NaturePageSkeleton.jsx'
 import ChatbotPage from '../pages/ChatbotPage/ChatbotPage.jsx'
 import ChatbotPageSkeleton from '../pages/ChatbotPage/ChatbotPageSkeleton.jsx'
 import AdminPage from '../pages/AdminPage/AdminPage.jsx'
+import BlogPage from '../pages/BlogPage/BlogPage.jsx'
+import BlogPageSkeleton from '../pages/BlogPage/BlogPageSkeleton.jsx'
 
 const routes = {
+  '/blog': { Page: BlogPage, Skeleton: BlogPageSkeleton },
   '/sobre-mi': { Page: AboutPage, Skeleton: AboutPageSkeleton },
   '/naturaleza': { Page: NaturePage, Skeleton: NaturePageSkeleton },
   '/chatbot': { Page: ChatbotPage, Skeleton: ChatbotPageSkeleton },
@@ -59,19 +62,20 @@ function updateMetadata(path) {
   applySeoMetadata(document, path, enabled)
 }
 
-function AppContent({ location }) {
+function AppContent({ location, initialBlog }) {
   const hydrated = useHydrated()
   const preferences = useAnalyticsConsent()
   const content = useSiteContent()
   const path = normalizePath(location.pathname)
-  const route = routes[path] || { Page: NotFoundPage, Skeleton: NotFoundPageSkeleton }
-  const ready = usePageDelay(path)
+  const isBlog = path === '/blog' || /^\/blog\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(path)
+  const route = (isBlog ? routes['/blog'] : routes[path]) || { Page: NotFoundPage, Skeleton: NotFoundPageSkeleton }
+  const ready = usePageDelay(isBlog ? '/blog' : path)
   const assistantReady = usePageDelay('global-assistant')
   usePageAnalytics(path, ready)
   usePageSensors(path, ready)
 
   useEffect(() => {
-    if (!ready) return
+    if (!ready || isBlog) return
     const frame = window.requestAnimationFrame(() => {
       if (!location.hash) { window.scrollTo({ top: 0, behavior: 'instant' }); return }
       try { document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView() } catch { /* Invalid URL escape: keep the page usable. */ }
@@ -87,26 +91,26 @@ function AppContent({ location }) {
         {!ready && <div className="site-app__loading-skeleton"><SiteHeaderSkeleton /><Skeleton /><SiteFooterSkeleton /></div>}
         <div className="site-app__page-content" aria-hidden={hydrated && !ready ? true : undefined}>
           <SiteHeader currentPath={path} />
-          <Page />
+          <Page location={location} initialBlog={initialBlog} />
           <SiteFooter onOpenAnalytics={preferences.openPreferences} />
         </div>
       </div>
       {preferences.visible && (assistantReady
         ? <AnalyticsConsent key={preferences.consent.updatedAt || 'initial'} consent={preferences.consent} onSave={preferences.savePreferences} onClose={preferences.closePreferences} />
         : <AnalyticsConsentSkeleton />)}
-      {assistantReady ? <Chatbot hidden={path === '/chatbot'} /> : path !== '/chatbot' && (hydrated ? createPortal(<ChatbotSkeleton />, document.body) : <ChatbotSkeleton />)}
+      {assistantReady ? <Chatbot hidden={path === '/chatbot' || Boolean(location.state?.blogBackground)} /> : path !== '/chatbot' && (hydrated ? createPortal(<ChatbotSkeleton />, document.body) : <ChatbotSkeleton />)}
     </div>
   )
 }
 
-function AppRoutes({ initialPath }) {
-  const location = useSiteNavigation(routePaths, initialPath)
+function AppRoutes({ initialPath, initialBlog }) {
+  const location = useSiteNavigation(routePaths, initialPath, initialBlog?.search || '')
   const path = normalizePath(location.pathname)
-  useEffect(() => { updateMetadata(path) }, [path])
+  useEffect(() => { if (!path.startsWith('/blog/')) updateMetadata(path) }, [path])
   // A separate branch unmounts public sensors, consent UI and the assistant.
-  return path === '/admin' ? <AdminPage /> : <AppContent location={location} />
+  return path === '/admin' ? <AdminPage /> : <AppContent location={location} initialBlog={initialBlog} />
 }
 
-export default function App({ initialPath = '/' }) {
-  return <HydrationProvider><SiteContentProvider><AnalyticsConsentProvider><ChatbotProvider><AppRoutes initialPath={initialPath} /></ChatbotProvider></AnalyticsConsentProvider></SiteContentProvider></HydrationProvider>
+export default function App({ initialPath = '/', initialBlog = null }) {
+  return <HydrationProvider><SiteContentProvider><AnalyticsConsentProvider><ChatbotProvider><AppRoutes initialPath={initialPath} initialBlog={initialBlog} /></ChatbotProvider></AnalyticsConsentProvider></SiteContentProvider></HydrationProvider>
 }

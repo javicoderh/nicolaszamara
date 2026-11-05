@@ -1,6 +1,6 @@
 # Plan de implementación: SEO, marketing, conversión e ingresos
 
-Fecha: 29 de octubre de 2026. Estado: **en pausa tras M11; pendientes externos y de activacion**. Checkpoint: [estado de implementación](marketing/ESTADO.md).
+Fecha inicial: 29 de octubre de 2026. Actualización: 1 de noviembre de 2026. Estado: **M13 implementado en código; hoja privada y conciliación comercial pendientes. M12/Hotmart aplazado al final por instrucción del usuario**. Checkpoint: [estado de implementación](marketing/ESTADO.md).
 
 Este documento no autoriza activar servicios, contratar planes, modificar bases remotas ni desplegar. Describe el trabajo solicitado para una ejecución posterior. Las casillas permanecen vacías hasta que exista evidencia de cada resultado.
 
@@ -65,7 +65,7 @@ Cada fila es un lote. Ejecutar sus subpasos en orden. `Sol low` significa GPT-6.
 | M10 | Search Console y mapa editorial | M08, M09 | Sol low | Luna medium |
 | M11 | Modelo monetario e importación CSV | M01 | Sol low + revisión | Luna high para parser acotado |
 | M12 | Recepción de ventas Hotmart | M11 | Sol low + revisión | No delegar completa a Luna medium |
-| M13 | Agregados, atribución y conciliación | M06, M11, M12 | Sol low + revisión | Luna high para casos unitarios |
+| M13 | Agregados, atribución y conciliación | M06, M11; conciliación de M12 diferida | Sol low + revisión | Luna high para casos unitarios |
 | M14 | Tablero de marketing | M05–M07, M10, M13 | Sol low | Luna high |
 | M15 | Validación, activación y reversión | Lotes aplicables terminados | Sol low + revisión | Luna medium para checklist |
 | M16 | Ciclo de mejoras y experimentos | M15 + volumen suficiente | Sol low | Luna high |
@@ -245,9 +245,11 @@ Si faltan accesos externos, continuar los lotes locales independientes con adapt
 
 **Aceptar cuando:** importar dos veces un fixture produce el mismo resultado monetario, y el dry-run no muta datos. La funcionalidad de contactos sigue usando sus permisos actuales.
 
-**Cierre M11:** codigo y fixtures verificados; esquema privado aplicado. Sin importaciones reales; escritura desactivada por defecto. Ver [evidencia M11](marketing/M11_IMPORTACION.md). Pausa solicitada por el usuario; M12 no iniciado.
+**Cierre M11:** código y fixtures verificados; esquema privado aplicado. Sin importaciones reales; escritura desactivada por defecto. Ver [evidencia M11](marketing/M11_IMPORTACION.md). La pausa posterior se levantó para M13; M12 permanece no iniciado y aplazado al final por el usuario.
 
 ## M12 — Compras de Hotmart por webhook
+
+**Orden actualizado:** conexión aplazada al final por instrucción del usuario. M13 puede trabajar con importaciones CSV y fixtures; la conciliación del webhook se completa al retomar M12.
 
 **Nuevos:** `api/hotmart_webhook.py`, `backend/hotmart_sales.py`, tests. **Modificar:** carga de entorno local, `.env.example`, servidor dev y configuración Vercel si hace falta.
 
@@ -266,13 +268,15 @@ Si faltan accesos externos, continuar los lotes locales independientes con adapt
 
 **Nuevos:** `backend/marketing_metrics.py`, `scripts/export_marketing_report.py`, tests y vistas privadas si se necesitan; `docs/marketing/CONCILIACION.md`.
 
-- [ ] M13.1 Implementar las fórmulas del anexo con fuente, granularidad y denominador explícitos.
-- [ ] M13.2 Agregar primero cada fuente a su clave de reporte; después unir. Nunca unir filas de clics a filas de ventas y sumar importes sobre el producto cartesiano.
-- [ ] M13.3 Separar calendario de caja y cohortes de adquisición. Fecha UTC almacenada, presentación de negocio en `America/Santiago`; Search Console conserva además su zona de origen.
-- [ ] M13.4 Generar datasets separados de embudo, ingresos, campañas y calidad. La exportación no incluye IDs de visitantes/transacciones ni contactos.
-- [ ] M13.5 Indicar retraso de datos, cobertura de consentimiento y porcentaje sin atribución. No sumar usuarios de GA4, navegadores de Hotmart y registros como si fueran personas únicas.
-- [ ] M13.6 Exportar CSV UTF-8 con protección contra fórmulas inyectadas, moneda y fecha de corte; importarlo a una hoja privada con permisos mínimos.
-- [ ] M13.7 Conciliar un periodo de muestra entre fuente comercial, libro y exportación; documentar diferencias sin corregir cifras a mano para que coincidan.
+- [x] M13.1 Implementar las fórmulas del anexo con fuente, granularidad y denominador explícitos. Los campos que carecen de evidencia conservan N/D.
+- [x] M13.2 Agregar primero cada fuente a su clave de reporte; después unir. Nunca unir filas de clics a filas de ventas y sumar importes sobre el producto cartesiano.
+- [x] M13.3 Separar calendario de caja y cohortes de adquisición. Fecha UTC almacenada, presentación de negocio en `America/Santiago`; Search Console conserva además su zona de origen. Cohortes explícitamente no disponibles sin fecha de adquisición verificable.
+- [x] M13.4 Generar datasets separados de embudo, ingresos, campañas y calidad. La exportación no incluye IDs de visitantes/transacciones ni contactos.
+- [x] M13.5 Indicar retraso de datos, cobertura de consentimiento y porcentaje sin atribución. No sumar usuarios de GA4, navegadores de Hotmart y registros como si fueran personas únicas.
+- [ ] M13.6 CSV UTF-8 protegido, moneda y fecha de corte implementados y verificados. Pendiente importar a hoja privada y comprobar sus permisos: Drive solicitó autenticación en dos intentos sin completar la creación.
+- [ ] M13.7 Conciliación sintética fuente → libro → exportación aprobada y documentada. Pendiente conciliación comercial real; M12 y las fuentes externas siguen diferidos.
+
+Evidencia, comandos y limitaciones: [CONCILIACION.md](marketing/CONCILIACION.md). No se activa tracking ni se abre un endpoint público de reportes en este lote.
 
 **Aceptar cuando:** fixtures de importación y webhook coinciden al céntimo/unidad menor con el reporte; los KPI con datos incompletos aparecen N/D.
 

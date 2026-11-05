@@ -1,0 +1,42 @@
+import { afterEach, expect, it, vi } from 'vitest'
+import { decodeEditorialImage, drawEditorialImage, uploadBlogImage } from './blogMediaService.js'
+afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals() })
+it('rejects unsupported files before decoding and closes oversized images', async () => {
+  const close = vi.fn()
+  const decode = vi.fn().mockResolvedValue({ width: 10000, height: 10000, close })
+  vi.stubGlobal('createImageBitmap', decode)
+  await expect(decodeEditorialImage(new File(['x'], 'bad.svg', { type: 'image/svg+xml' }))).rejects.toThrow('invalid_image')
+  expect(decode).not.toHaveBeenCalled()
+  await expect(decodeEditorialImage(new File(['x'], 'large.png', { type: 'image/png' }))).rejects.toThrow('image_too_large')
+  expect(close).toHaveBeenCalledOnce()
+})
+it('draws the selected portrait crop without upscaling', () => {
+  const drawImage = vi.fn()
+  const canvas = { getContext: () => ({ drawImage }) }
+  drawEditorialImage(canvas, { width: 1200, height: 800 }, { aspect: .8, zoom: 2, x: 100, y: 100 })
+  expect(canvas.width).toBe(320)
+  expect(canvas.height).toBe(400)
+  expect(drawImage).toHaveBeenCalledWith(expect.anything(), 880, 400, 320, 400, 0, 0, 320, 400)
+})
+it('does not upload an aborted operation and releases the decoded bitmap', async () => {
+  const close = vi.fn(); const request = vi.fn()
+  vi.stubGlobal('createImageBitmap', vi.fn().mockResolvedValue({ width: 1200, height: 800, close }))
+  vi.stubGlobal('fetch', request)
+  const controller = new AbortController(); controller.abort()
+  await expect(uploadBlogImage(new File(['x'], 'photo.png', { type: 'image/png' }), controller.signal)).rejects.toThrow('Aborted')
+  expect(request).not.toHaveBeenCalled()
+  expect(close).toHaveBeenCalledOnce()
+})
+it('uploads only the recropped WebP through the authenticated media endpoint', async () => {
+  const close = vi.fn(); const request = vi.fn().mockResolvedValue({ ok: true, json: async () => ({ status: 'ready', src: '/blog-media/new' }) })
+  vi.stubGlobal('createImageBitmap', vi.fn().mockResolvedValue({ width: 1200, height: 800, close }))
+  vi.stubGlobal('fetch', request)
+  vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({ drawImage: vi.fn() })
+  vi.spyOn(HTMLCanvasElement.prototype, 'toBlob').mockImplementation(function (done, type) { done(new Blob(['cropped'], { type })) })
+  const result = await uploadBlogImage(new File(['original'], 'photo.png', { type: 'image/png' }), new AbortController().signal, { aspect: .8, zoom: 2 })
+  expect(result.src).toBe('/blog-media/new')
+  expect(request).toHaveBeenCalledOnce()
+  expect(request).toHaveBeenCalledWith('/api/admin/media', expect.objectContaining({ method: 'POST', credentials: 'same-origin', headers: expect.objectContaining({ 'X-Admin-Request': '1' }) }))
+  expect(JSON.parse(request.mock.calls[0][1].body).content).toBe(btoa('cropped'))
+  expect(close).toHaveBeenCalledOnce()
+})

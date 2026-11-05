@@ -1,0 +1,9 @@
+import AdminModule from '../AdminModule/AdminModule.jsx'
+import AdminBlogCatalogSkeleton from './AdminBlogCatalogSkeleton.jsx'
+import './AdminBlogCatalog.css'
+export default function AdminBlogCatalog({ items = [], pending, busy, error, onRetry, onSave, onDelete, moduleProps = {} }) {
+  return <AdminModule {...moduleProps} id="blog-categories" title="Categorías del blog" description="Administra los temas y su orden."><div className="admin-blog-catalog"><p>Los nombres y el orden se aplican a los filtros. Cada artículo conserva la categoría de su revisión. No se puede eliminar una categoría utilizada.</p>
+    {pending ? <AdminBlogCatalogSkeleton /> : error ? <button onClick={onRetry}>Reintentar categorías</button> : items.map(item => <form key={`${item.id}-${item.name}-${item.position}`} onSubmit={e => { e.preventDefault(); const fields = new FormData(e.currentTarget); onSave({ id: item.id, name: fields.get('name'), position: Number(fields.get('position')) }) }}><strong>{item.id}</strong><label>Nombre de {item.id}<input name="name" required maxLength={80} defaultValue={item.name}/></label><label>Orden de {item.id}<input name="position" type="number" min="0" max="10000" required defaultValue={item.position}/></label><button disabled={busy}>Guardar categoría</button><button disabled={busy} type="button" onClick={()=>onDelete(item.id)}>Eliminar categoría</button></form>)}
+    <form onSubmit={e=>{e.preventDefault();const fields=new FormData(e.currentTarget);onSave({id:fields.get('id'),name:fields.get('name'),position:items.length})}}><h3>Nueva categoría</h3><label>Identificador<input name="id" required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxLength={80}/></label><label>Nombre de categoría<input name="name" required maxLength={80}/></label><button disabled={busy}>Añadir categoría</button></form>
+  </div></AdminModule>
+}

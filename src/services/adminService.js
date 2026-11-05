@@ -19,6 +19,10 @@ export const getAdminInterest = (signal, id) => adminRequest({ operation: 'detai
 export const markAdminInterestRead = (id, signal) => adminRequest({ operation: 'mark_read', id }, signal)
 
 export const adminErrorMessage = (error) => ({
+  generation_not_configured: 'La generación con Sol necesita completar su configuración en el servidor. Puedes crear y editar artículos manualmente.',
+  conflict: 'Esta versión cambió en otra sesión. Conservamos tus campos; revisa la versión guardada antes de sobrescribirla.',
+  category_in_use:'Esta categoría está en uso. Reasigna sus artículos antes de eliminarla.',
+  retry_limit:'Este encargo alcanzó el límite de tres intentos. Revisa su historial antes de crear una nueva generación.',
   invalid_credentials: 'Usuario o contraseña incorrectos.',
   rate_limited: 'Se alcanzó el límite de intentos. Espera 15 minutos para volver a intentar.',
   wrong_password: 'La contraseña actual no es correcta.',

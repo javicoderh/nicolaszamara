@@ -21,7 +21,6 @@ export default function NaturePage() {
           />
         </div>
         <div className="nature-page__copy">
-          <p className="nature-page__label">Naturaleza y bienestar</p>
           <h1 id="nature-title" data-analytics-section="nature_intro">{natureContent.title}</h1>
           {natureContent.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
           <ActionLink analytics={{ element_id: 'nature_interest', placement: 'nature_intro', service: 'nature' }} href="#interes-naturaleza">Me interesan los baños de bosque</ActionLink>

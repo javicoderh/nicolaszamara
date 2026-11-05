@@ -64,6 +64,9 @@ def process_admin(payload, token=None, call=rpc):
         if not isinstance(payload, dict):
             raise ValueError()
         operation = payload.get('operation')
+        if operation == 'blog':
+            from backend.blog_admin import process_blog_admin
+            return process_blog_admin(payload, token, call)
         permitted = {
             'login': {'operation', 'username', 'password'}, 'session': {'operation'},
             'logout': {'operation'}, 'interests': {'operation', 'filters', 'cursor'},

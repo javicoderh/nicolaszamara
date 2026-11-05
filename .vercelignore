@@ -15,6 +15,7 @@ dist
 docs
 database
 tests
+reports
 # Build requires scripts/generate_seo.mjs and scripts/prerender.mjs.
 # Keep local development and administrative Python tools out of deployments.
 scripts/*.py

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { BASE_DELAY_MS } from '../../config/loading.js'
 
 // Each remote region reveals its result only after request completion + 800 ms.
@@ -22,5 +22,6 @@ export function useAdminQuery(load, key = '') {
       })
     return () => { active = false; controller.abort(); clearTimeout(timer); clearTimeout(deadline) }
   }, [load, key, revision])
-  return { ...state, reload: () => setRevision((value) => value + 1) }
+  const reload = useCallback(() => setRevision((value) => value + 1), [])
+  return { ...state, reload }
 }

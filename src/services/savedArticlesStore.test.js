@@ -1,0 +1,7 @@
+import { expect,it } from 'vitest'
+import { createSavedArticlesStore } from './savedArticlesStore.js'
+const article={id:'00000000-0000-4000-8000-000000000001',slug:'un-bosque',title:'Un bosque',document:{blocks:[{text:'Do not persist the article body'}]}}
+function memory(){let value=null;return {getItem:()=>value,setItem:(key,next)=>{value=next}}}
+it('stores bookmarks locally without persisting the full article',()=>{const storage=memory(),store=createSavedArticlesStore(()=>storage);expect(store.toggle(article)).toBe(true);expect(store.getSnapshot()).toHaveLength(1);expect(storage.getItem()).not.toContain('Do not persist');expect(createSavedArticlesStore(()=>storage).getSnapshot()[0].slug).toBe('un-bosque');store.toggle(article);expect(store.getSnapshot()).toEqual([])})
+it('rejects corrupt storage and reports quota failures without pretending to save',()=>{const storage={getItem:()=>'{broken',setItem:()=>{throw new Error('quota')}};const store=createSavedArticlesStore(()=>storage);expect(store.getSnapshot()).toEqual([]);expect(store.toggle(article)).toBe(false);expect(store.getSnapshot()).toEqual([])})
+it('does not accept executable URLs or duplicate bookmark records',()=>{const storage=memory(),store=createSavedArticlesStore(()=>storage);expect(store.toggle({...article,slug:'javascript:alert(1)'})).toBe(false);store.toggle(article);storage.setItem('',JSON.stringify([article,article]));store.reload();expect(store.getSnapshot()).toHaveLength(1)})

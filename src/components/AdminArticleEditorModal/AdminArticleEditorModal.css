@@ -1,0 +1,5 @@
+.admin-article-editor-modal .admin-blog__editor{margin:0;padding:0;border:0}
+.admin-article-editor-modal .admin-blog__actions{position:sticky;bottom:-24px;padding:16px;background:#faf9f6;border-top:1px solid var(--color-line);z-index:2;display:flex;flex-wrap:wrap;gap:8px}
+.admin-article-editor-modal .admin-blog__actions>div,.admin-article-editor-modal .admin-blog__actions>p{flex-basis:100%}
+.admin-article-editor-modal .admin-blog__actions p{font-size:.8rem;margin:4px 0}
+@media(max-width:640px){.admin-article-editor-modal .admin-blog__actions{bottom:-16px}}

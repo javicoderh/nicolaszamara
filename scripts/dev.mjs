@@ -37,16 +37,24 @@ export async function startDevelopment({
   launch(exists(localPython) ? localPython : 'python', ['-u', '-m', 'backend.dev_server'], 'la API Python')
   const started = now()
   let ready = false
+  let blogGenerationEnabled = false
   while (!stopped && now() - started < 15000) {
     try {
       const response = await request('http://127.0.0.1:3001/api/health', { signal: AbortSignal.timeout(1000) })
-      if (response.ok && (await response.json()).status === 'ready') { ready = true; break }
+      if (response.ok) {
+        const health = await response.json()
+        if (health.status === 'ready') { ready = true; blogGenerationEnabled = health.blogGenerationEnabled === true; break }
+      }
     } catch { /* The API may still be importing its modules. */ }
     await wait(250)
   }
   if (!stopped && !ready) failed('La API no está disponible en 127.0.0.1:3001. Revisa Python y si el puerto ya está ocupado.')
   if (!stopped && ready) {
     log('API lista en http://127.0.0.1:3001. Las rutas /api se atenderán desde el mismo origen de Vite.')
+    if (blogGenerationEnabled) {
+      launch(exists(localPython) ? localPython : 'python', ['-u', '-m', 'scripts.blog_worker_local'], 'el worker editorial')
+      log('Worker editorial activo: procesará los encargos API del blog. Codex conserva su motor independiente.')
+    }
     if (!apiOnly) launch(process.execPath, [join(root, 'node_modules/vite/bin/vite.js')], 'Vite')
   }
   return { stop }

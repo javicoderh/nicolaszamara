@@ -1,0 +1,9 @@
+.article-image-editor { min-width: 0; }
+.article-image-editor h3 { color: var(--color-navy); font-family: var(--font-display); font-size: 1.9rem; font-weight: 400; line-height: 1.2; margin-top: 0; }
+.article-image-editor__help { color: var(--color-muted); font-size: .8rem; line-height: 1.7; }
+.article-image-editor__legend { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+.article-image-editor__current, .article-image-editor__crop canvas { display: block; width: 100%; max-height: 480px; object-fit: contain; margin-block: 16px; background: var(--color-surface-strong); }
+.article-image-editor__sliders { display: grid; gap: 8px; }
+.article-image-editor input[type=range] { padding: 0; accent-color: var(--color-sage-dark); cursor: pointer; }
+.article-image-editor [role=alert] { color: #8c2929; }
+@media(max-width:640px) { .article-image-editor__current,.article-image-editor__crop canvas { max-height: 360px; } }

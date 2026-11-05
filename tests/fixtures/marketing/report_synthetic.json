@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "period": {
+    "start": "2026-10-29",
+    "end": "2026-10-29",
+    "timezone": "America/Santiago"
+  },
+  "as_of": "2026-10-30T12:00:00Z",
+  "sources": {
+    "ledger": {
+      "state": "complete",
+      "updated_at": "2026-10-30T00:00:00Z"
+    },
+    "spend": {
+      "state": "missing",
+      "updated_at": null
+    },
+    "interests": {
+      "state": "complete",
+      "updated_at": "2026-10-30T00:00:00Z"
+    },
+    "analytics": {
+      "state": "complete",
+      "updated_at": "2026-10-30T00:00:00Z"
+    },
+    "search": {
+      "state": "missing",
+      "updated_at": null
+    }
+  },
+  "cost_components_complete": false,
+  "cash": [
+    {
+      "date": "2026-10-29",
+      "provider": "consultation_payments",
+      "service": "consultation",
+      "currency": "CLP",
+      "campaign_id": null,
+      "attribution_method": "unknown",
+      "sales_count": 1,
+      "sales_minor": 10000,
+      "refunds_minor": 0,
+      "chargebacks_minor": 0,
+      "fees_minor": 0,
+      "taxes_minor": 0
+    }
+  ],
+  "spend": [],
+  "interests": [
+    {
+      "date": "2026-10-29",
+      "service": "consultation",
+      "source": "form",
+      "count": 2
+    }
+  ],
+  "analytics": [
+    {
+      "scope": "form",
+      "campaign_id": null,
+      "form_kind": "consultation",
+      "funnel_window_days": 7,
+      "sessions": 2,
+      "eligible_users": 2,
+      "lead_users": 1,
+      "lead_sessions": 1,
+      "observed_leads": 1,
+      "form_starters": 2,
+      "form_completers": 1,
+      "send_attempts": 1,
+      "retries": 0,
+      "failed_sends": 0,
+      "chat_open_users": null,
+      "chat_lead_users": null
+    }
+  ],
+  "search": []
+}

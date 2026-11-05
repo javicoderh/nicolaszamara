@@ -8,8 +8,9 @@ class LocalRoutingTests(unittest.TestCase):
         request = object.__new__(DevApiHandler)
         request.path = '/api/health'
         request.reply = MagicMock()
-        request.do_GET()
-        request.reply.assert_called_once_with(200, {'status': 'ready'})
+        with patch('backend.blog_config.generation_ready', return_value=True):
+            request.do_GET()
+        request.reply.assert_called_once_with(200, {'status': 'ready', 'blogGenerationEnabled': True})
 
     @patch('backend.dev_server.AdminHandler.do_POST')
     def test_admin_is_dispatched_to_its_handler(self, admin):

@@ -16,9 +16,11 @@ class handler(InterestHandler):
             return self.reply(415, {'status': 'invalid'})
         try:
             length = int(self.headers.get('Content-Length', '0'))
-            if not 0 < length <= 4096:
+            if not 0 < length <= 300000:
                 return self.reply(413, {'status': 'invalid'})
             payload = json.loads(self.rfile.read(length))
+            if length > 4096 and (not isinstance(payload, dict) or payload.get('operation') != 'blog'):
+                return self.reply(413, {'status': 'invalid'})
         except (ValueError, UnicodeError):
             return self.reply(400, {'status': 'invalid'})
         status, result, token = process_admin(payload, session_token(self.headers.get('Cookie')))

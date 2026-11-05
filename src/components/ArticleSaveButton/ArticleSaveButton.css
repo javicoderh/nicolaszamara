@@ -1,0 +1,2 @@
+.article-save-button button{min-height:44px;padding:10px 18px;border:1px solid var(--color-line);border-radius:8px;color:var(--color-navy);background:transparent}.article-save-button button[aria-pressed=true]{background:var(--color-areas)}.article-save-button p{font-size:.8rem;color:var(--color-muted)}
+.article-save-button svg{vertical-align:middle;margin-left:8px}

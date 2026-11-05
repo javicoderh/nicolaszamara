@@ -1,0 +1,12 @@
+{
+  "version": "nz-blog-v1",
+  "categories": {"naturaleza": "Naturaleza", "terapias": "Terapias", "flores-de-bach": "Flores de Bach", "formacion": "Formación"},
+  "targets": ["publico_general", "consulta", "estudiantes_bach", "naturaleza"],
+  "objectives": ["educar_audiencia", "generar_leads", "vender_producto", "demostrar_expertise", "aumentar_engagement", "generar_confianza", "responder_objecion"],
+  "tones": ["cientifico", "formal", "semi_formal", "anecdotico", "didactico", "provocativo", "poetico"],
+  "narratives": ["storytelling", "expositivo", "mixto"],
+  "services": {"consultation": "/consulta", "course": "/cursos", "online": "/cursos#interes-online", "nature": "/naturaleza"},
+  "limits": {"ideaWords": 1500, "ideaCharacters": 12000, "documentBytes": 262144, "blocks": 200, "perRun": 3},
+  "lengths": {"short": [400, 500], "medium": [700, 900], "long": [1200, 1500]},
+  "generation": {"preferredModel": "gpt-6.1-sol", "publication": "draft", "localEngine": "codex_session", "remoteEngine": "api"}
+}

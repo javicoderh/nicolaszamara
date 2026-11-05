@@ -64,3 +64,11 @@ it('supports an API-only session and stops the other process after a runtime fai
   expect(fail).toHaveBeenCalledOnce()
   stop()
 })
+it('starts the editorial worker only when the local API reports generation enabled',async()=>{
+  const {children,spawnChild}=setup()
+  const {stop}=await startDevelopment({spawnChild,exists:()=>true,request:async()=>({ok:true,json:async()=>({status:'ready',blogGenerationEnabled:true})}),log:vi.fn()})
+  expect(spawnChild).toHaveBeenCalledTimes(3)
+  expect(spawnChild.mock.calls[1][1]).toEqual(['-u','-m','scripts.blog_worker_local'])
+  expect(spawnChild.mock.calls[2][1][0]).toContain('vite')
+  stop();expect(children.every(child=>child.kill.mock.calls.length===1)).toBe(true)
+})

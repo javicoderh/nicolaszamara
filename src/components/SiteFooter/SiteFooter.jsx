@@ -19,7 +19,7 @@ export default function SiteFooter({ onOpenAnalytics }) {
           <div><h2>Consulta</h2><a href="/consulta">La consulta</a><a href="/consulta#consult-steps-title">Cómo comenzar</a><a href="/consulta#consult-contact-title">Disponibilidad</a></div>
           <div><h2>Naturaleza</h2><a href="/naturaleza">Naturaleza y bienestar</a><a href="/naturaleza#interes-naturaleza">Recibir información</a><a href="/sobre-mi">Sobre mí</a></div>
           <div><h2>Cursos</h2><a href="/cursos">Flores de Bach</a><a href="/cursos#interes-online">Curso online</a></div>
-          <div><h2>Información</h2><a href="/privacidad">Privacidad</a>{contact.email && <a href={`mailto:${contact.email}`}>Correo</a>}{socialLinks.map((social) => <a key={social.href} href={social.href} target="_blank" rel="noreferrer">{social.label}</a>)}</div>
+          <div><h2>Información</h2><a href="/blog">Blog · Para profundizar</a><a href="/privacidad">Privacidad</a>{contact.email && <a href={`mailto:${contact.email}`}>Correo</a>}{socialLinks.map((social) => <a key={social.href} href={social.href} target="_blank" rel="noreferrer">{social.label}</a>)}</div>
         </nav>
         <div className="site-footer__bottom"><small>© {new Date().getFullYear()} {brand} <span aria-hidden="true">|</span> Todos los derechos reservados</small>
           {onOpenAnalytics && <button className="site-footer__preferences" type="button" onClick={onOpenAnalytics}>Preferencias de privacidad</button>}
