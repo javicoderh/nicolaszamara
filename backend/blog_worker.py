@@ -1,12 +1,11 @@
 """One bounded, durable generation tick. Never imported by local persistence."""
 import os
-from concurrent.futures import ThreadPoolExecutor
 from backend.chat_store import rpc
 from backend.blog_contract import brief, generated_article, InvalidBlog, editorial_critique
 from backend.blog_provider import OpenAIArticleProvider, ProviderUnavailable, extract_output
 from backend.blog_config import api_key
 from backend.blog_costs import usage_record
-from backend.blog_sources import read_source
+from backend.blog_sources import read_source, collect_sources
 
 
 def worker_tick(call=rpc, provider=None):
@@ -56,12 +55,21 @@ def worker_tick(call=rpc, provider=None):
                 for source in item.get('action', {}).get('sources', []))
             if not set(output['sources']).issubset(cited):
                 raise InvalidBlog('sources_missing_provider_evidence')
-            with ThreadPoolExecutor(max_workers=3) as readers:
-                output['sourceSnapshots'] = list(readers.map(read_source, output['sources']))
+            snapshots, warnings = collect_sources(output['sources'], read=read_source)
+            accepted = {item['url'] for item in snapshots}
+            output['sources'] = [source for source in output['sources'] if source in accepted]
+            output['sourceDetails'] = [item for item in output['sourceDetails'] if item['url'] in accepted]
+            output['sourceSnapshots'] = snapshots
+            output['sourceReadWarnings'] = warnings
+            output['editorialWarnings'].extend(
+                'Fuente descartada por falta de acceso: ' + item['url'] for item in warnings)
         elif job['stage'] == 'final':
-            with ThreadPoolExecutor(max_workers=3) as readers:
-                list(readers.map(read_source, job['brief']['sources']))
+            snapshots, warnings = collect_sources(job['brief']['sources'], read=read_source,
+                previous=job['brief'].get('sourceSnapshots', []))
+            if not set(output.get('sources', [])).issubset({item['url'] for item in snapshots}):
+                raise InvalidBlog('article_sources_unavailable')
             output = generated_article(output, job['brief'])
+            output['sourceReadWarnings'] = warnings
         elif job['stage']=='critique': output=editorial_critique(output)
         elif not isinstance(output, dict) or not isinstance(output.get('text'),str) or not output['text'].strip(): raise InvalidBlog('invalid_artifact')
         saved = call('blog_worker_tick', {'p_operation': 'advance', 'p_values': {**identity, 'output': output,

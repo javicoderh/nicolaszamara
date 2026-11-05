@@ -85,6 +85,34 @@ class MalformedBriefTests(unittest.TestCase):
 
 
 class ProgressTests(unittest.TestCase):
+    def test_brief_excludes_blocked_source_and_preserves_warning(self):
+        import json
+        from tests.test_blog_brief_fields import sample_brief
+        from backend.blog_contract import InvalidBlog
+        output = sample_brief()
+        blocked = 'https://pubmed.ncbi.nlm.nih.gov/123456/'
+        output['sources'].append(blocked)
+        output['sourceDetails'].append({**output['sourceDetails'][0], 'url': blocked})
+        job = {'id':'job','worker_token':'token','stage':'brief','provider_response_id':'resp_existing'}
+        call = Mock(side_effect=[{'status':'ready','job':job},{'status':'ready'}])
+        provider = Mock()
+        provider.poll.return_value = {'id':'resp_existing','status':'completed','output':[{
+            'type':'message','content':[{'type':'output_text','text':json.dumps(output),
+            'annotations':[{'type':'url_citation','url':source} for source in output['sources']]}]}]}
+        def read(source):
+            if source == blocked:
+                raise InvalidBlog('source_unreadable')
+            return {'url':source,'accessible':True,'excerpt':'Verified evidence. ' * 20}
+        with patch.dict(os.environ,{'BLOG_GENERATION_ENABLED':'true','OPENAI_API_KEY':'test'}), patch('backend.blog_worker.read_source',side_effect=read):
+            result = worker_tick(call,provider)
+        self.assertEqual(result['outcome'],'stage_completed')
+        saved = call.call_args.args[1]['p_values']['output']
+        self.assertNotIn(blocked,saved['sources'])
+        self.assertNotIn(blocked,[item['url'] for item in saved['sourceDetails']])
+        self.assertEqual(saved['sourceReadWarnings'][0]['action'],'excluded')
+        self.assertIn(blocked,saved['editorialWarnings'][-1])
+        provider.start.assert_not_called()
+
     def test_saved_brief_with_invalid_reel_advances_without_starting_new_inference(self):
         import json
         from tests.test_blog_brief_fields import sample_brief
@@ -92,7 +120,7 @@ class ProgressTests(unittest.TestCase):
         job={'id':'job','worker_token':'token','stage':'brief','provider_response_id':'resp_existing'}
         call=Mock(side_effect=[{'status':'ready','job':job},{'status':'ready'}])
         provider=Mock();provider.poll.return_value={'id':'resp_existing','status':'completed','output':[{'type':'message','content':[{'type':'output_text','text':json.dumps(output),'annotations':[{'type':'url_citation','url':source} for source in output['sources']]}]}]}
-        with patch.dict(os.environ,{'BLOG_GENERATION_ENABLED':'true','OPENAI_API_KEY':'test'}),patch('backend.blog_worker.read_source',return_value={'accessible':True}):
+        with patch.dict(os.environ,{'BLOG_GENERATION_ENABLED':'true','OPENAI_API_KEY':'test'}),patch('backend.blog_worker.read_source',side_effect=lambda source: {'url':source,'accessible':True}):
             result=worker_tick(call,provider)
         self.assertEqual(result['outcome'],'stage_completed')
         payload=call.call_args.args[1]

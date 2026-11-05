@@ -3,10 +3,42 @@ import http.client
 import ipaddress
 import socket
 import ssl
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone
 from html.parser import HTMLParser
 from urllib.parse import urlsplit, urljoin
 from backend.blog_contract import url, InvalidBlog
+
+MAX_SOURCE_BYTES = 2 * 1024 * 1024
+
+
+def collect_sources(references, read=None, previous=()):
+    """Tolerate unavailable references while retaining a minimum of two reads."""
+    read = read or read_source
+    cached = {item.get('url'): item for item in previous
+              if isinstance(item, dict) and item.get('accessible') is True
+              and isinstance(item.get('excerpt'), str) and len(item['excerpt']) >= 100}
+
+    def attempt(reference):
+        try:
+            return read(reference), None
+        except (OSError, InvalidBlog) as error:
+            # Address and URL validation failures remain fatal.
+            if isinstance(error, InvalidBlog) and str(error) not in (
+                    'source_unreadable', 'source_insufficient_text', 'source_redirect_limit'):
+                raise
+            reason = str(error) if isinstance(error, InvalidBlog) else 'source_connection_failed'
+            snapshot = cached.get(reference)
+            return snapshot, {'url': reference, 'reason': reason,
+                              'action': 'retained_snapshot' if snapshot else 'excluded'}
+
+    with ThreadPoolExecutor(max_workers=3) as readers:
+        results = list(readers.map(attempt, dict.fromkeys(references)))
+    snapshots = [snapshot for snapshot, _ in results if snapshot is not None]
+    warnings = [warning for _, warning in results if warning is not None]
+    if len(snapshots) < 2:
+        raise InvalidBlog('insufficient_accessible_sources')
+    return snapshots, warnings
 
 
 class TextOnly(HTMLParser):
@@ -46,7 +78,9 @@ def read_source(reference, connect=PinnedHTTPS):
             if response.status in (301, 302, 303, 307, 308):
                 current = urljoin(current, response.getheader('Location', '')); continue
             if response.status != 200 or response.getheader('Content-Type', '').split(';')[0] not in ('text/html', 'text/plain'): raise InvalidBlog('source_unreadable')
-            content = response.read(131072)
+            # Institutional pages can have large script/style headers before
+            # their article body. Keep a bounded read without cutting at 128 KiB.
+            content = response.read(MAX_SOURCE_BYTES)
             parser = TextOnly(); parser.feed(content.decode('utf-8', errors='replace'))
             excerpt = ' '.join(' '.join(parser.parts).split())[:6000]
             if len(excerpt) < 100: raise InvalidBlog('source_insufficient_text')

@@ -38,6 +38,8 @@ Los medios públicos se entregan solo si pertenecen a una revisión publicada vi
 
 ## Verificación y límites
 
+Fallback de fuentes (5 de noviembre de 2026): una referencia que responda con bloqueo HTTP, texto insuficiente, exceso de redirecciones o error de conexión se descarta individualmente durante el brief. La generación continúa si quedan al menos dos URLs distintas leídas; se conservan `sourceReadWarnings` y avisos editoriales, y se eliminan las referencias descartadas de `sources` y `sourceDetails`. Los fallos de validación de URL/dirección siguen siendo fatales. No se interpreta una respuesta bloqueada como lectura válida. En Final, una caída de red permite reutilizar el extracto real conservado en el brief; no se inventa un extracto ni se acepta una cita sin evidencia. Si no quedan dos fuentes verificadas, el error es `insufficient_accessible_sources`. No hay reintentos de inferencia automáticos añadidos por este fallback.
+
 Las suites usan mocks y temporizadores falsos. Los archivos `tests/blog_*_unit.sql` se ejecutan con BEGIN/ROLLBACK. La prueba de recuperación comprobó cinco trabajos consecutivos, reserva, token vencido, cancelación, motor exclusivo, finalización idempotente y reintentos, sin llamadas a modelos.
 
 `npm.cmd run build` prepara el cliente, SSR, rutas estáticas y renderer compartido. `node scripts/blog_preview.mjs` ofrece un fixture de solo lectura en 127.0.0.1:4174; no consulta cuentas, usa secretos ni publica. `scripts/inspect_blog_preview.mjs` captura evidencia visual local mediante Edge/CDP; es una ayuda de inspección manual, no una suite E2E. Capturas y mediciones reales de viewport están en `.preview/blog-review/`.
