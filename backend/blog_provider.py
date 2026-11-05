@@ -4,6 +4,7 @@ import os
 import re
 from datetime import datetime,timezone
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 from urllib.parse import urlencode
 from pathlib import Path
 from backend.blog_contract import PROTOCOL
@@ -26,7 +27,11 @@ class OpenAIArticleProvider:
                 content = response.read(1024 * 1024 + 1)
                 if len(content) > 1024 * 1024: raise ValueError()
                 return json.loads(content)
-        except (OSError, ValueError): raise ProviderUnavailable('provider_uncertain') from None
+        except HTTPError as error:
+            # Never persist provider error messages, prompts or credentials.
+            raise ProviderUnavailable('provider_http_' + str(error.code)) from None
+        except OSError: raise ProviderUnavailable('provider_uncertain') from None
+        except ValueError: raise ProviderUnavailable('provider_invalid_response') from None
 
     def start(self, job):
         instructions = (Path(__file__).resolve().parents[1] / 'config/blog/editorial.md').read_text(encoding='utf-8')
@@ -48,6 +53,8 @@ class OpenAIArticleProvider:
             payload['include'] = ['web_search_call.action.sources']
         else:
             payload['text'] = {'format': {'type': 'json_object'}}
+            # JSON mode requires the instruction in input, not only instructions.
+            payload['input'] = 'Devuelve un objeto JSON para la etapa solicitada.\n' + encoded
         return self.request('POST', payload=payload)
 
     def poll(self, response_id):

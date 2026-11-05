@@ -7,6 +7,27 @@ from backend.blog_worker import worker_tick
 
 
 class SharedCredentialTests(unittest.TestCase):
+    def test_json_stages_include_explicit_instruction_in_input(self):
+        import json
+        provider = OpenAIArticleProvider()
+        for stage in ('draft', 'critique', 'final'):
+            with patch.object(provider, 'request', return_value={'id':'resp_saved'}) as request:
+                provider.start({'stage':stage, 'idea':'Tema', 'brief':{}, 'artifacts':{}})
+            payload = request.call_args.kwargs['payload']
+            instruction, context = payload['input'].split('\n', 1)
+            self.assertIn('json', instruction.lower())
+            self.assertEqual(json.loads(context)['idea'], 'Tema')
+            self.assertEqual(payload['text']['format']['type'], 'json_object')
+
+    def test_provider_distinguishes_http_rejection_from_uncertain_submission(self):
+        from urllib.error import HTTPError
+        from backend.blog_provider import ProviderUnavailable
+        for error, expected in ((HTTPError('https://api.openai.com',400,'private',{},None), 'provider_http_400'),
+                                (TimeoutError('private'), 'provider_uncertain')):
+            with patch.dict(os.environ, {'OPENAI_API_KEY':'test'}), patch('backend.blog_provider.urlopen', side_effect=error):
+                with self.assertRaisesRegex(ProviderUnavailable, '^' + expected + '$'):
+                    OpenAIArticleProvider().request('POST', payload={'input':'test'})
+
     def test_background_poll_requests_search_evidence_without_starting_generation(self):
         from urllib.parse import urlsplit, parse_qs
         provider=OpenAIArticleProvider()
