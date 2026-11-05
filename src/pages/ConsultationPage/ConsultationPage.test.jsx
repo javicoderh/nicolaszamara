@@ -7,21 +7,15 @@ import ConsultationPageSkeleton from './ConsultationPageSkeleton.jsx'
 describe('ConsultationPage', () => {
   it('explica evaluación individual y no promete una reserva', () => {
     render(<SiteContentProvider><ConsultationPage /></SiteContentProvider>)
-    expect(screen.getByText(/La acupuntura y las técnicas complementarias se eligen según cada caso/i)).toBeInTheDocument()
-    const whatsapp = screen.getByRole('link', { name: /Consultar disponibilidad por WhatsApp/i })
-    expect(whatsapp).toHaveAttribute('href', `https://wa.me/56953961219?text=${encodeURIComponent('Hola, quisiera consultar disponibilidad para una sesión.')}`)
-    expect(whatsapp).toHaveAttribute('target', '_blank')
-    expect(screen.getByRole('heading', { name: 'Me interesa agendar una consulta' })).toBeInTheDocument()
-    expect(screen.queryByRole('definition')).not.toBeInTheDocument()
-    expect(screen.getByText(/versión de pruebas/i)).toBeInTheDocument()
-  })
-
-  it('presenta únicamente los datos prácticos configurados', () => {
-    render(<SiteContentProvider value={{ contact: { address: 'Dirección confirmada', sessionDuration: '60 minutos' } }}><ConsultationPage /></SiteContentProvider>)
-    expect(screen.getAllByRole('term')).toHaveLength(2)
-    expect(screen.getByText('Dirección confirmada')).toBeInTheDocument()
-    expect(screen.getByText('60 minutos')).toBeInTheDocument()
-    expect(screen.queryByText('Valor')).not.toBeInTheDocument()
+    expect(screen.getByText(/No necesitas saber de antemano/)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Solicita tu atención.' })).toBeInTheDocument()
+    expect(screen.queryByText(/versión de pruebas/i)).not.toBeInTheDocument()
+    const section = screen.getByRole('region', { name: 'Dónde atiendo' })
+    expect(section.id).toBe('lugares-de-atencion')
+    expect(section.querySelector('h3')).toHaveTextContent('Villa Vida Natural')
+    expect(screen.getByRole('link', { name: 'Consultar atención en Evaluz' }).href).toContain('https://wa.me/56953961219?text=')
+    expect(section.querySelectorAll('a[href*="google.com/maps/search/"]')).toHaveLength(2)
+    expect(section.compareDocumentPosition(document.getElementById('interes-consulta')) & Node.DOCUMENT_POSITION_FOLLOWING).toBeTruthy()
   })
 
   it('ofrece un skeleton propio', () => {

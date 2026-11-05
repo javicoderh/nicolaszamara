@@ -93,8 +93,8 @@ describe('App', () => {
   })
 
   it.each([
-    ['/sobre-mi', 'Cargando sobre mí', 'Hola, soy Nicolás.', 'Sobre mí | Nicolás Zamara', 'Sobre mí'],
-    ['/naturaleza', 'Cargando naturaleza', 'Darte tiempo para estar en la naturaleza.', 'Naturaleza y bienestar | Nicolás Zamara', 'Naturaleza'],
+    ['/sobre-mi', 'Cargando sobre mí', 'Soy Nicolás Zamara.', 'Sobre mí | Nicolás Zamara', 'Sobre mí'],
+    ['/naturaleza', 'Cargando naturaleza', 'Baños de bosque: un espacio para bajar el ritmo y conectar con la naturaleza.', 'Naturaleza y bienestar | Nicolás Zamara', 'Naturaleza'],
   ])('abre %s directamente y respeta el delay de 800 ms', (path, loading, heading, title, label) => {
     window.history.replaceState({}, '', path)
     render(<App />)

@@ -3,3 +3,5 @@
 .nature-skeleton__form { max-width: 850px; padding-block: 75px 90px; }
 @keyframes nature-pulse { to { opacity: .45; } }
 @media(max-width: 640px) { .nature-skeleton__hero { grid-template-columns: 1fr; min-height: 900px; padding: 20px; } .nature-skeleton__form { padding-block: 50px 60px; } }
+.nature-skeleton__experience { display:grid; gap:24px; padding-block:50px; }
+.nature-skeleton__experience span { height:80px; background:var(--color-surface-strong); }

@@ -4,8 +4,8 @@ import { renderRoute } from './entry-server.jsx'
 
 describe('static route rendering', () => {
   it.each([
-    ['/', 'Cuidar tu salud'], ['/consulta', 'Cada consulta, con claridad'], ['/cursos', 'Aprender para acompañar'],
-    ['/naturaleza', 'Darte tiempo para estar'], ['/sobre-mi', 'Hola, soy Nicolás.'], ['/terapias', 'Servicios de terapias'],
+    ['/', 'Cuidar tu salud'], ['/consulta', 'Dónde atiendo'], ['/cursos', 'Aprender para acompañar'],
+    ['/naturaleza', 'Baños de bosque: un espacio'], ['/sobre-mi', 'Soy Nicolás Zamara.'], ['/terapias', 'Servicios de terapias'],
     ['/privacidad', 'Preferencias de medición opcional'], ['/chatbot', 'Conversación'],
   ])('renders %s with real content without a browser or provider requests', (path, text) => {
     const fetch = vi.fn(() => { throw Error('No network permitted') })

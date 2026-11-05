@@ -1,4 +1,5 @@
 import { aboutContent } from '../../content/siteContent.js'
+import ActionLink from '../../components/ActionLink/ActionLink.jsx'
 import './AboutPage.css'
 
 export default function AboutPage() {
@@ -18,7 +19,7 @@ export default function AboutPage() {
       <div className="about-page__copy">
         <p className="about-page__label">Sobre mí</p>
         <h1 data-analytics-section="about_bio">{aboutContent.title}</h1>
-        {aboutContent.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+        {aboutContent.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}<div className="about-page__actions"><ActionLink href="/consulta">Conoce la consulta</ActionLink><ActionLink href="/naturaleza" variant="text">Explora los baños de bosque</ActionLink></div>
       </div>
     </main>
   )

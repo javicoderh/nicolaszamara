@@ -7,11 +7,11 @@ import CoursesPageSkeleton from './CoursesPageSkeleton.jsx'
 describe('CoursesPage', () => {
   it('enlaza a la landing aprobada y distingue el interés de una matrícula', () => {
     render(<SiteContentProvider><CoursesPage /></SiteContentProvider>)
-    expect(screen.getByRole('link', { name: /ver el curso e inscribirme/i })).toHaveAttribute('href', 'https://nzamara-mtc.hotmart.host/flores-de-bach-vida-cotidiana')
-    expect(screen.getAllByText(/recibir información cuando se abra una edición online/i)[0]).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: /próximas ediciones e inscripción/i })).toHaveAttribute('href', 'https://nzamara-mtc.hotmart.host/flores-de-bach-vida-cotidiana')
+    expect(screen.getAllByText(/consultar las opciones de formación online/i)[0]).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /curso online para público hispanohablante/i })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Flores de Bach en modalidad online' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Me interesa la modalidad online' })).toHaveAttribute('href', '/cursos#interes-online')
+    expect(screen.getByRole('heading', { name: 'Consulta por formación online.' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Consultar modalidad online' })).toHaveAttribute('href', `https://wa.me/56953961219?text=${encodeURIComponent('Hola, Nicolás. Me interesa aprender sobre Flores de Bach en modalidad online. ¿Qué opciones tienes disponibles?')}`)
     expect(screen.queryByText(/futura modalidad online/i)).not.toBeInTheDocument()
   })
 
@@ -28,6 +28,6 @@ describe('CoursesPage', () => {
     expect(photo.closest('section')).toHaveAttribute('aria-labelledby', 'bach-title')
     expect(photo.parentElement).toHaveClass('courses-page__photo-frame')
     expect(photo.parentElement.previousElementSibling).toContainElement(screen.getByRole('heading', { name: 'Flores de Bach para la vida cotidiana' }))
-    expect(photo.parentElement.previousElementSibling).toContainElement(screen.getByRole('link', { name: /ver el curso e inscribirme/i }))
+    expect(photo.parentElement.previousElementSibling).toContainElement(screen.getByRole('link', { name: /próximas ediciones e inscripción/i }))
   })
 })

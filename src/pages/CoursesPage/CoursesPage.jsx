@@ -1,3 +1,4 @@
+import { whatsappLink, contactMessages } from '../../services/contactLinks.js'
 import InterestForm from '../../components/InterestForm/InterestForm.jsx'
 import ActionLink from '../../components/ActionLink/ActionLink.jsx'
 import { useSiteContent } from '../../contexts/SiteContentContext/SiteContentContext.jsx'
@@ -20,8 +21,8 @@ export default function CoursesPage() {
           <p>{homeContent.course.description}</p>
           <p>{homeContent.course.additional}</p>
           <div className="courses-page__actions">
-            <ActionLink analytics={{ element_id: 'courses_hotmart', placement: 'courses_offer', service: 'course' }} href={courseUrl} target="_blank" rel="noreferrer" onClick={() => { void trackHotmartClick('course', { element_id: 'courses_hotmart', placement: 'courses_offer', service: 'course' }) }}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
-            <ActionLink analytics={{ element_id: 'courses_online_interest', placement: 'courses_offer', service: 'online' }} href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
+            <ActionLink analytics={{ element_id: 'courses_hotmart', placement: 'courses_offer', service: 'course' }} href={courseUrl} target="_blank" rel="noreferrer" onClick={() => { void trackHotmartClick('course', { element_id: 'courses_hotmart', placement: 'courses_offer', service: 'course' }) }}>Próximas ediciones e inscripción <span aria-hidden="true">↗</span></ActionLink>
+            <ActionLink analytics={{ element_id: 'courses_online_interest', placement: 'courses_offer', service: 'online' }} href={whatsappLink(contactMessages.course)} target="_blank" rel="noreferrer" variant="text">Consultar sobre el curso</ActionLink>
           </div>
         </div>
         <div className="courses-page__photo-frame">
@@ -42,7 +43,7 @@ export default function CoursesPage() {
         <div className="page-wrap courses-page__online-inner">
           <div>
             <h2>Curso online para público hispanohablante.</h2>
-            <p>Si te gustaría participar desde tu ciudad o país, déjame tus datos para recibir información cuando se abra una edición online.</p>
+            <p>Escríbeme para consultar las opciones de formación online, sus contenidos y modalidad de participación.</p><ActionLink href={whatsappLink(contactMessages.online)} target="_blank" rel="noreferrer">Consultar modalidad online</ActionLink>
           </div>
           <InterestForm kind="online" />
         </div>

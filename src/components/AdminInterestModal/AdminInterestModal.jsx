@@ -6,6 +6,7 @@ import { useDelayedOperation } from '../../hooks/useDelayedOperation/useDelayedO
 import { adminDate, interestLabels, preferenceLabels, managementLabels, sourceLabel } from '../../services/adminFormatting.js'
 import AdminInterestModalSkeleton from './AdminInterestModalSkeleton.jsx'
 import './AdminInterestModal.css'
+import { locationLabels } from '../../content/attentionLocations.js'
 
 const consent = (value) => value === true ? 'Sí' : value === false ? 'No' : 'Sin registro'
 
@@ -30,7 +31,7 @@ export default function AdminInterestModal({ id, onClose, onExpired, onRead, loa
     ['Registrado', adminDate(record.created_at)], ['Correo', record.email], ['Teléfono', record.phone],
     ['Preferencia de contacto', preferenceLabels[record.contact_preference] || record.contact_preference],
     ['Canal registrado', preferenceLabels[record.contact_channel] || record.contact_channel],
-    ['País', record.country], ['Ciudad', record.city], ['Experiencia', record.experience],
+    ['País', record.country], ['Ciudad', record.city], ['Lugar de atención', locationLabels[record.attention_location]], ['Experiencia', record.experience],
     ['Origen', sourceLabel(record.source)], ['Página de origen', record.source_path],
     ['Estado de gestión', managementLabels[record.management_status] || record.management_status],
     ['Lectura', effectiveReadAt ? 'Leído' : 'Nuevo'], ['Fecha de lectura', adminDate(effectiveReadAt)],

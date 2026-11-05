@@ -17,14 +17,28 @@ def submission(kind="nature"):
 
 
 class ValidationTests(unittest.TestCase):
+    def test_consultation_location_is_required_and_restricted(self):
+        payload = submission()
+        payload['interest'] = 'consultation'
+        del payload['values']['city']
+        for location in (None, '', 'armonia_med', 123):
+            payload['values']['attentionLocation'] = location
+            with self.assertRaises(InvalidSubmission):
+                validate_submission(payload)
+        for location in ('villa_vida_natural', 'evaluz', 'guidance'):
+            payload['values']['attentionLocation'] = location
+            self.assertEqual(validate_submission(payload)['attention_location'], location)
+
     @patch('backend.interests.save_interest')
     def test_consultation_form_is_saved_without_location_or_experience(self, save):
         payload = submission()
         payload['interest'] = 'consultation'
         payload['source_path'] = '/consulta'
         del payload['values']['city']
+        payload['values']['attentionLocation'] = 'villa_vida_natural'
         self.assertEqual(process_submission(payload), (201, {'status': 'saved'}))
         record = save.call_args.args[0]
+        self.assertEqual(record['attention_location'], 'villa_vida_natural')
         self.assertEqual(record['interest'], 'consultation')
         self.assertEqual(record['source_path'], '/consulta')
         for field in ('country', 'city', 'experience'):

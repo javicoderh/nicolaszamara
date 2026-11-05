@@ -9,6 +9,7 @@ export default function ConsultationPageSkeleton() {
         <span className="consult-skeleton__title" />
       </div>
       <div className="consult-skeleton__content" aria-hidden="true"><i /><i /><i /></div>
+      <div className="consult-skeleton__locations" aria-hidden="true"><span /><span /></div>
       <InterestFormSkeleton />
     </main>
   )

@@ -6,6 +6,8 @@ import './InterestForm.css'
 import { useFormMetrics } from '../../hooks/useFormMetrics/useFormMetrics.js'
 import { formPlacement } from '../../services/formMetrics.js'
 import { useHydrated } from '../../contexts/HydrationContext/HydrationContext.jsx'
+import { locationLabels } from '../../content/attentionLocations.js'
+import { whatsappLink, contactMessages } from '../../services/contactLinks.js'
 
 const phoneField = { name: 'phone', label: 'Teléfono con prefijo internacional', type: 'tel', required: true, autocomplete: 'tel' }
 const fieldMap = {
@@ -30,9 +32,9 @@ const fieldMap = {
 }
 
 const formCopy = {
-  consultation: { title: 'Me interesa agendar una consulta', purpose: 'Déjame tus datos para contactarte y coordinar disponibilidad. El registro no confirma una hora.', success: 'Gracias por tu interés. Te contactaremos para coordinar tu consulta. La hora se confirma al acordarla directamente.' },
-  online: { title: 'Flores de Bach en modalidad online', purpose: 'Si te gustaría participar desde tu ciudad o país, déjame tus datos para recibir información cuando se abra una edición online.', success: 'Gracias por tu interés. Te avisaré cuando se abra una edición online.' },
-  nature: { title: 'Me interesan los baños de bosque', purpose: 'Déjame tus datos para recibir información cuando se confirme un encuentro.', success: 'Gracias por tu interés. Te avisaré cuando se confirme un encuentro.' },
+  consultation: { title: 'Solicita tu atención.', purpose: 'Déjame tus datos e indica dónde te gustaría atenderte. Te contactaré para coordinar.', button: 'Solicitar una hora', success: 'Gracias. Tu solicitud fue enviada correctamente. Te contactaré para coordinar tu atención.' },
+  online: { title: 'Consulta por formación online.', purpose: 'Escríbeme para consultar las opciones de formación online, sus contenidos y modalidad de participación.', button: 'Solicitar información', success: 'Gracias. Tu solicitud fue enviada correctamente. Te contactaré con la información.' },
+  nature: { title: 'Recibe información sobre las jornadas.', purpose: 'Déjame tus datos y te contactaré para contarte sobre las experiencias y sus opciones de participación.', button: 'Solicitar información', success: 'Gracias. Tu solicitud fue enviada correctamente. Te contactaré con la información.' },
 }
 
 export default function InterestForm({ kind, submitInterest = defaultSubmitInterest, placement = formPlacement(kind, '/') }) {
@@ -52,6 +54,7 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
     const formData = new FormData(event.currentTarget)
     const values = Object.fromEntries(fields.map((field) => [field.name, formData.get(field.name)]))
     values.contactPreference = formData.get('contactPreference')
+    if (kind === 'consultation') values.attentionLocation = formData.get('attentionLocation')
     void submit({
       interest: kind,
       values,
@@ -65,7 +68,7 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
     <section className="interest-form" aria-labelledby={`${kind}-form-title`}>
       <h3 id={`${kind}-form-title`} data-analytics-section={placement}>{copy.title}</h3>
       <p>{copy.purpose} Revisa también la <a href="/privacidad">información de privacidad</a>.</p>
-      <p className="interest-form__review-notice">Versión de pruebas: utiliza datos ficticios para probar este formulario.</p>
+      {kind === 'consultation' && <p>Tu hora queda confirmada cuando acordamos el día y horario por contacto directo.</p>}
       <form ref={formRef} onSubmit={handleSubmit} aria-busy={status === 'submitting'} data-clarity-mask="true"
         onFocusCapture={(event) => { if (event.target.name !== 'website') metrics.start() }} onChange={() => metrics.start()}
         onInvalidCapture={(event) => metrics.invalid(event.target)}>
@@ -80,6 +83,7 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
           </label>
         ))}
         <ContactPreference />
+        {kind === 'consultation' && <label className="interest-form__field"><span>¿Dónde prefieres atenderte? *</span><select name="attentionLocation" required defaultValue=""><option value="">Selecciona una opción</option>{Object.entries(locationLabels).map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select></label>}
         <label className="interest-form__consent">
           <input name="privacyConsent" type="checkbox" required />
           <span>Autorizo el uso de mis datos para responder a este interés según mi preferencia de contacto y he leído la información de privacidad. *</span>
@@ -90,7 +94,7 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
         </label>
         <label className="interest-form__trap" aria-hidden="true">Sitio web<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label>
         <button className="interest-form__submit" type="submit" disabled={status === 'submitting' || status === 'saved'}>
-          {status === 'submitting' ? 'Enviando…' : 'Registrar mi interés'}
+          {status === 'submitting' ? 'Enviando…' : copy.button}
         </button>
         </fieldset>
       </form>
@@ -98,7 +102,7 @@ export default function InterestForm({ kind, submitInterest = defaultSubmitInter
       {status === 'submitting' && <p className="interest-form__message" role="status">Estamos guardando tu interés…</p>}
       {status === 'saved' && <p className="interest-form__message" role="status">{copy.success}</p>}
       {status === 'saved' && <button className="interest-form__submit" type="button" onClick={() => { formRef.current?.reset(); reset() }}>Registrar otro interés</button>}
-      {status === 'unavailable' && <p className="interest-form__message interest-form__message--error" role="alert">No pudimos confirmar el registro. Inténtalo nuevamente más tarde.</p>}
+      {status === 'unavailable' && <p className="interest-form__message interest-form__message--error" role="alert">No pudimos enviar tu solicitud. Puedes intentarlo nuevamente o <a href={whatsappLink(contactMessages[kind])} target="_blank" rel="noreferrer">escribirme directamente por WhatsApp</a>.</p>}
       {status === 'rate_limited' && <p className="interest-form__message interest-form__message--error" role="alert">Recibimos varios intentos. Espera un minuto antes de reintentar.</p>}
     </section>
   )

@@ -52,7 +52,9 @@ def validate_submission(payload):
     kind = payload["interest"]
     allowed = {"name", "email", "phone", "contactPreference", "country", "experience"} if kind == "online" else {"name", "email", "phone", "contactPreference", "city"}
     if kind == 'consultation':
-        allowed = {"name", "email", "phone", "contactPreference"}
+        allowed = {"name", "email", "phone", "contactPreference", "attentionLocation"}
+        if values.get('attentionLocation') not in ('villa_vida_natural', 'evaluz', 'guidance'):
+            raise InvalidSubmission('Invalid attention location')
     if set(values) - allowed:
         raise InvalidSubmission("Unexpected fields")
     try:
@@ -66,6 +68,7 @@ def validate_submission(payload):
         "country": text_field(values, "country", 100) if kind == "online" else None,
         "city": text_field(values, "city", 100) if kind == "nature" else None,
         "experience": text_field(values, "experience", 500, required=False) if kind == "online" else None,
+        "attention_location": values['attentionLocation'] if kind == 'consultation' else None,
         "updates_consent": payload.get("updatesConsent", False),
         "privacy_consent": True,
         "privacy_version": PRIVACY_VERSION,

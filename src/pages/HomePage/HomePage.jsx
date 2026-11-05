@@ -1,3 +1,4 @@
+import { whatsappLink, contactMessages } from '../../services/contactLinks.js'
 import InterestForm from '../../components/InterestForm/InterestForm.jsx'
 import ActionLink from '../../components/ActionLink/ActionLink.jsx'
 import AreaGrid from '../../components/AreaGrid/AreaGrid.jsx'
@@ -18,7 +19,7 @@ export default function HomePage() {
           <div className="home-hero__actions">
             <ActionLink analytics={{ element_id: 'hero_consultation', placement: 'home_hero', service: 'consultation' }} href="/consulta">Conoce la consulta <span aria-hidden="true">↗</span></ActionLink>
             <ActionLink analytics={{ element_id: 'hero_courses', placement: 'home_hero', service: 'course' }} href="/cursos" variant="text">Explora los cursos <span aria-hidden="true">→</span></ActionLink>
-            <ActionLink analytics={{ element_id: 'hero_nature', placement: 'home_hero', service: 'nature' }} href="/naturaleza" variant="text">Reconecta con la naturaleza <span aria-hidden="true">→</span></ActionLink>
+            <ActionLink analytics={{ element_id: 'hero_nature', placement: 'home_hero', service: 'nature' }} href="/naturaleza" variant="text">Baños de bosque <span aria-hidden="true">→</span></ActionLink>
           </div>
         </div>
         <img
@@ -51,13 +52,14 @@ export default function HomePage() {
         </div>
       </section>
 
+      <section className="home-consult-band"><div className="page-wrap home-consult-band__inner"><h2>Atención en Las Condes y Providencia</h2><p>Te recibo en mi consulta particular en Villa Vida Natural, en Las Condes, y en Centro Médico Evaluz, en Providencia, donde mi atención tiene un foco en salud de la mujer y personas con útero.</p><ActionLink href="/consulta#lugares-de-atencion" variant="light">Ver lugares de atención</ActionLink></div></section>
       <section className="home-course page-wrap" aria-labelledby="home-course-title">
         <div className="home-course__copy">
           <h2 id="home-course-title" data-analytics-section="home_course">{homeContent.course.title}</h2>
           <p>{homeContent.course.description}</p>
           <p>{homeContent.course.additional}</p>
-          <ActionLink analytics={{ element_id: 'home_course_hotmart', placement: 'home_course', service: 'course' }} href={courseUrl} target="_blank" rel="noreferrer" onClick={() => { void trackHotmartClick('home', { element_id: 'home_course_hotmart', placement: 'home_course', service: 'course' }) }}>Ver el curso e inscribirme <span aria-hidden="true">↗</span></ActionLink>
-          <ActionLink analytics={{ element_id: 'home_course_online', placement: 'home_course', service: 'online' }} className="home-course__secondary" href="/cursos#interes-online" variant="text">Me interesa la modalidad online</ActionLink>
+          <ActionLink analytics={{ element_id: 'home_course_hotmart', placement: 'home_course', service: 'course' }} href={courseUrl} target="_blank" rel="noreferrer" onClick={() => { void trackHotmartClick('home', { element_id: 'home_course_hotmart', placement: 'home_course', service: 'course' }) }}>Próximas ediciones e inscripción <span aria-hidden="true">↗</span></ActionLink>
+          <ActionLink analytics={{ element_id: 'home_course_online', placement: 'home_course', service: 'online' }} className="home-course__secondary" href={whatsappLink(contactMessages.course)} target="_blank" rel="noreferrer" variant="text">Consultar sobre el curso</ActionLink>
         </div>
         <img
           className="home-course__photo"
@@ -108,7 +110,7 @@ export default function HomePage() {
           <p className="home-nature__label">Naturaleza y bienestar</p>
           <h2 id="nature-title" data-analytics-section="home_nature">{natureContent.title}</h2>
           {natureContent.paragraphs.map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
-          <ActionLink analytics={{ element_id: 'home_nature_interest', placement: 'home_nature', service: 'nature' }} href="#interes-naturaleza">Me interesan los baños de bosque</ActionLink>
+          <ActionLink analytics={{ element_id: 'home_nature_interest', placement: 'home_nature', service: 'nature' }} href={whatsappLink(contactMessages.nature)} target="_blank" rel="noreferrer">Consultar por baños de bosque</ActionLink>
         </div>
       </section>
 

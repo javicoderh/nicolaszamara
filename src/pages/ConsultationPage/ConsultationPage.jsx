@@ -1,28 +1,20 @@
-import { useSiteContent } from '../../contexts/SiteContentContext/SiteContentContext.jsx'
+import { whatsappLink, contactMessages } from '../../services/contactLinks.js'
 import ActionLink from '../../components/ActionLink/ActionLink.jsx'
 import InterestForm from '../../components/InterestForm/InterestForm.jsx'
 import { trackEvent } from '../../services/analyticsService.js'
 import { homeContent } from '../../content/siteContent.js'
+import { attentionLocations } from '../../content/attentionLocations.js'
 import './ConsultationPage.css'
 
 const questions = [
-  { question: '¿Tengo que escoger una técnica antes de consultar?', answer: 'No. El primer paso es conversar y conocer tu necesidad. Las alternativas se revisan a partir de una evaluación individual.' },
-  { question: '¿El mensaje por WhatsApp confirma una hora?', answer: 'No. El mensaje inicia una conversación para coordinar disponibilidad; la hora queda confirmada únicamente después de acordarla directamente.' },
-  { question: '¿Cuánto dura una sesión y cuánto cuesta?', answer: 'Puedes consultar la duración y el valor de la sesión al coordinar tu atención.' },
+ { question: '¿Tengo que saber qué terapia necesito?', answer: 'No. Primero conversamos sobre tu motivo de consulta y evaluamos lo que necesitas. Luego te propongo las herramientas que pueden ser adecuadas para tu atención.' },
+ { question: '¿Dónde puedo atenderme?', answer: 'En Villa Vida Natural, en Las Condes, o en Centro Médico Evaluz, en Providencia. Puedes indicar tu preferencia al contactarme.' },
+ { question: '¿Cómo conozco los valores y la disponibilidad?', answer: 'Escríbeme por WhatsApp e indícame dónde te gustaría atenderte. Te entregaré la información por interno para que podamos coordinar.' },
+ { question: '¿Enviar el formulario confirma una hora?', answer: 'No. El formulario permite solicitar una atención. Tu hora queda confirmada cuando acordamos el día y horario por contacto directo.' },
 ]
 
 export default function ConsultationPage() {
-  const { contact } = useSiteContent()
-  const practicalDetails = [
-    ['Ubicación', contact.address],
-    ['Accesibilidad', contact.accessibility],
-    ['Horarios', contact.hours],
-    ['Duración', contact.sessionDuration],
-    ['Valor', contact.sessionPrice],
-  ].filter(([, value]) => value)
-  const whatsappHref = contact.whatsappNumber
-    ? `https://wa.me/${contact.whatsappNumber.replace(/\D/g, '')}?text=${encodeURIComponent('Hola, quisiera consultar disponibilidad para una sesión.')}`
-    : ''
+  const whatsappHref = whatsappLink(contactMessages.consultation)
 
   return (
     <main id="main-content" className="consult-page page-wrap">
@@ -45,17 +37,16 @@ export default function ConsultationPage() {
       <section className="consult-page__steps" aria-labelledby="consult-steps-title">
         <h2 id="consult-steps-title" data-analytics-section="consultation_steps">Cómo comienza</h2>
         <p>{homeContent.consultation.description}</p>
-        <p>{homeContent.consultation.additional}</p>
+        <p>{homeContent.consultation.additional}</p><ActionLink href={whatsappHref} target="_blank" rel="noreferrer">Consultar disponibilidad</ActionLink>
       </section>
 
-      <section className="consult-page__details" aria-labelledby="consult-details-title">
-        <div>
-          <h2 id="consult-details-title" data-analytics-section="consultation_details">Cada consulta, con claridad desde el inicio.</h2>
-          <p>Puedes consultar la ubicación, accesibilidad, horarios, duración y valores al coordinar tu atención.</p>
-        </div>
-        {practicalDetails.length > 0 && <dl>
-          {practicalDetails.map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
-        </dl>}
+      <section id="lugares-de-atencion" className="consult-page__locations" aria-labelledby="locations-title">
+        <h2 id="locations-title">Dónde atiendo</h2>
+        <div className="consult-page__location-grid">{attentionLocations.map(location => <article className="consult-page__location" key={location.id}>
+          <h3>{location.name}</h3><p><strong>{location.subtitle}</strong></p><p>{location.description}</p><p>Dirección: {location.address}</p>{location.directions && <p>{location.directions}</p>}
+          <ActionLink href={whatsappLink(location.message)} target="_blank" rel="noreferrer">{location.button}</ActionLink>
+          <ActionLink variant="text" href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.name + ' ' + location.address)}`} target="_blank" rel="noreferrer">Ver ubicación</ActionLink>
+        </article>)}</div>
       </section>
 
       <section className="consult-page__faq" aria-labelledby="consult-faq-title">

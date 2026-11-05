@@ -8,3 +8,6 @@
 @keyframes consult-pulse { to { opacity: .45; } }
 @media(max-width: 700px) { .consult-skeleton { padding-block: 48px 60px; } .consult-skeleton__intro { grid-template-columns: 1fr; gap: 32px; } .consult-skeleton__photo { max-width: 430px; aspect-ratio: 960 / 1439; justify-self: center; } }
 @media(max-width: 640px) { .consult-skeleton { width: calc(100% - 40px); } }
+.consult-skeleton__locations { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; padding-block: 35px; }
+.consult-skeleton__locations span { min-height: 370px; background: var(--color-surface-strong); }
+@media(max-width:700px) { .consult-skeleton__locations { grid-template-columns:1fr; } }

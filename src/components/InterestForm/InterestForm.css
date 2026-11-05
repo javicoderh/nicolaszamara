@@ -17,3 +17,4 @@
 .interest-form__message { margin: 18px 0; color: #35553a; font-size: .82rem; line-height: 1.8; }
 .interest-form__message--error { color: #7b3025; }
 .interest-form > .interest-form__review-notice { padding: 12px 14px; border-left: 3px solid var(--color-sage-dark); background: #faf9f6; color: var(--color-navy); }
+.interest-form__field select { width: 100%; min-width: 0; min-height: 48px; padding: 11px 13px; border: 1px solid #9eae9f; border-radius: 4px; background: #faf9f6; color: var(--color-ink); font: inherit; }

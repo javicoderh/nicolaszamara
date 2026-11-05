@@ -12,3 +12,6 @@
   .nature-page__copy { padding: 42px 20px 55px; }
   .nature-page__interest { padding-block: 50px 60px; }
 }
+.nature-page__experience { padding-block: 50px; max-width: 900px; }
+.nature-page__experience h2 { font-family: var(--font-display); color: var(--color-navy); font-size: 2.3rem; font-weight: 400; }
+.nature-page__experience p { color: var(--color-muted); line-height: 1.9; }

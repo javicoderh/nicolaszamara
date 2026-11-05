@@ -16,12 +16,12 @@ describe('AboutPage', () => {
   })
   it('presenta únicamente la biografía en su contenido principal', () => {
     render(<AboutPage />)
-    expect(screen.getByRole('heading', { level: 1, name: 'Hola, soy Nicolás.' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1, name: 'Soy Nicolás Zamara.' })).toBeInTheDocument()
     for (const paragraph of aboutContent.paragraphs) expect(screen.getByText(paragraph)).toBeInTheDocument()
     expect(screen.getAllByRole('heading')).toHaveLength(1)
     expect(screen.queryByRole('button')).not.toBeInTheDocument()
     expect(screen.queryByText('Flores de Bach para la vida cotidiana')).not.toBeInTheDocument()
-    expect(screen.queryByText('Darte tiempo para estar en la naturaleza.')).not.toBeInTheDocument()
+    expect(screen.queryByText('Baños de bosque: un espacio para bajar el ritmo y conectar con la naturaleza.')).not.toBeInTheDocument()
   })
 
   it('ofrece un skeleton inmediato de la biografía', () => {

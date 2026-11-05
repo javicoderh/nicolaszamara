@@ -15,6 +15,7 @@ export default function HomePageSkeleton() {
       </div>
       <div className="home-page-skeleton__areas"><div className="page-wrap"><AreaGridSkeleton /></div></div>
       <div className="home-page-skeleton__band" />
+      <div className="home-page-skeleton__band" />
       <div className="home-page-skeleton__section page-wrap"><span /><span /></div>
       <div className="home-page-skeleton__about page-wrap"><span className="home-page-skeleton__portrait" /><span className="home-page-skeleton__biography" /></div>
       <div className="home-page-skeleton__nature"><span /><span /></div>

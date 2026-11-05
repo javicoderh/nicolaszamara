@@ -69,18 +69,18 @@ export const pageMetadata = {
 export const homeContent = {
   hero: {
     title: 'Cuidar tu salud también es atender cómo te sientes.',
-    description: 'Soy Nicolás Zamara, terapeuta en Medicina China Integrativa y profesor de Flores de Bach. En mi consulta integro acupuntura y otras herramientas naturales y complementarias, considerando lo que te ocurre, cómo lo estás viviendo y qué necesitas.',
-    additional: 'También comparto este camino a través de la formación y el encuentro con la naturaleza.',
+    description: 'Soy Nicolás Zamara, terapeuta en Medicina China Integrativa y profesor de Flores de Bach. En mi consulta integro acupuntura y otras herramientas complementarias, considerando tu motivo de consulta, cómo lo estás viviendo y qué necesitas.',
+    additional: 'También comparto herramientas de aprendizaje y experiencias en la naturaleza para acompañar el autocuidado.',
   },
   consultation: {
     title: 'Una atención que considera tu motivo de consulta y cómo lo estás viviendo.',
-    description: 'En la primera consulta nos damos tiempo para conversar sobre lo que te trae, tus antecedentes y cómo te encuentras. A partir de esa evaluación, te explico qué herramientas podemos utilizar y cómo será la atención.',
-    additional: 'La acupuntura y las técnicas complementarias se eligen según cada caso. El bienestar emocional y los hábitos cotidianos también tienen un lugar en este proceso.',
+    description: 'La primera atención comienza con una conversación y una evaluación. Revisamos lo que te trae a consulta, tus antecedentes y aspectos de tu vida cotidiana que puedan ser relevantes para tu atención.',
+    additional: 'A partir de eso, te propongo un tratamiento adecuado a tus necesidades. No necesitas saber de antemano qué técnica elegir.',
   },
   areas: [
-    { number: '01', title: 'Consulta y terapias', description: 'Atención individual con acupuntura, Medicina China Integrativa y Flores de Bach. Un espacio para evaluar tu motivo de consulta y acompañarte con un tratamiento personalizado que integra herramientas naturales y complementarias.', href: '/consulta', link: 'Conocer la atención' },
-    { number: '02', title: 'Cursos y formación', description: 'Aprende a comprender y recomendar Flores de Bach en situaciones cotidianas, con herramientas prácticas, criterio y respeto por la experiencia de cada persona.', href: '/cursos', link: 'Conocer el curso' },
-    { number: '03', title: 'Naturaleza y bienestar', description: 'Una invitación a bajar el ritmo, encontrar calma, abrir los sentidos y dedicar tiempo a estar en la naturaleza.', href: '/naturaleza', link: 'Más información' },
+    { number: '01', title: 'Consulta y terapias', description: 'Un espacio para conversar sobre lo que te ocurre, evaluar tus necesidades y acordar una propuesta de atención que considere tu salud y tu vida cotidiana.', href: '/consulta', link: 'Conoce la atención' },
+    { number: '02', title: 'Flores de Bach', description: 'Aprende a comprender y recomendar Flores de Bach en situaciones cotidianas, con herramientas prácticas, criterio y respeto por la experiencia de cada persona.', href: '/cursos', link: 'Conoce el curso' },
+    { number: '03', title: 'Baños de bosque', description: 'Experiencias guiadas de inmersión en la naturaleza, inspiradas en el shinrin-yoku, para bajar el ritmo, abrir los sentidos y cultivar una relación más atenta con el entorno.', href: '/naturaleza', link: 'Conoce la experiencia' },
   ],
   course: {
     title: 'Flores de Bach para la vida cotidiana',
@@ -102,19 +102,20 @@ export const privacyCopy = {
 }
 
 export const aboutContent = {
-  "title": "Hola, soy Nicolás.",
+  "title": "Soy Nicolás Zamara.",
   "paragraphs": [
-    "Mi trabajo reúne la Medicina China Integrativa, las Flores de Bach y la enseñanza. Me interesa comprender tu motivo de consulta y conocerte: qué te preocupa, cómo te sientes y qué está pasando en tu vida.",
-    "Desde ahí, integro distintas herramientas y explico cada paso de la atención, para orientarte de manera integral y acompañarte en el cuidado de tu salud.",
-    "Fuera de la consulta, una parte importante de mi vida transcurre entre bosques, montañas y ríos. Ese vínculo también está presente en mi forma de entender y compartir el bienestar."
+    "Mi trabajo reúne la atención en Medicina China Integrativa, la enseñanza de Flores de Bach y las experiencias en la naturaleza.",
+    "En consulta, me interesa conocer a la persona que tengo al frente: qué le ocurre, cómo vive ese proceso y qué necesita para cuidar su salud. Desde ahí construimos una propuesta de atención.",
+    "La naturaleza también forma parte de mi recorrido. Mi experiencia con los ríos, los bosques y la montaña nutre las jornadas de baños de bosque que comparto.",
+    "En cada uno de estos espacios busco ofrecer una experiencia cercana, atenta y conectada con la vida cotidiana."
   ]
 }
 
 export const natureContent = {
-  "title": "Darte tiempo para estar en la naturaleza.",
+  "title": "Baños de bosque: un espacio para bajar el ritmo y conectar con la naturaleza.",
   "paragraphs": [
     "Desde niño pasaba tiempo en parques nacionales como Conguillío, Huerquehue y muchos otros lugares. Después vinieron la alta montaña, la escalada en roca y el aprendizaje de navegar por ríos tranquilos y de aguas bravas. Todo eso me llevó a permanecer semanas inmerso en entornos naturales. Además de mi trabajo como terapeuta, soy guía de rafting y kayakista, y ese vínculo sigue siendo parte importante de mi vida.",
-    "De ahí nace lo que quiero compartir a través de los baños de bosque: detenernos, escuchar, observar y dejar espacio a lo que percibimos. No necesitas conocer el nombre de cada especie para encontrarte con el lugar.",
-    "Si te gustaría participar, puedes dejarme tu contacto para recibir información cuando se confirme el próximo encuentro."
+    "Guío experiencias de inmersión en la naturaleza inspiradas en el shinrin-yoku. A través de un recorrido pausado, momentos de silencio y propuestas de atención a los sentidos, exploramos una forma más consciente de habitar el entorno.",
+    "Mi experiencia como terapeuta y mi vínculo con los ríos, los bosques y la montaña se encuentran en estas jornadas."
   ]
 }

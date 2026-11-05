@@ -10,7 +10,7 @@ describe('HomePage', () => {
     const hero = screen.getByRole('region', { name: /cuidar tu salud también/i })
     const links = within(hero).getAllByRole('link')
     expect(links.map((link) => link.getAttribute('href'))).toEqual(['/consulta', '/cursos', '/naturaleza'])
-    expect(within(hero).getByRole('link', { name: 'Reconecta con la naturaleza' })).toHaveClass('action-link--text')
+    expect(within(hero).getByRole('link', { name: 'Baños de bosque' })).toHaveClass('action-link--text')
   })
 
   it('usa MAYA-844 junto a la biografía del inicio', () => {
@@ -20,7 +20,7 @@ describe('HomePage', () => {
     expect(photo).toHaveAttribute('srcset', '/photos/sobre-mi-maya-844-480.jpg 480w, /photos/sobre-mi-maya-844-960.jpg 960w')
     expect(photo).toHaveAttribute('loading', 'lazy')
     expect(photo.closest('section')).toHaveAttribute('id', 'sobre-mi')
-    expect(photo.nextElementSibling).toContainElement(screen.getByRole('heading', { name: 'Hola, soy Nicolás.' }))
+    expect(photo.nextElementSibling).toContainElement(screen.getByRole('heading', { name: 'Soy Nicolás Zamara.' }))
   })
   it('usa la fotografía del curso en la sección Flores de Bach', () => {
     render(<SiteContentProvider><HomePage /></SiteContentProvider>)
@@ -28,21 +28,21 @@ describe('HomePage', () => {
     expect(photo).toHaveAttribute('src', '/photos/presentacion-botanica-1280.jpg')
     expect(photo).toHaveAttribute('srcset', '/photos/presentacion-botanica-640.jpg 640w, /photos/presentacion-botanica-1280.jpg 1280w')
     expect(photo.closest('section')).toHaveAttribute('aria-labelledby', 'home-course-title')
-    expect(screen.getByRole('link', { name: 'Más información' })).toHaveAttribute('href', '/naturaleza')
+    expect(screen.getByRole('link', { name: 'Conoce la experiencia' })).toHaveAttribute('href', '/naturaleza')
   })
   it('muestra las etiquetas y el enlace de interés online aprobados', () => {
     const { container } = render(<SiteContentProvider><HomePage /></SiteContentProvider>)
     expect(container.querySelector('.home-consult-band__label')).toBeNull()
     expect(container.querySelector('.home-nature__label')).toHaveTextContent('Naturaleza y bienestar')
-    expect(screen.getByRole('link', { name: 'Me interesa la modalidad online' })).toHaveAttribute('href', '/cursos#interes-online')
+    expect(screen.getByRole('link', { name: 'Consultar sobre el curso' })).toHaveAttribute('href', `https://wa.me/56953961219?text=${encodeURIComponent('Hola, Nicolás. Estoy interesado/a en el curso Flores de Bach para la vida cotidiana y me gustaría resolver algunas dudas.')}`)
   })
   it('presenta las tres áreas y los accesos a consulta y formación', () => {
     render(<SiteContentProvider><HomePage /></SiteContentProvider>)
     expect(screen.getByRole('heading', { name: /cuidar tu salud también es atender cómo te sientes/i })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /conoce la consulta/i })).toHaveAttribute('href', '/consulta')
     expect(screen.getByRole('heading', { name: 'Consulta y terapias' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Cursos y formación' })).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Naturaleza y bienestar' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Flores de Bach' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Baños de bosque' })).toBeInTheDocument()
   })
 
   it('muestra el skeleton de inicio mientras se prepara la página', () => {
@@ -68,6 +68,6 @@ describe('HomePage', () => {
     expect(photo).toHaveAttribute('srcset', '/photos/contemplando-600.jpg 600w, /photos/contemplando-1200.jpg 1200w')
     expect(photo).toHaveAttribute('loading', 'lazy')
     expect(photo.closest('section')).toHaveAttribute('id', 'naturaleza')
-    expect(photo.parentElement.nextElementSibling).toContainElement(screen.getByRole('heading', { name: 'Darte tiempo para estar en la naturaleza.' }))
+    expect(photo.parentElement.nextElementSibling).toContainElement(screen.getByRole('heading', { name: 'Baños de bosque: un espacio para bajar el ritmo y conectar con la naturaleza.' }))
   })
 })
