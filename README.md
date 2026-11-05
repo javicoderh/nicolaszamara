@@ -452,6 +452,31 @@ Estos resultados corresponden al estado revisado, no garantizan cambios posterio
 
 Para preparar un despliegue, configurar variables por entorno y verificar el esquema requerido. Después comprobar rutas directas, recursos, HTTP 404, formularios, cookies y tiempos. La vista previa estática no acredita el funcionamiento de las funciones alojadas.
 
+### Generación de artículos en Vercel
+
+Configurar estas variables de servidor en **Production** y **Preview** antes del redeploy:
+
+| Variable | Configuración |
+| --- | --- |
+| `OPENAI_API_KEY` | Clave compartida con el chatbot; se reutiliza si ya existe en ese entorno. |
+| `BLOG_GENERATION_ENABLED` | `true` para habilitar la generación desde administración. |
+| `BLOG_MODEL` | `gpt-6.1-sol`. |
+| `BLOG_JOB_BUDGET_MICRO_USD` | `12000000`: techo de reserva de US$12 por encargo. |
+| `BLOG_DAILY_BUDGET_MICRO_USD` | `36000000`: techo de reserva diaria de US$36. |
+| `BLOG_WORKER_SECRET` | Secreto aleatorio de al menos 32 caracteres para autenticar el worker. |
+
+`BLOG_OPENAI_API_KEY` es opcional y sustituye a la clave compartida cuando tiene valor. Las claves y el secreto del worker nunca se incluyen en Git ni en variables `VITE_`. Los archivos `.env.local` no se transfieren a Vercel mediante un push. Los presupuestos son reservas conservadoras, no el costo facturado de un artículo.
+
+Después de desplegar el código y las variables, configurar el endpoint y el cron de recuperación con el mismo `BLOG_WORKER_SECRET` y las credenciales de servidor cargadas en el entorno local:
+
+```powershell
+.\.venv\Scripts\python.exe -m scripts.configure_blog_worker https://www.nicolaszamara.com/api/blog_worker
+```
+
+Usar el dominio del despliegue que realmente deba procesar la cola. Production y Preview deben coordinarse si comparten base de datos, porque comparten encargos y presupuestos. El worker procesa brief, borrador, crítica y final; entrega un borrador para revisión administrativa.
+
+Un push a la rama conectada puede disparar un despliegue si la integración Git de Vercel está habilitada. Actualizar el README no crea variables ni configura el worker. Tras el redeploy, verificar la configuración desde Blog en `/admin` y completar una generación real antes de declarar aprobado el E2E. El acceso remoto a Vercel y OpenAI no pudo verificarse desde el entorno de trabajo durante esta revisión.
+
 Pendientes documentados:
 
 - Aprobar responsable, canal de solicitudes, conservación y circulación de datos, incluido el aviso por correo.
