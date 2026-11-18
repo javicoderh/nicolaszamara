@@ -15,7 +15,7 @@
     "clarify_service": "¿Te interesa una consulta o terapia, nuestro curso de Flores de Bach, el curso online o nuestras actividades en la naturaleza?",
     "clarify_intent": "¿Prefieres conocer más del servicio o que te contactemos para conversar?",
     "details_unconfirmed": "Todavía no tenemos ese dato confirmado aquí. ¿Quieres que te contactemos para revisarlo antes de decidir?",
-    "medical_boundary": "Podemos explicarte el método de Bach. Para elegir una fórmula, dosis o tratamiento para tu situación, necesitamos una evaluación individual con un profesional.",
+    "medical_boundary": "Una recomendación personal sobre fórmulas o dosis requiere evaluación profesional. Si tienes dudas sobre cambiar o suspender un medicamento, revísalas con quien te lo indicó.",
     "urgent_attention": "Si estás en una urgencia o hay un riesgo inmediato, contacta los servicios de emergencia de tu zona y busca ayuda presencial.",
     "payment_unverified": "Desde este chat no podemos verificar pagos ni confirmar una inscripción. Revisa la confirmación de Hotmart y sus canales de ayuda.",
     "out_of_scope": "Podemos orientarte sobre nuestras consultas, terapias, cursos y actividades en la naturaleza.",
@@ -26,7 +26,7 @@
   "local_contact_copy": {
     "invitation": "¿Quieres que te contactemos para conversar sobre este servicio?",
     "choose_service": "¿Sobre qué servicio te gustaría que te contacten?",
-    "choose_channel": "¿Prefieres videollamada, teléfono o mail?",
+    "choose_channel": "¿Prefieres videollamada, teléfono o WhatsApp?",
     "name": "¿Cómo te llamas?",
     "phone": "Indica el número al que pueden contactarte, con prefijo internacional.",
     "email": "Indica el correo al que pueden contactarte.",

@@ -119,12 +119,12 @@ class LearningTests(unittest.TestCase):
         self.assertIn('INDICACIÓN PERSONAL', INSTRUCTIONS)
         self.assertNotIn('orientaci?n', INSTRUCTIONS)
 
-    def test_institutional_voice_is_explicit_and_used_by_protected_copy(self):
-        self.assertIn('VOZ INSTITUCIONAL', INSTRUCTIONS)
-        self.assertIn('primera persona plural', INSTRUCTIONS)
+    def test_assistant_voice_distinguishes_orientation_from_professional_evaluation(self):
+        self.assertIn('asistente virtual de Nicolás Zamara', INSTRUCTIONS)
+        self.assertIn('«Nicolás evalúa»', INSTRUCTIONS)
         self.assertIn('Podemos', RESPONSES['greeting'])
         self.assertIn('podemos', RESPONSES['payment_unverified'])
-        self.assertIn('Podemos', RESPONSES['medical_boundary'])
+        self.assertIn('evaluación profesional', RESPONSES['medical_boundary'])
         self.assertNotIn('Nicolás Zamara ofrece', json.dumps(KNOWLEDGE, ensure_ascii=False))
 
     def test_educational_replies_remain_conversational_while_personal_indications_use_boundary_copy(self):
@@ -132,6 +132,7 @@ class LearningTests(unittest.TestCase):
         for case in cases:
             with self.subTest(case=case['id']):
                 reply = 'Según Bach, Mimulus se asocia a miedos conocidos y Aspen a aprensión sin causa identificable; Rock Rose, a terror intenso.'
+                reply = case.get('example_reply', reply)
                 decision = {'topic': 'therapies', 'response_key': case['response_key'],
                             'action': 'none' if case['response_key'] == 'medical_boundary' else 'show_therapies',
                             'contact_signal': 'none', 'reply': reply}

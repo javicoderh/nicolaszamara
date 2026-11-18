@@ -1,5 +1,5 @@
 {
-  "version": "setter-draft-2026-10-22",
+  "version": "setter-2026-11-18",
   "status": "unexecuted_reference_cases",
   "source": "Expected behavior authored for this project; not measured Luna or Sol output.",
   "server_context_defaults": {
@@ -43,7 +43,10 @@
       "offer_contact",
       "start_contact_capture",
       "stop",
-      "show_privacy"
+      "show_privacy",
+      "show_acupuncture_source",
+      "show_bach_source",
+      "show_whatsapp"
     ]
   },
   "model_cases": [
@@ -619,6 +622,78 @@
         "contact_signal": "none"
       },
       "note": ""
+    },
+    {
+      "id": "pain_interrupts_sleep",
+      "input": {
+        "server_context": {},
+        "visitor_context": {
+          "last_user_message": "El dolor me despierta cada noche.",
+          "recent_messages": []
+        }
+      },
+      "expected": {
+        "topic": "consultation",
+        "response_key": "contact_offer",
+        "action": "offer_contact",
+        "contact_signal": "none",
+        "reply": "Que el dolor interrumpa tu descanso puede ser desgastante. Nicolás trabaja desde la Medicina China y la acupuntura. ¿Te gustaría conversar con él?"
+      },
+      "note": "Ejemplo editorial de la actualización del chatbot."
+    },
+    {
+      "id": "consultation_price",
+      "input": {
+        "server_context": {},
+        "visitor_context": {
+          "last_user_message": "¿Cuánto cuesta una consulta?",
+          "recent_messages": []
+        }
+      },
+      "expected": {
+        "topic": "consultation",
+        "response_key": "details_unconfirmed",
+        "action": "none",
+        "contact_signal": "none",
+        "reply": "El valor y la duración se consultan al coordinar la atención."
+      },
+      "note": "Ejemplo editorial de la actualización del chatbot."
+    },
+    {
+      "id": "explicit_whatsapp_link",
+      "input": {
+        "server_context": {},
+        "visitor_context": {
+          "last_user_message": "¿Me das el WhatsApp de Nicolás para consultar por una atención?",
+          "recent_messages": []
+        }
+      },
+      "expected": {
+        "topic": "consultation",
+        "response_key": "details_unconfirmed",
+        "action": "show_whatsapp",
+        "contact_signal": "none",
+        "reply": "Puedes escribirle directamente a Nicolás usando el enlace de WhatsApp."
+      },
+      "note": "Ejemplo editorial de la actualización del chatbot."
+    },
+    {
+      "id": "acupuncture_evidence",
+      "input": {
+        "server_context": {},
+        "visitor_context": {
+          "last_user_message": "¿Dónde puedo leer sobre la evidencia de la acupuntura para el dolor?",
+          "recent_messages": []
+        }
+      },
+      "expected": {
+        "topic": "therapies",
+        "response_key": "therapies_info",
+        "action": "show_acupuncture_source",
+        "contact_signal": "none",
+        "reply": "La investigación indica que puede ayudar en algunos tipos de dolor y los resultados varían según la condición."
+      },
+      "note": "Ejemplo editorial de la actualización del chatbot."
     }
   ],
   "preflight_cases": [

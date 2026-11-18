@@ -12,9 +12,12 @@ import ChatReplySkeleton from '../ChatReply/ChatReplySkeleton.jsx'
 import './Chatbot.css'
 import { ctaAttributes, navigationParams } from '../../services/analyticsSensors.js'
 import { trackEvent } from '../../services/analyticsService.js'
+import { contactMessages, whatsappLink } from '../../services/contactLinks.js'
+import setterConfig from '../../../config/chatbot/setter.config.json'
 import FloatingWhatsApp from '../FloatingWhatsApp/FloatingWhatsApp.jsx'
 
 const quickPrompts = ['Quiero conocer las terapias', 'Busco información sobre cursos', 'Quiero consultar disponibilidad']
+const captureMode = import.meta.env.VITE_CHAT_CONTACT_MODE
 const serviceLinks = [
   { href: '/consulta', label: 'Consulta' }, { href: '/terapias', label: 'Terapias' },
   { href: '/cursos', label: 'Cursos' }, { href: '/#interes-naturaleza', label: 'Naturaleza' },
@@ -39,6 +42,7 @@ function ChatbotView({ submitContact, embedded = false, hidden = false, chat, op
   const state = chat.session?.state
   const canSend = state?.can_send && chat.session?.provider_enabled && !chat.pending
   const action = state?.action
+  const urgent = state?.last_result?.response_key === 'urgent_attention'
 
   useEffect(() => { if (embedded && !hidden) ensureSession() }, [embedded, hidden])
   useChatbotViewport(shellRef, motion.present)
@@ -79,21 +83,29 @@ function ChatbotView({ submitContact, embedded = false, hidden = false, chat, op
       </header>}
       {!embedded && chat.messages.length === 1 && <div className="chatbot__intro"><span className="chatbot__intro-mark" aria-hidden="true">✧</span><h2>¿En qué podemos<br /> ayudarte?</h2><p>Escríbenos o explora nuestros servicios.</p></div>}
       <div className={`chatbot__messages${embedded && chat.messages.length === 1 && !chat.pending && !chat.error ? ' chatbot__messages--empty' : ''}`} ref={listRef} role="log" data-clarity-mask="true" aria-label="Conversación" aria-live="polite" aria-relevant="additions text">
-        {chat.messages.map((message, index) => index === 0 ? null : <div className={`chatbot__turn chatbot__turn--${message.role}`} key={`${index}-${message.role}`}>
+        {chat.messages.map((message, index) => <div className={`chatbot__turn chatbot__turn--${message.role}`} key={`${index}-${message.role}`}>
           <p className={`chatbot__message chatbot__message--${message.role}`}>{message.content}</p>
-          {message.role === 'assistant' && message.action === 'show_hotmart' && <a className="chatbot__enrollment" href={siteSettings.courseUrl}
+          {!urgent && message.role === 'assistant' && message.action === 'show_hotmart' && <a className="chatbot__enrollment" href={siteSettings.courseUrl}
             target="_blank" rel="noopener noreferrer" aria-label="Inscribirme al curso en Hotmart (abre en otra pestaña)"
             onClick={() => { void trackHotmartClick('chatbot', { element_id: 'chat_hotmart', placement: embedded ? 'embedded_chat' : 'floating_chat', service: 'course' }) }}>Inscribirme en Hotmart ↗</a>}
-          {message.role === 'assistant' && message.action === 'show_online_interest' && <a className="chatbot__enrollment" href="/cursos#interes-online" onClick={() => { if (!embedded) minimize() }}>Me interesa la modalidad online</a>}
+          {!urgent && message.role === 'assistant' && message.action === 'show_online_interest' && <a className="chatbot__enrollment" href="/cursos#interes-online" onClick={() => { if (!embedded) minimize() }}>Me interesa la modalidad online</a>}
+          {!urgent && message.role === 'assistant' && ['show_acupuncture_source', 'show_bach_source'].includes(message.action) &&
+            <a className="chatbot__enrollment" href={setterConfig.catalog.actions[message.action].href} target="_blank" rel="noopener noreferrer">Ver fuente de evidencia ↗</a>}
+          {!urgent && message.role === 'assistant' && message.action === 'show_whatsapp' &&
+            <a className="chatbot__enrollment" href={whatsappLink('Hola, Nicolás. Vengo del asistente de tu web y me gustaría conversar contigo.')} target="_blank" rel="noopener noreferrer">Escribir por WhatsApp ↗</a>}
         </div>)}
         {chat.recovered && <p className="chatbot__notice">Recuperamos la última orientación y el estado de tu conversación. El historial anterior de esta pestaña puede no estar disponible.</p>}
         {chat.pending && <ChatReplySkeleton />}
         {chat.error && <p className="chatbot__error" role="alert">{chat.error}</p>}
-        {!chat.pending && state?.closed && <p className="chatbot__message chatbot__message--assistant">Podemos seguir en contacto a través del formulario. También puedes explorar nuestros servicios.</p>}
+        {!urgent && !chat.pending && state?.closed && <p className="chatbot__message chatbot__message--assistant">Podemos seguir en contacto a través del formulario. También puedes explorar nuestros servicios.</p>}
         {!chat.pending && chat.session && !chat.session.provider_enabled && <p className="chatbot__notice">La orientación por mensajes no está disponible ahora. Puedes explorar los servicios o solicitar contacto.</p>}
         {contactSaved && !state?.capturing && <p role="status">Recibimos tu solicitud. Te contactaremos por el canal que elegiste.</p>}
       </div>
-      {state?.capturing ? <ChatContactForm key={state.conversation_id} conversationId={state.conversation_id} initialTopic={state.topic} placement={embedded ? 'embedded_chat_form' : 'floating_chat_form'}
+      {state?.capturing ? captureMode === 'disabled' ? <div className="chatbot__prompts">
+        <button type="button" onClick={() => chat.command('cancel_capture')}>Volver a la conversación</button>
+      </div> : <ChatContactForm key={state.conversation_id} conversationId={state.conversation_id} initialTopic={state.topic} placement={embedded ? 'embedded_chat_form' : 'floating_chat_form'}
+        live={captureMode === 'live'}
+        initialPreference={action === 'start_contact_capture' ? state.last_result?.contact_preference : undefined}
         submitContact={submitContact} onCancel={() => chat.command('cancel_capture')} onSaved={() => { setContactSaved(true); chat.loadSession() }} />
         : <>
           {!embedded && chat.messages.length === 1 && canSend && <div className="chatbot__prompts" aria-label="Temas sugeridos">
@@ -112,15 +124,16 @@ function ChatbotView({ submitContact, embedded = false, hidden = false, chat, op
             </p>}
           </form>}
         </>}
-      <nav className="chatbot__links" aria-label="Explorar servicios" onClick={(event) => {
+      {!urgent && <nav className="chatbot__links" aria-label="Explorar servicios" onClick={(event) => {
         const params = navigationParams(event.target.closest('a')?.getAttribute('href'), embedded ? 'embedded_chat' : 'floating_chat')
         if (params) trackEvent('navigation_click', params)
       }}>
         {serviceLinks.map((link) => <a href={link.href} key={link.href} onClick={(event) => { if (!embedded && event.button === 0 && !event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) minimize() }}>{link.label}</a>)}
         {state?.topic !== 'online' && !['medical_boundary', 'urgent_attention'].includes(state?.last_result?.response_key) && <a href={siteSettings.courseUrl} target="_blank" rel="noopener noreferrer" aria-label="Ver el curso e inscribirme (abre en otra pestaña)" onClick={() => { void trackHotmartClick('chatbot', { element_id: 'chat_hotmart', placement: embedded ? 'embedded_chat' : 'floating_chat', service: 'course' }) }}>Inscribirme ↗</a>}
-        {state && !state.capturing && <button type="button" aria-label="Solicitar que me contacten" disabled={chat.pending || state.busy} onClick={() => { setContactSaved(false); chat.command('start_capture') }}>Contacto</button>}
+        {captureMode === 'disabled' ? <a href={whatsappLink(contactMessages[state?.topic] ?? contactMessages.consultation)} target="_blank" rel="noreferrer">Contacto por WhatsApp</a>
+          : state && !state.capturing && <button type="button" aria-label="Solicitar que me contacten" disabled={chat.pending || state.busy} onClick={() => { setContactSaved(false); chat.command('start_capture') }}>Contacto</button>}
         {action === 'show_privacy' && <a href="/privacidad">Información de privacidad</a>}
-      </nav>
+      </nav>}
       {!chat.pending && (chat.error || chat.canRetry || state?.closed || chat.recovered) && <div className="chatbot__prompts">
         {chat.canRetry && <button type="button" onClick={chat.retry}>{chat.retryIsFresh ? 'Reintentar consulta' : 'Consultar estado de mi mensaje'}</button>}
         <button type="button" onClick={chat.loadSession}>Recuperar estado</button>

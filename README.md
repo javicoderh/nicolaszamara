@@ -132,6 +132,7 @@ Las tarifas no se deducen del nombre del modelo: verificarlas al cambiarlo. Las 
 | Variable | Uso y valor de la plantilla |
 | --- | --- |
 | `VITE_ANALYTICS_ENABLED` | false; permite medición en entornos autorizados y con consentimiento. |
+| `VITE_CHAT_CONTACT_MODE` | `test` muestra el aviso de datos ficticios, `disabled` deriva a WhatsApp y `live` habilita la presentación pública del formulario. |
 | `VITE_ANALYTICS_QA` | false; permite comprobar medición en QA. |
 | `VITE_GA4_MEASUREMENT_ID` | ID público de GA4; vacío. |
 | `VITE_CLARITY_PROJECT_ID` | Configuración reservada para Clarity; integración pendiente. |
@@ -251,6 +252,10 @@ Los datos del aviso también se transmiten a FormSubmit, lo que debe contemplars
 ## Asistente conversacional
 
 Disponible como panel flotante y en `/chatbot`. La bienvenida es local. La primera apertura obtiene sesión y solicita renovación; minimizar y navegar internamente mantiene la conversación en memoria. Al recargar el documento, el asistente renueva al abrirse, respetando cuotas y pausas. «Recuperar estado» consulta la sesión sin iniciar otra conversación.
+
+La orientación prioriza Medicina China y acupuntura para la atención, y formación floral para el curso. Los enlaces de Hotmart, WhatsApp y fuentes de evidencia usan destinos controlados por la aplicación. La invitación a contacto depende de la intención del visitante. Si indica un canal al pedir contacto, el formulario puede preseleccionarlo y permite cambiarlo antes del envío. Ante un fallo, conserva los campos y ofrece reintento o WhatsApp.
+
+La versión de ensayo está desplegada con captura en modo `test`. Pasaron 205 pruebas de Python, 371 de Vitest y la compilación. En Windows, Vitest completó la suite con `npm test -- --maxWorkers=2 --testTimeout=20000`. El Product Owner tiene pendiente la prueba end-to-end y la aprobación de la versión. [Vista previa protegida](https://nicolaszamara-8787hx8ao-my-team-d5e0a31d.vercel.app/chatbot) · [Plan de implementación](<chatbot cowork/PLAN_IMPLEMENTACION_CHATBOT.md>)
 
 OpenAI recibe mensaje e historial reciente, hechos del catálogo y hasta ocho ejemplos revisados habilitados, cuando están disponibles. Devuelve `topic`, `response_key`, `action`, `contact_signal` y `reply`. El servidor valida estructura y combinaciones y mantiene texto protegido en determinados casos. Las respuestas ordinarias pueden ser generadas por el modelo; URLs, acciones y persistencia proceden del servidor. No hay RAG ni entrenamiento automático de pesos.
 

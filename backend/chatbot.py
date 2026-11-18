@@ -1,13 +1,17 @@
 """Conversation coordinator: grounded replies and server-controlled actions."""
 import json
 import os
+import re
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from uuid import UUID
 from urllib.error import HTTPError, URLError
 from urllib.request import Request, urlopen
 
 from backend.chat_identity import fingerprint
+from backend.contact_details import PREFERENCES
 from backend.chat_store import StoreUnavailable, SupabaseChatUsageStore, budget_limits, usage_metadata
-from backend.setter_config import CONFIG, COPY, INSTRUCTIONS, KNOWLEDGE, POLICY, RESPONSES, validate_decision
+from backend.setter_config import CONFIG, INSTRUCTIONS, KNOWLEDGE, POLICY, RESPONSES, validate_decision
 from backend.provider_settings import output_token_limit, reasoning_effort, request_timeout
 
 MAX_MESSAGES = POLICY["max_context_messages"]
@@ -53,9 +57,11 @@ def validate_messages(messages):
 
 
 def trusted_context(state):
+    today = datetime.now(ZoneInfo(POLICY["daily_timezone"])).date().isoformat()
+    approved_facts = [fact for fact in KNOWLEDGE if fact.get("valid_until", today) >= today]
     return {"active_topic": state.get("topic", "unknown"), "last_action": state.get("action", "none"),
             "pending_question": "contact_opt_in" if state.get("action") == "offer_contact" else "none",
-            "contact_declined": state.get("contact_declined", False), "approved_facts": KNOWLEDGE,
+            "contact_declined": state.get("contact_declined", False), "approved_facts": approved_facts,
             "previous_reply": (state.get('last_result') or {}).get('reply', ''),
             "allowed_response_keys": list(RESPONSES), "allowed_actions": list(CONFIG["catalog"]["actions"])}
 
@@ -131,7 +137,7 @@ def choose_response(messages, context):
         raise OpenAIUnavailable() from None
 
 
-def render_decision(decision, state):
+def render_decision(decision, state, last_message=""):
     topic = decision["topic"]
     if topic == "unknown" and decision["response_key"] not in ("urgent_attention", "out_of_scope"):
         topic = state.get("topic", "unknown")
@@ -139,21 +145,24 @@ def render_decision(decision, state):
     fixed = decision['response_key'] in ('medical_boundary', 'urgent_attention', 'payment_unverified', 'privacy_info', 'goodbye', 'out_of_scope')
     reply = RESPONSES[decision['response_key']] if fixed else decision.get('reply', RESPONSES[decision['response_key']]).strip()
     action = decision["action"]
+    response_key = decision["response_key"]
     # The online edition is not open: never turn interest into an enrollment offer.
     if topic == 'online' and decision['response_key'] in ('online_info', 'hotmart_link', 'course_conditions'):
-        reply = RESPONSES['online_info']
+        response_key = 'online_info'
+        reply = RESPONSES[response_key]
         action = 'show_online_interest'
-    round_number = state.get("completed_rounds", 0) + 1
-    if action != 'show_hotmart' and round_number >= POLICY["conversion_from_response"] and decision["response_key"] not in (
-            "medical_boundary", "urgent_attention", "privacy_info", "goodbye", "payment_unverified", "out_of_scope"):
-        if topic == "course" and action not in ('show_hotmart', 'start_contact_capture'):
-            reply += " " + COPY["local_closure_copy"]["hotmart"]
-        elif topic in ("consultation", "therapies", "nature") and not declined and action != "start_contact_capture":
-            reply += " " + COPY["local_closure_copy"]["contact"]
-            action = "offer_contact"
-    return {"reply": reply, "topic": topic, "action": action, "response_key": decision["response_key"],
+    result = {"reply": reply, "topic": topic, "action": action, "response_key": response_key,
             "contact_signal": decision["contact_signal"], "contact_declined": declined,
             "version": CONFIG["version"], "stop": decision["action"] == "stop"}
+    if action == 'start_contact_capture' and decision['contact_signal'] == 'requested':
+        match = re.fullmatch(r'(?:sí[,.]?\s+)?(?:prefiero\s+)?(?:por\s+)?(videollamada|tel[eé]fono|whatsapp)[.!]?',
+                             last_message.strip().casefold())
+        if match:
+            preference = {'videollamada': 'video_call', 'teléfono': 'phone',
+                          'telefono': 'phone', 'whatsapp': 'whatsapp'}[match[1]]
+            if preference in PREFERENCES:
+                result['contact_preference'] = preference
+    return result
 
 
 def public_result(result):
@@ -210,7 +219,7 @@ def process_chat(payload, visitor=None, store=None, selector=None):
             decision, usage = selector(messages, trusted_context(result["state"]))
             attempt_usage = usage
             validate_decision(decision, trusted_context(result["state"]), require_reply=True)
-            rendered = render_decision(decision, result["state"])
+            rendered = render_decision(decision, result["state"], messages[-1]["content"])
             rendered['request_id'] = request_id
         except (OpenAIUnavailable, ValueError) as error:
             failed = store.transition(visitor, "fail", conversation=conversation, request=request_id)

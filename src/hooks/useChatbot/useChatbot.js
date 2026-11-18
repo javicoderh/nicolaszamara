@@ -3,7 +3,7 @@ import { trackEvent } from '../../services/analyticsService.js'
 import { useDelayedOperation } from '../useDelayedOperation/useDelayedOperation.js'
 import { chatbotApi } from '../../services/chatbotService.js'
 
-const welcome = { role: 'assistant', content: 'Hola, podemos orientarte sobre nuestras consultas, terapias, cursos y actividades en la naturaleza. Cuéntanos, ¿en qué podemos ayudarte?' }
+const welcome = { role: 'assistant', content: 'Hola, soy el asistente virtual de Nicolás. Puedo orientarte sobre su atención, sus cursos y las actividades en naturaleza. ¿Qué te gustaría conocer?' }
 const notices = {
   invalid_response: 'No pudimos conectar con el servicio de conversación. Conservamos tu borrador; pulsa Recuperar estado para reintentar.',
   not_configured: 'El asistente todavía no está configurado. Puedes explorar los servicios o solicitar contacto.',

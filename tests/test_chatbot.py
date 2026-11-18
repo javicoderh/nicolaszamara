@@ -3,6 +3,7 @@ import io
 import json
 import os
 import unittest
+from datetime import datetime
 from email.message import Message
 from pathlib import Path
 from unittest.mock import MagicMock, patch
@@ -40,6 +41,24 @@ def contact(preference='whatsapp'):
 
 
 class ValidationTests(unittest.TestCase):
+    def test_capture_prefills_only_an_explicit_channel(self):
+        decision = {**DECISION, 'response_key': 'contact_offer', 'action': 'start_contact_capture',
+                    'contact_signal': 'requested'}
+        for message, expected in [('por videollamada', 'video_call'), ('Prefiero teléfono', 'phone'),
+                                  ('Sí, por WhatsApp', 'whatsapp'), ('No por teléfono', None),
+                                  ('Quiero hablar con Nicolás', None)]:
+            with self.subTest(message=message):
+                result = render_decision(decision, state(), message)
+                self.assertEqual(result.get('contact_preference'), expected)
+
+    def test_past_course_editions_are_excluded(self):
+        with patch('backend.chatbot.datetime') as clock:
+            clock.now.return_value = datetime(2026, 11, 23)
+            facts = {fact['id']: fact for fact in trusted_context(state())['approved_facts']}
+        self.assertNotIn('course_santiago', facts)
+        self.assertIn('course_quellon', facts)
+        self.assertIn('consulta', facts['course_price']['text'])
+
     def test_history_validation(self):
         self.assertEqual(validate_messages(payload()['messages']), payload()['messages'])
         for value in ([], None, [{'role': 'system', 'content': 'x'}], [{'role': 'user', 'content': 'x' * 1001}],
@@ -48,9 +67,9 @@ class ValidationTests(unittest.TestCase):
             with self.subTest(value=value), self.assertRaises(InvalidChatRequest):
                 validate_messages(value)
 
-    def test_all_32_reference_decisions_are_valid_contracts(self):
+    def test_reference_decisions_are_valid_contracts(self):
         cases = json.loads(Path('config/chatbot/decision-cases.json').read_text(encoding='utf-8'))
-        self.assertEqual(len(cases['model_cases']), 32)
+        self.assertEqual(len(cases['model_cases']), 36)
         for case in cases['model_cases']:
             with self.subTest(case=case['id']):
                 context = {**cases['server_context_defaults'], **case['input']['server_context']}
@@ -71,13 +90,38 @@ class ValidationTests(unittest.TestCase):
         with self.assertRaises(ValueError): validate_decision(offer, context)
         self.assertEqual(validate_decision({**offer, 'contact_signal': 'requested'}, context)['action'], 'offer_contact')
 
-    def test_closing_is_deterministic_and_respects_health_and_decline(self):
-        late = state(completed_rounds=7, topic='consultation')
-        consultation = {'topic': 'consultation', 'response_key': 'consultation_info', 'action': 'show_consultation', 'contact_signal': 'none'}
-        self.assertEqual(render_decision(consultation, late)['action'], 'offer_contact')
-        self.assertEqual(render_decision(consultation, {**late, 'contact_declined': True})['action'], 'show_consultation')
-        medical = {'topic': 'consultation', 'response_key': 'medical_boundary', 'action': 'none', 'contact_signal': 'none'}
-        self.assertEqual(render_decision(medical, late)['reply'], RESPONSES['medical_boundary'])
+    def test_round_number_does_not_add_a_commercial_offer(self):
+        consultation = {'topic': 'consultation', 'response_key': 'consultation_info',
+                        'action': 'show_consultation', 'contact_signal': 'none', 'reply': 'x' * 700}
+        for completed in (6, 7, 9):
+            with self.subTest(turn=completed + 1):
+                result = render_decision(consultation, state(completed_rounds=completed))
+                self.assertEqual(result['action'], 'show_consultation')
+                self.assertEqual(result['reply'], 'x' * 700)
+
+    def test_decline_persists_until_contact_is_requested_again(self):
+        decision = {'topic': 'consultation', 'response_key': 'consultation_info',
+                    'action': 'show_consultation', 'contact_signal': 'declined'}
+        declined = render_decision(decision, state(completed_rounds=7))
+        continued = render_decision({**decision, 'contact_signal': 'none'}, state(contact_declined=declined['contact_declined']))
+        self.assertTrue(continued['contact_declined'])
+        requested = {**decision, 'response_key': 'contact_offer',
+                     'action': 'start_contact_capture', 'contact_signal': 'requested'}
+        self.assertFalse(render_decision(requested, state(contact_declined=True))['contact_declined'])
+
+    def test_urgent_tenth_turn_keeps_protected_reply(self):
+        urgent = {'topic': 'unknown', 'response_key': 'urgent_attention', 'action': 'none',
+                  'contact_signal': 'none', 'reply': 'Texto generado'}
+        result = render_decision(urgent, state(completed_rounds=9, topic='course'))
+        self.assertEqual(result['reply'], RESPONSES['urgent_attention'])
+        self.assertEqual(result['action'], 'none')
+
+    def test_online_request_never_offers_presential_enrollment(self):
+        decision = {**DECISION, 'topic': 'online', 'response_key': 'course_conditions'}
+        result = render_decision(decision, state(topic='online'))
+        self.assertEqual(result['response_key'], 'online_info')
+        self.assertEqual(result['action'], 'show_online_interest')
+        self.assertEqual(result['reply'], RESPONSES['online_info'])
 
 
 @patch.dict(os.environ, ENV)
@@ -227,15 +271,24 @@ class ContactTests(unittest.TestCase):
         value['values']['clinical_notes'] = 'must not be accepted'
         with self.assertRaises(InvalidSubmission): validate_submission(value)
 
-    @patch('backend.interests.rpc', return_value={'status': 'saved'})
-    def test_saved_only_after_atomic_insert_and_same_hash_for_retry(self, call):
-        self.assertEqual(process_submission(contact(), VISITOR), (201, {'status': 'saved'}))
-        first = call.call_args
-        self.assertEqual(process_submission(contact(), VISITOR)[0], 201)
-        self.assertEqual(first, call.call_args)
-        self.assertNotIn('messages', call.call_args.args[1])
-        call.side_effect = StoreUnavailable()
+    @patch('backend.interests.rpc')
+    def test_retry_after_losing_save_response_uses_same_rpc_arguments(self, call):
+        call.side_effect = [StoreUnavailable(), {'status': 'saved'}]
         self.assertEqual(process_submission(contact(), VISITOR)[0], 503)
+        first = call.call_args
+        self.assertEqual(process_submission(contact(), VISITOR), (201, {'status': 'saved'}))
+        self.assertEqual(first, call.call_args)
+        operation, arguments = first.args
+        self.assertEqual(operation, 'setter_save_contact')
+        self.assertEqual(arguments['p_request'], REQUEST)
+        record = arguments['p_record']
+        self.assertEqual(record['interest'], 'consultation')
+        self.assertEqual(record['source_path'], '/chatbot')
+        self.assertEqual(record['contact_preference'], 'whatsapp')
+        self.assertTrue(record['privacy_consent'])
+        self.assertTrue(record['contact_consent'])
+        self.assertFalse(record['updates_consent'])
+        self.assertNotIn('messages', record)
 
     @patch('backend.interests.rpc')
     def test_anonymous_or_unconsented_capture_never_saves(self, call):

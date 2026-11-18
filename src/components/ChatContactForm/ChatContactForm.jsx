@@ -7,15 +7,16 @@ import ChatContactFormSkeleton from './ChatContactFormSkeleton.jsx'
 import './ChatContactForm.css'
 import { useFormMetrics } from '../../hooks/useFormMetrics/useFormMetrics.js'
 import { useHydrated } from '../../contexts/HydrationContext/HydrationContext.jsx'
+import { contactMessages, whatsappLink } from '../../services/contactLinks.js'
 
 const services = { consultation: 'Consulta y terapias', course: 'Curso actual', online: 'Curso online', nature: 'Naturaleza' }
 const preferences = Object.fromEntries(contactConfig.preferences.map(({ value, label }) => [value, label]))
 
-export default function ChatContactForm({ conversationId, initialTopic, onCancel, onSaved, submitContact = submitInterest, placement = 'floating_chat_form' }) {
+export default function ChatContactForm({ conversationId, initialTopic, initialPreference, onCancel, onSaved, submitContact = submitInterest, placement = 'floating_chat_form', live = false }) {
   const hydrated = useHydrated()
   const [service, setService] = useState(initialTopic === 'therapies' ? 'consultation' : services[initialTopic] ? initialTopic : '')
   const [name, setName] = useState('')
-  const [preference, setPreference] = useState('')
+  const [preference, setPreference] = useState(Object.hasOwn(preferences, initialPreference) ? initialPreference : '')
   const [phone, setPhone] = useState('')
   const [email, setEmail] = useState('')
   const [consent, setConsent] = useState(false)
@@ -44,7 +45,7 @@ export default function ChatContactForm({ conversationId, initialTopic, onCancel
   return <form className="chat-contact" aria-label="Solicitud de contacto" onSubmit={submit} data-clarity-mask="true"
     onFocusCapture={() => metrics.start()} onChange={() => metrics.start()} onInvalidCapture={(event) => metrics.invalid(event.target)}>
     <p>Déjanos tus datos para que podamos contactarte. Este formulario no confirma una reserva.</p>
-    <p className="chat-contact__review-notice">Versión de pruebas: utiliza datos ficticios para probar este formulario.</p>
+    {!live && <p className="chat-contact__review-notice">Versión de pruebas: utiliza datos ficticios para probar este formulario.</p>}
     <fieldset disabled={!hydrated || capture.pending}>
       <label>Servicio<select required value={service} onChange={(event) => { setService(event.target.value); edit() }}>
         <option value="">Elige un servicio</option>{Object.entries(services).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
@@ -64,10 +65,10 @@ export default function ChatContactForm({ conversationId, initialTopic, onCancel
           Autorizo que el equipo de Nicolás Zamara use estos datos para contactarme por el servicio indicado, según la <a href="/privacidad" target="_blank" rel="noreferrer">información de privacidad</a>.</label>
         <label className="chat-contact__check"><input type="checkbox" checked={updates} onChange={(event) => setUpdates(event.target.checked)} />También quiero recibir novedades relacionadas (opcional).</label>
       </div>}
-      <div className="chat-contact__buttons"><button type="submit">{review ? 'Solicitar contacto' : 'Revisar solicitud'}</button><button type="button" onClick={onCancel}>Cancelar</button></div>
+      <div className="chat-contact__buttons"><button type="submit">{capture.status === 'unavailable' ? 'Reintentar envío' : review ? 'Solicitar contacto' : 'Revisar solicitud'}</button><button type="button" onClick={onCancel}>Cancelar</button></div>
     </fieldset>
     {capture.pending && <ChatContactFormSkeleton />}
-    {capture.status === 'unavailable' && <p role="alert">No pudimos confirmar el registro. Conservamos los campos para que puedas reintentar.</p>}
+    {capture.status === 'unavailable' && <p role="alert">No pudimos confirmar el registro. Conservamos tus campos. Puedes reintentar o <a href={whatsappLink(contactMessages[service] ?? contactMessages.consultation)} target="_blank" rel="noreferrer">escribirle a Nicolás por WhatsApp</a>.</p>}
     {capture.status === 'rate_limited' && <p role="alert">Recibimos varios intentos. Espera un momento antes de reintentar.</p>}
   </form>
 }

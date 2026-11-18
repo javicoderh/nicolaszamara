@@ -112,6 +112,18 @@
       "show_privacy": {
         "type": "link",
         "href": "/privacidad"
+      },
+      "show_acupuncture_source": {
+        "type": "link",
+        "href": "https://www.nccih.nih.gov/health/acupuncture-effectiveness-and-safety"
+      },
+      "show_bach_source": {
+        "type": "link",
+        "href": "https://pubmed.ncbi.nlm.nih.gov/20734279/"
+      },
+      "show_whatsapp": {
+        "type": "configured_link",
+        "source": "contactLinks.whatsappLink"
       }
     }
   },
@@ -150,7 +162,9 @@
         "therapies"
       ],
       "actions": [
-        "show_therapies"
+        "show_therapies",
+        "show_acupuncture_source",
+        "show_bach_source"
       ]
     },
     "course_info": {
@@ -243,7 +257,8 @@
       ],
       "actions": [
         "offer_contact",
-        "none"
+        "none",
+        "show_whatsapp"
       ]
     },
     "medical_boundary": {
@@ -405,7 +420,10 @@
             "offer_contact",
             "start_contact_capture",
             "stop",
-            "show_privacy"
+            "show_privacy",
+            "show_acupuncture_source",
+            "show_bach_source",
+            "show_whatsapp"
           ]
         },
         "contact_signal": {
